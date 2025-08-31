@@ -1,0 +1,10 @@
+#!/bin/bash
+
+{{ if eq .osid "linux-opensuse-tumbleweed" -}}
+sudo zypper --non-interactive in {{ range .packages.cli_common }} {{- . | quote }} {{ end }}
+sudo zypper --non-interactive in {{ range .packages.tumbleweed.cli }} {{- . | quote }} {{ end }}
+{{ if .hasGUI -}}
+sudo zypper --non-interactive in {{ range .packages.gui_common }} {{- . | quote }} {{ end }}
+sudo zypper --non-interactive in {{ range .packages.tumbleweed.gui }} {{- . | quote }} {{ end }}
+{{ end -}}
+{{ end -}}

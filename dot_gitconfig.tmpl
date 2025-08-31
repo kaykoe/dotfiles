@@ -1,0 +1,28 @@
+[user]
+	name = kaykoe
+	email = {{ .email }}
+[init]
+	defaultbranch = main
+[pull]
+	rebase = true
+[diff]
+    colorMoved = default
+[rerere]
+	enabled = true
+
+[core]
+    pager = delta
+
+[interactive]
+    diffFilter = delta --color-only --diff-so-fancy
+
+[include]
+	path = ~/.config/delta/themes.gitconfig
+
+[delta]
+    features = chameleon
+	line-numbers = true
+	side-by-side = true
+
+[push]
+	autoSetupRemote = true

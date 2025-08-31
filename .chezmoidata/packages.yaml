@@ -1,0 +1,27 @@
+packages:
+    tumbleweed:
+        cli:
+            - "fd"
+            - "bat"
+            - "eza"
+        gui:
+            - "hyprland"
+    debian: &debian
+        cli:
+            - "fdfind"
+            - "batcat"
+        gui:
+            - "i3"
+    ubuntu: *debian
+    cli_common:
+        - "git"
+        - "clang"
+        - "gcc"
+        - "make"
+        - "zsh"
+        - "tmux"
+        - "btop"
+        - "jq"
+        - "yq"
+    gui_common:
+        - "kitty"

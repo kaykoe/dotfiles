@@ -1,0 +1,32 @@
+{{- $osid := .chezmoi.os -}}
+{{- if hasKey .chezmoi.osRelease "id" -}}
+{{-   $osid = printf "%s-%s" .chezmoi.os .chezmoi.osRelease.id -}}
+{{- end -}}
+
+{{- $isWSL := "no" -}}
+{{- if (.chezmoi.kernel.osrelease | lower | contains "microsoft") -}}
+{{-   $isWSL = "yes" -}}
+{{- end -}}
+
+{{- $email := promptStringOnce . "email" "Email address:" -}}
+
+{{- $hasGUI := promptBoolOnce . "hasGUI" "Does this machine have a GUI?" -}}
+{{- $yazi := promptBoolOnce . "yazi" "Do you want to use yazi on this machine?" -}}
+
+data:
+  email: {{ $email | quote }}
+  osid: {{ $osid | quote }}
+  hasGUI: {{ $hasGUI }}
+  isWSL: {{ $isWSL }}
+  yazi: {{ $yazi }}
+
+diff:
+  pager: "delta"
+  pagerArgs:
+    - "--diff-so-fancy"
+    - "--color-only"
+    - "--line-numbers"
+    - "--side-by-side"
+    - "--features=chameleon"
+  exclude:
+  - "scripts"

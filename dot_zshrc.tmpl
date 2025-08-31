@@ -1,0 +1,285 @@
+# -----------------------------------------------------
+# autoinstalls
+# -----------------------------------------------------
+
+function on_path {
+	builtin whence -p "$1" &>/dev/null
+}
+
+[[ -d ~/.local/bin ]] || mkdir -p ~/.local/bin
+
+[[ -d ${ZDOTDIR:-~}/.antidote ]] || git clone --depth=1 https://github.com/mattmc3/antidote.git ${ZDOTDIR:-~}/.antidote
+[[ -d ~/.fzf ]] || { git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf && ~/.fzf/install --bin; }
+on_path "fzf" || for bin in ~/.fzf/bin/*; do sudo ln -s "$bin" "/usr/local/bin/${bin##*/}"; done
+
+on_path "zoxide" || curl -sSfL https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | sh
+on_path "starship" || curl -sS https://starship.rs/install.sh | sh
+[[ -d $PNPM_HOME ]] || { curl -fsSL https://get.pnpm.io/install.sh | sh - && { pnpm env use --global lts
+    awk '{ if ($0 == "# pnpm") exit; print }' ~/.zshrc | head -n -1 > ~/.zshrc_tmp && mv ~/.zshrc_tmp ~/.zshrc; }; }
+on_path "cargo" || curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- --no-modify-path
+
+on_path "rg" || { cargo install --git https://github.com/BurntSushi/ripgrep --features 'pcre2' && sudo ln -s "$(which rg)" /usr/local/bin/rg; }
+on_path "delta" || cargo install git-delta
+on_path "rip" || { cargo install --locked rip2 && sudo ln -s "$(which rip)" /usr/local/bin/rip; }
+on_path "wallust" || cargo install wallust
+
+# TODO: maybe bat and eza and fd from cargo/getbin as well
+
+on_path "tldr" || { echo 'Installing tldr...'; wget -qO- "https://getbin.io/tldr-pages/tlrc" | tar -xzO tldr > ~/.local/bin/tldr && chmod +x ~/.local/bin/tldr; }
+on_path "sesh" || { echo 'Installing sesh...'; wget -qO- "https://getbin.io/joshmedeski/sesh" | tar -xzO sesh > ~/.local/bin/sesh && chmod +x ~/.local/bin/sesh; }
+
+on_path "nvim" || { echo 'Installing nvim...'; export TMP=mktemp; wget -q "https://getbin.io/neovim/neovim" -O "$TMP" && sudo mv "$TMP" /usr/local/bin/nvim \
+    && sudo chown root:root /usr/local/bin/nvim && sudo chmod 755 /usr/local/bin/nvim; unset TMP; }
+
+[[ -f ~/.config/delta/themes.gitconfig ]] || { mkdir -p ~/.config/delta/ \
+    && curl -fsS https://raw.githubusercontent.com/dandavison/delta/main/themes.gitconfig -o ~/.config/delta/themes.gitconfig; }
+
+{{ if eq .isWSL "yes" }}
+on_path "win32yank.exe" || { curl -LsSfO https://github.com/equalsraf/win32yank/releases/latest/download/win32yank-x86.zip \
+    && sudo unzip win32yank-x86.zip win32yank.exe -d /usr/local/bin/ && sudo chmod 755 /usr/local/bin/win32yank.exe && rm -rf win32yank-x86.zip; }
+
+# for tmux-yank
+on_path clip.exe || sudo ln -s /mnt/c/Windows/System32/clip.exe /usr/local/bin/clip.exe
+{{ end -}}
+
+# -----------------------------------------------------
+# Antidote
+# -----------------------------------------------------
+
+zstyle ':zephyr:plugin:editor' symmetric-ctrl-z 'yes'
+
+zstyle ':zephyr:plugin:editor' key-bindings 'vi'
+zstyle ':zephyr:plugin:editor:viins' cursor block
+zstyle ':zephyr:plugin:editor:main' cursor block
+# key sequence timeout
+KEYTIMEOUT=20
+
+ZSH_AUTOSUGGEST_STRATEGY=(match_prev_cmd completion)
+
+
+source ${ZDOTDIR:-~}/.antidote/antidote.zsh
+antidote load
+
+# -----------------------------------------------------
+# completions
+# -----------------------------------------------------
+
+compdir=${ZDOTDIR:-~}/.zsh_completions
+[[ -d $compdir ]] || mkdir -p "$compdir"
+
+[[ -f $compdir/_uv ]] || on_path "uv" && uv generate-shell-completion zsh > "$compdir/_uv"
+[[ -f $compdir/_uvx ]] || on_path "uvx" && uvx --generate-shell-completion zsh > "$compdir/_uvx"
+[[ -f $compdir/_pnpm ]] || pnpm completion zsh > "$compdir/_pnpm"
+[[ -f $compdir/_rg ]] || rg --generate complete-zsh > "$compdir/_rg"
+[[ -f $compdir/_rip ]] || rip completions zsh > "$compdir/_rip"
+[[ -f $compdir/_rustup ]] || rustup completions zsh > "$compdir/_rustup"
+[[ -f $compdir/_cargo ]] || rustup completions zsh cargo > "$compdir/_cargo"
+[[ -f $compdir/_tldr ]] || wget -qO- "https://getbin.io/tldr-pages/tlrc" | tar -xzO completions/_tldr > "$compdir/_tldr"
+[[ -f $compdir/_chezmoi ]] || chezmoi completion zsh > "$compdir/_chezmoi"
+
+fpath=($fpath $compdir)
+
+# TODO: add better completion from here https://github.com/junegunn/fzf/issues/3349#issuecomment-1620852269
+compdef _gnu_generic fzf
+
+{{- if .hasGUI }}
+autoload -Uz bashcompinit
+bashcompinit
+source "/home/kaykoe/.local/share/bash-completion/completions/am"
+{{ end }}
+
+# if I try to put this in a file it gets overwritten by the other delta's completions
+source <(delta --generate-completion zsh)
+# if I try to put this in a file the keybindings don't work
+source <(fzf --zsh)
+
+# -----------------------------------------------------
+# manpages
+# -----------------------------------------------------
+
+[[ -d ~/.man/man1 ]]  || mkdir -p ~/.man/man1/
+
+[[ -f ~/.man/man1/rg.1 ]] || rg --generate=man > ~/.man/man1/rg.1
+[[ -f ~/.man/man1/tldr.1 ]] || wget -qO- "https://getbin.io/tldr-pages/tlrc" | tar -xzO tldr.1 > ~/.man/man1/tldr.1
+
+# -----------------------------------------------------
+# Set-up FZF key bindings (CTRL R for fuzzy history finder)
+# -----------------------------------------------------
+
+export FZF_DEFAULT_OPTS='--bind "ctrl-y:accept" --tmux 40% --min-height 5+ --layout reverse'
+
+show_file_or_dir_preview="if [ -d {} ]; then eza --tree --color=always {} | head -200; else batcat -n --color=always --line-range :500 {}; fi"
+
+export FZF_CTRL_T_OPTS="--preview '$show_file_or_dir_preview'"
+export FZF_ALT_C_OPTS="--preview 'eza --tree --color=always {} | head -200'"
+
+# Advanced customization of fzf options via _fzf_comprun function
+# - The first argument to the function is the name of the command.
+# - You should make sure to pass the rest of the arguments to fzf.
+_fzf_comprun() {
+  local command=$1
+  shift
+
+  case "$command" in
+    cd)           fzf --preview 'eza -A --tree --color=always {} | head -200' "$@" ;;
+    __zoxide_z)   fzf --preview 'eza -A --tree --color=always {} | head -200' "$@" ;;
+    export|unset) fzf --preview "eval 'echo $'{}"         "$@" ;;
+    ssh)          fzf --preview 'dig {}'                   "$@" ;;
+    *)            fzf --preview "batcat -n --color=always --line-range :500 {}" "$@" ;;
+  esac
+}
+
+# -----------------------------------------------------
+# General
+# -----------------------------------------------------
+
+alias c='clear'
+alias reload='. ~/.zshrc'
+
+alias l='eza --color=always --git --grid --no-filesize --icons=always --no-time --no-user --no-permissions'
+alias la='eza --color=always --git --grid --no-filesize --icons=always --no-time --no-user --no-permissions --all'
+alias ll='eza --color=always --git --long --all --icons=always'
+alias lt='eza --color=always --long --git --no-filesize --icons=always --no-time --no-user --no-permissions --all --tree --level=3'
+
+alias cp='cp -i'
+alias mv='mv -i'
+alias mkdir='mkdir -p'
+alias rg='rg -S'
+
+# -----------------------------------------------------
+# System
+# -----------------------------------------------------
+alias connect='sesh connect "home "'
+
+{{- if eq .osid "linux-ubuntu" "linux-debian" }}
+# -----------------------------------------------------
+# ALIASES
+# -----------------------------------------------------
+
+if on_path "batcat" && ! on_path "bat";then
+	mkdir -p ~/.local/bin && ln -s /usr/bin/batcat ~/.local/bin/bat
+fi
+
+if on_path "fdfind" && ! on_path "fd";then
+	mkdir -p ~/.local/bin && ln -s /usr/bin/fdfind ~/.local/bin/fd
+fi
+{{- end }}
+
+# -----------------------------------------------------
+# Prompt
+# -----------------------------------------------------
+
+eval "$(starship init zsh)"
+
+#----------------------------------------------------------------------------------------------------------------------------------------
+# History
+#----------------------------------------------------------------------------------------------------------------------------------------
+
+HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_FOUND='fg=magenta,bold'
+HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_NOT_FOUND='fg=red,bold'
+
+#----------------------------------------------------------------------------------------------------------------------------------------
+# Opts
+#----------------------------------------------------------------------------------------------------------------------------------------
+
+setopt sharehistory
+unsetopt hist_verify
+unsetopt hist_expire_dups_first
+unsetopt hist_ignore_all_dups
+unsetopt hist_save_no_dups
+
+setopt globdots
+
+#----------------------------------------------------------------------------------------------------------------------------------------
+# plugins
+#----------------------------------------------------------------------------------------------------------------------------------------
+
+zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
+zstyle ':completion:*' menu no
+zstyle ':completion:*:git-checkout:*' sort false
+
+# stop .. and . from apearing in completions menu
+zstyle -d ':completion:*' special-dirs
+
+zstyle ':fzf-tab:complete:cd:*' popup-pad 70 0
+zstyle ':fzf-tab:complete:z:*' popup-pad 70 0
+zstyle ':fzf-tab:complete:cd:*' fzf-preview 'eza -A -1 --color=always $realpath'
+zstyle ':fzf-tab:complete:z:*' fzf-preview 'eza -1 -A --color=always $realpath'
+zstyle ':fzf-tab:*' fzf-command ftb-tmux-popup
+
+# TODO: lower the height
+zstyle ':fzf-flags:*' --layout reverse --style full --border --height=~30%
+zstyle ':fzf-tab:*' fzf-bindings ctrl-y:accept
+# TODO: fix this
+# zstyle ':fzf-tab:*' continuous-trigger 'tab'
+
+{{ if eq .isWSL "yes" }}
+zstyle ':zle:evil-registers:+' yank win32yank.exe -i --crlf
+zstyle ':zle:evil-registers:+' put win32yank.exe -o --lf
+{{ end }}
+
+zstyle ':zle:evil-registers:[A-Za-z%#"]' editor nvim
+
+{{ if .yazi }}
+#----------------------------------------------------------------------------------------------------------------------------------------
+# yazi
+#----------------------------------------------------------------------------------------------------------------------------------------
+
+function y() {
+	local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
+	yazi "$@" --cwd-file="$tmp"
+	if cwd="$(command cat -- "$tmp")" && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
+		builtin cd -- "$cwd"
+	fi
+	rm -f -- "$tmp"
+}
+{{ end -}}
+
+# -----------------------------------------------------
+# keybinds
+# -----------------------------------------------------
+
+bindkey "$terminfo[kcuu1]" history-substring-search-up
+bindkey "$terminfo[kcud1]" history-substring-search-down
+bindkey '^Y' autosuggest-accept
+bindkey '^P' history-substring-search-up
+bindkey '^N' history-substring-search-down
+
+bindkey -M vicmd "$terminfo[kcuu1]" history-substring-search-up
+bindkey -M vicmd "$terminfo[kcud1]" history-substring-search-down
+bindkey -M vicmd '^Y' autosuggest-accept
+bindkey -M vicmd '^P' history-substring-search-up
+bindkey -M vicmd '^N' history-substring-search-down
+bindkey -M vicmd '^K' popman
+
+bindkey -M vicmd -r ' '
+bindkey -M visual -r ' '
+bindkey -M vicmd -s 'Y' 'y$'
+
+bindkey -M vicmd -s ' y' '"+y'
+bindkey -M vicmd -s ' Y' '"+Y'
+bindkey -M vicmd -s ' p' '"+p'
+bindkey -M vicmd -s ' P' '"+P'
+
+bindkey -M visual -s ' y' '"+y'
+bindkey -M visual -s ' p' '"+p'
+
+# -----------------------------------------------------
+# THIS NEEDS TO BE AT THE END, DO NOT MOVE THIS
+# -----------------------------------------------------
+
+eval "$(zoxide init zsh)"
+
+# -----------------------------------------------------
+# tmux
+# -----------------------------------------------------
+
+if [[ -z "$TMUX" && -z "$VIM" ]]; then
+  if [[ "$ZSH_TMUX_AUTOSTARTED" != "true" ]]; then
+    export ZSH_TMUX_AUTOSTARTED=true
+	eval "$(ssh-agent -s)"
+	ssh-add ~/.ssh/kaykoe+2025@asus_tumbleweed
+	wallust theme monokai
+	sesh connect "home "
+  fi
+fi

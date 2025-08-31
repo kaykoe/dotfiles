@@ -1,0 +1,7 @@
+config:
+  show-name: false
+  multi-pane-icon: ""
+icons:
+  zsh: ""
+  man: ""
+  btop: ""

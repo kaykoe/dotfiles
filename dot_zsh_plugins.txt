@@ -1,0 +1,26 @@
+mattmc3/zephyr path:plugins/completion
+# jnooree/zoxide-zsh-completion
+zsh-users/zsh-completions kind:fpath path:src
+zchee/zsh-completions
+3v1n0/zsh-bash-completions-fallback
+
+
+# jeffreytse/zsh-vi-mode
+
+mattmc3/zephyr path:plugins/color
+mattmc3/zephyr path:plugins/environment
+mattmc3/zephyr path:plugins/utility
+kaykoe/zephyr path:plugins/editor
+mattmc3/zephyr path:plugins/history
+ohmyzsh/ohmyzsh path:plugins/command-not-found
+
+kaykoe/popman
+zsh-vi-more/vi-increment
+zsh-vi-more/vi-motions
+zsh-vi-more/evil-registers
+aloxaf/fzf-tab
+reegnz/jq-zsh-plugin
+
+zdharma-continuum/fast-syntax-highlighting kind:defer
+zsh-users/zsh-autosuggestions kind:defer
+zsh-users/zsh-history-substring-search kind:defer

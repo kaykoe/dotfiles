@@ -1,0 +1,16 @@
+.config/btop/btop.log
+.config/yazi/plugins
+.config/kitty/colors-wallust.conf
+LICENSE
+
+{{ if not .hasGUI }}
+.config/kanata
+.obsidian.vimrc
+.config/zed
+.config/kitty
+{{ end }}
+
+{{ if not .yazi }}
+.config/yazi
+.duckdbrc
+{{ end }}
