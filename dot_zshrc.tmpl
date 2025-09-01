@@ -31,9 +31,6 @@ on_path "sesh" || { echo 'Installing sesh...'; wget -qO- "https://getbin.io/josh
 on_path "nvim" || { echo 'Installing nvim...'; export TMP=mktemp; wget -q "https://getbin.io/neovim/neovim" -O "$TMP" && sudo mv "$TMP" /usr/local/bin/nvim \
     && sudo chown root:root /usr/local/bin/nvim && sudo chmod 755 /usr/local/bin/nvim; unset TMP; }
 
-[[ -f ~/.config/delta/themes.gitconfig ]] || { mkdir -p ~/.config/delta/ \
-    && curl -fsS https://raw.githubusercontent.com/dandavison/delta/main/themes.gitconfig -o ~/.config/delta/themes.gitconfig; }
-
 {{ if eq .isWSL "yes" }}
 on_path "win32yank.exe" || { curl -LsSfO https://github.com/equalsraf/win32yank/releases/latest/download/win32yank-x86.zip \
     && sudo unzip win32yank-x86.zip win32yank.exe -d /usr/local/bin/ && sudo chmod 755 /usr/local/bin/win32yank.exe && rm -rf win32yank-x86.zip; }
@@ -78,9 +75,6 @@ compdir=${ZDOTDIR:-~}/.zsh_completions
 [[ -f $compdir/_chezmoi ]] || chezmoi completion zsh > "$compdir/_chezmoi"
 
 fpath=($fpath $compdir)
-
-# TODO: add better completion from here https://github.com/junegunn/fzf/issues/3349#issuecomment-1620852269
-compdef _gnu_generic fzf
 
 {{- if .hasGUI }}
 autoload -Uz bashcompinit
