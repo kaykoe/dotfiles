@@ -204,8 +204,7 @@ zstyle ':fzf-tab:*' fzf-command ftb-tmux-popup
 # TODO: lower the height
 zstyle ':fzf-flags:*' --layout reverse --style full --border --height=~30%
 zstyle ':fzf-tab:*' fzf-bindings ctrl-y:accept
-# TODO: fix this
-# zstyle ':fzf-tab:*' continuous-trigger 'tab'
+zstyle ':fzf-tab:*' continuous-trigger 'tab'
 
 {{ if eq .isWSL "yes" }}
 zstyle ':zle:evil-registers:+' yank win32yank.exe -i --crlf
