@@ -6,3 +6,9 @@
     type: file
     url: https://raw.githubusercontent.com/lmburns/dotfiles/refs/heads/master/.config/zsh/completions/_fzf
     refreshPeriod: 168h
+.zsh_completions/_tldr:
+    type: file
+    url: {{ printf "%s%s%s" "https://raw.githubusercontent.com/tldr-pages/tlrc/refs/tags/" (toString (gitHubLatestTag "tldr-pages/tlrc").Name) "/completions/_tldr" }}
+.man/man1/tldr.1:
+    type: file
+    url: {{ printf "%s%s%s" "https://raw.githubusercontent.com/tldr-pages/tlrc/refs/tags/" (toString (gitHubLatestTag "tldr-pages/tlrc").Name) "/tldr.1" }}

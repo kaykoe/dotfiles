@@ -71,7 +71,6 @@ compdir=${ZDOTDIR:-~}/.zsh_completions
 [[ -f $compdir/_rip ]] || rip completions zsh > "$compdir/_rip"
 [[ -f $compdir/_rustup ]] || rustup completions zsh > "$compdir/_rustup"
 [[ -f $compdir/_cargo ]] || rustup completions zsh cargo > "$compdir/_cargo"
-[[ -f $compdir/_tldr ]] || wget -qO- "https://getbin.io/tldr-pages/tlrc" | tar -xzO completions/_tldr > "$compdir/_tldr"
 [[ -f $compdir/_chezmoi ]] || chezmoi completion zsh > "$compdir/_chezmoi"
 
 fpath=($fpath $compdir)
@@ -94,7 +93,6 @@ source <(fzf --zsh)
 [[ -d ~/.man/man1 ]]  || mkdir -p ~/.man/man1/
 
 [[ -f ~/.man/man1/rg.1 ]] || rg --generate=man > ~/.man/man1/rg.1
-[[ -f ~/.man/man1/tldr.1 ]] || wget -qO- "https://getbin.io/tldr-pages/tlrc" | tar -xzO tldr.1 > ~/.man/man1/tldr.1
 
 # -----------------------------------------------------
 # Set-up FZF key bindings (CTRL R for fuzzy history finder)
