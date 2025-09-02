@@ -18,7 +18,7 @@ kaykoe/popman
 zsh-vi-more/vi-increment
 zsh-vi-more/vi-motions
 zsh-vi-more/evil-registers
-aloxaf/fzf-tab
+kaykoe/fzf-tab
 reegnz/jq-zsh-plugin
 
 zdharma-continuum/fast-syntax-highlighting kind:defer
