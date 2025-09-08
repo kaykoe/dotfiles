@@ -21,7 +21,7 @@ on_path "cargo" || { curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs |
 on_path "rg" || { cargo install --git https://github.com/BurntSushi/ripgrep --features 'pcre2' && sudo ln -s "$(which rg)" /usr/local/bin/rg; }
 on_path "delta" || cargo install git-delta
 on_path "rip" || { cargo install --locked rip2 && sudo ln -s "$(which rip)" /usr/local/bin/rip; }
-{{- if (or (eq .isWSL "yes") .hasGUI) }}
+{{ if (or (eq .isWSL "yes") .hasGUI) }}
 on_path "wallust" || cargo install wallust --locked
 {{ end }}
 

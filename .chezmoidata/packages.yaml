@@ -15,6 +15,9 @@ packages:
     ubuntu: *debian
     cli_common:
         - "git"
+        - "curl"
+        - "wget"
+        - "vim"
         - "clang"
         - "gcc"
         - "make"
