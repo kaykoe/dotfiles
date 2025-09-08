@@ -211,14 +211,14 @@ zstyle ':fzf-tab:*' popup-max-height 10
 zstyle ':fzf-tab:*' fzf-bindings ctrl-y:accept
 zstyle ':fzf-tab:*' continuous-trigger 'tab'
 
-{{ if eq .isWSL "yes" }}
+{{- if eq .isWSL "yes" }}
 zstyle ':zle:evil-registers:+' yank win32yank.exe -i --crlf
 zstyle ':zle:evil-registers:+' put win32yank.exe -o --lf
 {{ end }}
 
 zstyle ':zle:evil-registers:[A-Za-z%#"]' editor nvim
 
-{{ if .yazi }}
+{{- if .yazi }}
 #----------------------------------------------------------------------------------------------------------------------------------------
 # yazi
 #----------------------------------------------------------------------------------------------------------------------------------------
@@ -231,7 +231,7 @@ function y() {
 	fi
 	rm -f -- "$tmp"
 }
-{{ end -}}
+{{ end }}
 
 # -----------------------------------------------------
 # keybinds
@@ -284,4 +284,4 @@ if [[ -z "$TMUX" && -z "$VIM" ]]; then
 	sesh connect "home "
   fi
 fi
-{{ end -}}
+{{ end }}
