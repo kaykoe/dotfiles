@@ -13,6 +13,7 @@
 {{- $hasGUI := promptBoolOnce . "hasGUI" "Does this machine have a GUI?" -}}
 {{- $yazi := promptBoolOnce . "yazi" "Do you want to use yazi on this machine?" -}}
 {{- $tmux := promptBoolOnce . "tmux" "Do you want to use tmux on this machine?" -}}
+{{- $brew := promptBoolOnce . "brew" "Do you want to use brew on this machine?" -}}
 
 data:
   email: {{ $email | quote }}
@@ -21,6 +22,7 @@ data:
   isWSL: {{ $isWSL }}
   yazi: {{ $yazi }}
   tmux: {{ $tmux }}
+  brew: {{ $brew }}
 
 diff:
   pager: "delta"

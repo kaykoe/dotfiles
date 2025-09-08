@@ -22,7 +22,9 @@ export VISUAL=nvim
 
 . "$HOME/.cargo/env"
 
+{{- if .brew }}
 eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+{{ end }}
 
 export PNPM_HOME="$HOME/.local/share/pnpm"
 export PATH="$PNPM_HOME:$PATH"
