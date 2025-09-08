@@ -3,12 +3,16 @@
 .config/kitty/colors-wallust.conf
 LICENSE
 
-{{ if not .hasGUI }}
+{{- if not .hasGUI }}
 .config/kanata
 .obsidian.vimrc
 .config/zed
 .config/kitty
-{{ end }}
+{{- if ne .isWSL "yes" }}
+.config/wallust
+{{ end -}}
+
+{{ end -}}
 
 {{ if not .yazi }}
 .config/yazi
