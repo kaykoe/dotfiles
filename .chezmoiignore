@@ -8,10 +8,16 @@ LICENSE
 .obsidian.vimrc
 .config/zed
 .config/kitty
+
 {{- if ne .isWSL "yes" }}
 .config/wallust
 {{ end -}}
 
+{{ end -}}
+
+{{- if not .tmux }}
+.config/tmux
+.tmux.conf
 {{ end -}}
 
 {{ if not .yazi }}
