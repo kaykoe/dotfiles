@@ -23,7 +23,7 @@ on_path "delta" || cargo install git-delta
 on_path "rip" || { cargo install --locked rip2 && sudo ln -s "$(which rip)" /usr/local/bin/rip; }
 {{- if (or (eq .isWSL "yes") .hasGUI) }}
 on_path "wallust" || cargo install wallust --locked
-{{ end -}}
+{{ end }}
 
 # TODO: maybe bat and eza and fd from cargo/getbin as well
 
