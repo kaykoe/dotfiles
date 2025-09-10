@@ -19,13 +19,14 @@ on_path "starship" || curl -sS https://starship.rs/install.sh | sh
 on_path "cargo" || { curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- --no-modify-path && . "$HOME/.cargo/env"; }
 
 on_path "rg" || { cargo install --git https://github.com/BurntSushi/ripgrep --features 'pcre2' && sudo ln -s "$(which rg)" /usr/local/bin/rg; }
+# TODO: switch to getbin
 on_path "delta" || cargo install git-delta
 on_path "rip" || { cargo install --locked rip2 && sudo ln -s "$(which rip)" /usr/local/bin/rip; }
 {{ if (or (eq .isWSL "yes") .hasGUI) }}
 on_path "wallust" || cargo install wallust --locked
 {{ end }}
 
-# TODO: maybe bat and eza and fd from cargo/getbin as well
+# TODO: bat and eza and fd from cargo/getbin as well
 
 on_path "tldr" || { echo 'Installing tldr...'; wget -qO- "https://getbin.io/tldr-pages/tlrc" | tar -xzO tldr > ~/.local/bin/tldr && chmod +x ~/.local/bin/tldr; }
 {{- if .tmux }}
