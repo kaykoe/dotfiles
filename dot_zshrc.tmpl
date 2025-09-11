@@ -3,45 +3,46 @@
 # -----------------------------------------------------
 
 function on_path {
-	builtin whence -p "$1" &>/dev/null
+	if ! builtin whence -p "$1" &>/dev/null; then
+        echo "Installing $1"
+        return 1
+    fi
 }
 
 [[ -d ~/.local/bin ]] || mkdir -p ~/.local/bin
 
 [[ -d ${ZDOTDIR:-~}/.antidote ]] || git clone --depth=1 https://github.com/mattmc3/antidote.git ${ZDOTDIR:-~}/.antidote
-[[ -d ~/.fzf ]] || { git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf && ~/.fzf/install --bin; }
-on_path "fzf" || for bin in ~/.fzf/bin/*; do sudo ln -s "$bin" "/usr/local/bin/${bin##*/}"; done
+on_path 'fzf' || { git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf && ~/.fzf/install --bin && sudo ln -s -t /usr/local/bin ~/.fzf/bin/*; }
 
-on_path "zoxide" || curl -sSfL https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | sh
-on_path "starship" || curl -sS https://starship.rs/install.sh | sh
-[[ -d $PNPM_HOME ]] || { curl -fsSL https://get.pnpm.io/install.sh | sh - && { pnpm env use --global lts
+on_path 'zoxide' || curl -sSfL https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | sh
+on_path 'starship' || curl -sS https://starship.rs/install.sh | sh
+on_path 'pnpm' || { curl -fsSL https://get.pnpm.io/install.sh | sh - && { pnpm env use --global lts
     awk '{ if ($0 == "# pnpm") exit; print }' ~/.zshrc | head -n -1 > ~/.zshrc_tmp && mv ~/.zshrc_tmp ~/.zshrc; }; }
-on_path "cargo" || { curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- --no-modify-path && . "$HOME/.cargo/env"; }
 
-on_path "rg" || { cargo install --git https://github.com/BurntSushi/ripgrep --features 'pcre2' && sudo ln -s "$(which rg)" /usr/local/bin/rg; }
-# TODO: switch to getbin
-on_path "delta" || cargo install git-delta
-on_path "rip" || { cargo install --locked rip2 && sudo ln -s "$(which rip)" /usr/local/bin/rip; }
+on_path 'cargo' || { curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- --no-modify-path && . "$HOME/.cargo/env"; }
+on_path 'rg' || { cargo install --git https://github.com/BurntSushi/ripgrep --features 'pcre2' && sudo ln -s "$(which rg)" /usr/local/bin/rg; }
+on_path 'rip' || { cargo install --locked rip2 && sudo ln -s "$(which rip)" /usr/local/bin/rip; }
 {{ if (or (eq .isWSL "yes") .hasGUI) }}
-on_path "wallust" || cargo install wallust --locked
+on_path 'wallust' || cargo install wallust --locked
 {{ end }}
 
 # TODO: bat and eza and fd from cargo/getbin as well
 
-on_path "tldr" || { echo 'Installing tldr...'; wget -qO- "https://getbin.io/tldr-pages/tlrc" | tar -xzO tldr > ~/.local/bin/tldr && chmod +x ~/.local/bin/tldr; }
+# TODO: switch to getbin
+on_path 'delta' || cargo install git-delta
+on_path 'tldr' || { wget -qO- https://getbin.io/tldr-pages/tlrc | tar -xzO tldr > ~/.local/bin/tldr && chmod +x ~/.local/bin/tldr; }
+on_path 'nvim' || { export TMP=mktemp; wget -q https://getbin.io/neovim/neovim -O "$TMP" && sudo mv "$TMP" /usr/local/bin/nvim \
+    && sudo chown root:root /usr/local/bin/nvim && sudo chmod 755 /usr/local/bin/nvim; unset TMP; }
 {{- if .tmux }}
-on_path "sesh" || { echo 'Installing sesh...'; wget -qO- "https://getbin.io/joshmedeski/sesh" | tar -xzO sesh > ~/.local/bin/sesh && chmod +x ~/.local/bin/sesh; }
+on_path 'sesh' || { wget -qO- https://getbin.io/joshmedeski/sesh | tar -xzO sesh > ~/.local/bin/sesh && chmod +x ~/.local/bin/sesh; }
 {{ end }}
 
-on_path "nvim" || { echo 'Installing nvim...'; export TMP=mktemp; wget -q "https://getbin.io/neovim/neovim" -O "$TMP" && sudo mv "$TMP" /usr/local/bin/nvim \
-    && sudo chown root:root /usr/local/bin/nvim && sudo chmod 755 /usr/local/bin/nvim; unset TMP; }
-
 {{ if eq .isWSL "yes" }}
-on_path "win32yank.exe" || { curl -LsSfO https://github.com/equalsraf/win32yank/releases/latest/download/win32yank-x86.zip \
+on_path 'win32yank.exe' || { curl -LsSfO https://github.com/equalsraf/win32yank/releases/latest/download/win32yank-x86.zip \
     && sudo unzip win32yank-x86.zip win32yank.exe -d /usr/local/bin/ && sudo chmod 755 /usr/local/bin/win32yank.exe && rm -rf win32yank-x86.zip; }
 
 # for tmux-yank
-on_path clip.exe || sudo ln -s /mnt/c/Windows/System32/clip.exe /usr/local/bin/clip.exe
+on_path 'clip.exe' || sudo ln -s /mnt/c/Windows/System32/clip.exe /usr/local/bin/clip.exe
 {{ end -}}
 
 # -----------------------------------------------------
