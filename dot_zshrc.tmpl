@@ -156,11 +156,11 @@ alias connect='sesh connect "home "'
 # -----------------------------------------------------
 
 if on_path "batcat" && ! on_path "bat";then
-	mkdir -p ~/.local/bin && ln -s /usr/bin/batcat ~/.local/bin/bat
+    sudo ln -s "$(whence -p batcat)" /usr/local/bin/bat
 fi
 
 if on_path "fdfind" && ! on_path "fd";then
-	mkdir -p ~/.local/bin && ln -s /usr/bin/fdfind ~/.local/bin/fd
+    sudo ln -s "$(whence -p fdfind)" /usr/local/bin/fd
 fi
 {{- end }}
 
