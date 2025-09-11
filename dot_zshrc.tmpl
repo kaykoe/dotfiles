@@ -28,8 +28,7 @@ on_path 'wallust' || cargo install wallust --locked
 
 # TODO: bat and eza and fd from cargo/getbin as well
 
-# TODO: switch to getbin
-on_path 'delta' || cargo install git-delta
+on_path 'delta' || { wget -qO- https://getbin.io/dandavison/delta | tar -xzO --wildcards '*/delta' > ~/.local/bin/delta && chmod +x ~/.local/bin/delta; }
 on_path 'tldr' || { wget -qO- https://getbin.io/tldr-pages/tlrc | tar -xzO tldr > ~/.local/bin/tldr && chmod +x ~/.local/bin/tldr; }
 on_path 'nvim' || { export TMP=mktemp; wget -q https://getbin.io/neovim/neovim -O "$TMP" && sudo mv "$TMP" /usr/local/bin/nvim \
     && sudo chown root:root /usr/local/bin/nvim && sudo chmod 755 /usr/local/bin/nvim; unset TMP; }
