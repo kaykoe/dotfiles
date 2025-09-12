@@ -33,7 +33,7 @@ fi
 on_path_info 'fzf' || { git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf && ~/.fzf/install --bin && sudo ln -s -t /usr/local/bin ~/.fzf/bin/*; }
 
 on_path_info 'zoxide' || curl -sSfL https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | sh
-on_path_info 'starship' || curl -sS https://starship.rs/install.sh | sh -- -y
+on_path_info 'starship' || curl -sS https://starship.rs/install.sh | sh -s -- -y
 on_path_info 'pnpm' || { curl -fsSL https://get.pnpm.io/install.sh | sh - && { pnpm env use --global lts
     awk '{ if ($0 == "# pnpm") exit; print }' ~/.zshrc | head -n -1 > ~/.zshrc_tmp && mv ~/.zshrc_tmp ~/.zshrc; }; }
 
