@@ -2,6 +2,7 @@
 .config/yazi/plugins
 .config/kitty/colors-wallust.conf
 LICENSE
+README.md
 
 {{- if not .hasGUI }}
 .config/kanata
