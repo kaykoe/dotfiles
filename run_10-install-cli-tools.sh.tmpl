@@ -1,0 +1,65 @@
+#!/usr/bin/env zsh
+function on_path {
+	builtin whence -p "$1" &>/dev/null
+}
+function on_path_info {
+	if ! builtin whence -p "$1" &>/dev/null; then
+        echo "Installing $1"
+        return 1
+    fi
+}
+
+{{ if eq .osid "linux_ubuntu" "linux_debian" }}
+# -----------------------------------------------------
+# ALIASES
+# -----------------------------------------------------
+
+if on_path "batcat" && ! on_path "bat";then
+    sudo ln -s "$(whence -p batcat)" /usr/local/bin/bat
+fi
+
+if on_path "fdfind" && ! on_path "fd";then
+    sudo ln -s "$(whence -p fdfind)" /usr/local/bin/fd
+fi
+{{- end }}
+
+# -----------------------------------------------------
+# autoinstalls
+# -----------------------------------------------------
+
+[[ -d ~/.local/bin ]] || mkdir -p ~/.local/bin
+
+[[ -d ${ZDOTDIR:-~}/.antidote ]] || git clone --depth=1 https://github.com/mattmc3/antidote.git ${ZDOTDIR:-~}/.antidote
+on_path_info 'fzf' || { git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf && ~/.fzf/install --bin && sudo ln -s -t /usr/local/bin ~/.fzf/bin/*; }
+
+on_path_info 'zoxide' || curl -sSfL https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | sh
+on_path_info 'starship' || curl -sS https://starship.rs/install.sh | sh
+on_path_info 'pnpm' || { curl -fsSL https://get.pnpm.io/install.sh | sh - && { pnpm env use --global lts
+    awk '{ if ($0 == "# pnpm") exit; print }' ~/.zshrc | head -n -1 > ~/.zshrc_tmp && mv ~/.zshrc_tmp ~/.zshrc; }; }
+
+on_path_info 'cargo' || { curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- --no-modify-path && . "$HOME/.cargo/env"; }
+on_path_info 'rg' || { cargo install --git https://github.com/BurntSushi/ripgrep --features 'pcre2' && sudo ln -s "$(which rg)" /usr/local/bin/rg; }
+on_path_info 'rip' || { cargo install --locked rip2 && sudo ln -s "$(which rip)" /usr/local/bin/rip; }
+{{ if (or (eq .isWSL "yes") .hasGUI) }}
+on_path_info 'wallust' || cargo install wallust --locked
+{{ end }}
+
+# TODO: bat and eza and fd from cargo/getbin as well
+on_path_info 'bat' || { wget -qO- {{ gitHubLatestReleaseAssetURL "sharkdp/bat" "bat-v*-x86_64-unknown-linux-gnu.tar.gz" }} | tar -xzO --wildcards '*/bat' | sudo tee /usr/local/bin/bat &>/dev/null && sudo chmod 755 /usr/local/bin/bat; }
+
+on_path_info 'delta' || { wget -qO- https://getbin.io/dandavison/delta | tar -xzO --wildcards '*/delta' > ~/.local/bin/delta && chmod +x ~/.local/bin/delta; }
+on_path_info 'tldr' || { wget -qO- https://getbin.io/tldr-pages/tlrc | tar -xzO tldr > ~/.local/bin/tldr && chmod +x ~/.local/bin/tldr; }
+on_path_info 'nvim' || { export TMP=mktemp; wget -q https://getbin.io/neovim/neovim -O "$TMP" && sudo mv "$TMP" /usr/local/bin/nvim \
+    && sudo chown root:root /usr/local/bin/nvim && sudo chmod 755 /usr/local/bin/nvim; unset TMP; }
+{{- if .tmux }}
+on_path_info 'sesh' || { wget -qO- https://getbin.io/joshmedeski/sesh | tar -xzO sesh > ~/.local/bin/sesh && chmod +x ~/.local/bin/sesh; }
+{{ end }}
+
+{{ if eq .isWSL "yes" }}
+on_path_info 'win32yank.exe' || { curl -LsSfO https://github.com/equalsraf/win32yank/releases/latest/download/win32yank-x86.zip \
+    && sudo unzip win32yank-x86.zip win32yank.exe -d /usr/local/bin/ && sudo chmod 755 /usr/local/bin/win32yank.exe && rm -rf win32yank-x86.zip; }
+
+# for tmux-yank
+on_path_info 'clip.exe' || sudo ln -s /mnt/c/Windows/System32/clip.exe /usr/local/bin/clip.exe
+{{ end -}}
+

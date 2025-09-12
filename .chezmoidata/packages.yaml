@@ -1,18 +1,17 @@
 packages:
-    tumbleweed:
+    linux_opensuse_tumbleweed:
         cli:
             - "fd"
             - "bat"
             - "eza"
         gui:
             - "hyprland"
-    debian: &debian
+    linux_debian: &debian
         cli:
-            - "fdfind"
-            - "batcat"
+            - "fd-find"
         gui:
             - "i3"
-    ubuntu: *debian
+    linux_ubuntu: *debian
     cli_common:
         - "git"
         - "curl"

@@ -1,48 +1,6 @@
-# -----------------------------------------------------
-# autoinstalls
-# -----------------------------------------------------
-
 function on_path {
-	if ! builtin whence -p "$1" &>/dev/null; then
-        echo "Installing $1"
-        return 1
-    fi
+	builtin whence -p "$1" &>/dev/null
 }
-
-[[ -d ~/.local/bin ]] || mkdir -p ~/.local/bin
-
-[[ -d ${ZDOTDIR:-~}/.antidote ]] || git clone --depth=1 https://github.com/mattmc3/antidote.git ${ZDOTDIR:-~}/.antidote
-on_path 'fzf' || { git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf && ~/.fzf/install --bin && sudo ln -s -t /usr/local/bin ~/.fzf/bin/*; }
-
-on_path 'zoxide' || curl -sSfL https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | sh
-on_path 'starship' || curl -sS https://starship.rs/install.sh | sh
-on_path 'pnpm' || { curl -fsSL https://get.pnpm.io/install.sh | sh - && { pnpm env use --global lts
-    awk '{ if ($0 == "# pnpm") exit; print }' ~/.zshrc | head -n -1 > ~/.zshrc_tmp && mv ~/.zshrc_tmp ~/.zshrc; }; }
-
-on_path 'cargo' || { curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- --no-modify-path && . "$HOME/.cargo/env"; }
-on_path 'rg' || { cargo install --git https://github.com/BurntSushi/ripgrep --features 'pcre2' && sudo ln -s "$(which rg)" /usr/local/bin/rg; }
-on_path 'rip' || { cargo install --locked rip2 && sudo ln -s "$(which rip)" /usr/local/bin/rip; }
-{{ if (or (eq .isWSL "yes") .hasGUI) }}
-on_path 'wallust' || cargo install wallust --locked
-{{ end }}
-
-# TODO: bat and eza and fd from cargo/getbin as well
-
-on_path 'delta' || { wget -qO- https://getbin.io/dandavison/delta | tar -xzO --wildcards '*/delta' > ~/.local/bin/delta && chmod +x ~/.local/bin/delta; }
-on_path 'tldr' || { wget -qO- https://getbin.io/tldr-pages/tlrc | tar -xzO tldr > ~/.local/bin/tldr && chmod +x ~/.local/bin/tldr; }
-on_path 'nvim' || { export TMP=mktemp; wget -q https://getbin.io/neovim/neovim -O "$TMP" && sudo mv "$TMP" /usr/local/bin/nvim \
-    && sudo chown root:root /usr/local/bin/nvim && sudo chmod 755 /usr/local/bin/nvim; unset TMP; }
-{{- if .tmux }}
-on_path 'sesh' || { wget -qO- https://getbin.io/joshmedeski/sesh | tar -xzO sesh > ~/.local/bin/sesh && chmod +x ~/.local/bin/sesh; }
-{{ end }}
-
-{{ if eq .isWSL "yes" }}
-on_path 'win32yank.exe' || { curl -LsSfO https://github.com/equalsraf/win32yank/releases/latest/download/win32yank-x86.zip \
-    && sudo unzip win32yank-x86.zip win32yank.exe -d /usr/local/bin/ && sudo chmod 755 /usr/local/bin/win32yank.exe && rm -rf win32yank-x86.zip; }
-
-# for tmux-yank
-on_path 'clip.exe' || sudo ln -s /mnt/c/Windows/System32/clip.exe /usr/local/bin/clip.exe
-{{ end -}}
 
 # -----------------------------------------------------
 # Antidote
@@ -77,6 +35,7 @@ compdir=${ZDOTDIR:-~}/.zsh_completions
 [[ -f $compdir/_rustup ]] || rustup completions zsh > "$compdir/_rustup"
 [[ -f $compdir/_cargo ]] || rustup completions zsh cargo > "$compdir/_cargo"
 [[ -f $compdir/_chezmoi ]] || chezmoi completion zsh > "$compdir/_chezmoi"
+[[ -f $compdir/_bat ]] || bat --completion zsh > "$compdir/_bat"
 
 fpath=($fpath $compdir)
 
@@ -105,7 +64,7 @@ source <(fzf --zsh)
 
 export FZF_DEFAULT_OPTS='--bind "ctrl-y:accept" --tmux 40% --min-height 5+ --layout reverse --info=inline-right'
 
-show_file_or_dir_preview="if [ -d {} ]; then eza --tree --color=always {} | head -200; else batcat -n --color=always --line-range :500 {}; fi"
+show_file_or_dir_preview="if [ -d {} ]; then eza --tree --color=always {} | head -200; else bat -n --color=always --line-range :500 {}; fi"
 
 export FZF_CTRL_T_OPTS="--preview '$show_file_or_dir_preview'"
 export FZF_ALT_C_OPTS="--preview 'eza --tree --color=always {} | head -200'"
@@ -122,7 +81,7 @@ _fzf_comprun() {
     __zoxide_z)   fzf --preview 'eza -A --tree --color=always {} | head -200' "$@" ;;
     export|unset) fzf --preview "eval 'echo $'{}"         "$@" ;;
     ssh)          fzf --preview 'dig {}'                   "$@" ;;
-    *)            fzf --preview "batcat -n --color=always --line-range :500 {}" "$@" ;;
+    *)            fzf --preview "bat -n --color=always --line-range :500 {}" "$@" ;;
   esac
 }
 
@@ -149,20 +108,6 @@ alias rg='rg -S'
 {{- if .tmux }}
 alias connect='sesh connect "home "'
 {{ end -}}
-
-{{- if eq .osid "linux-ubuntu" "linux-debian" }}
-# -----------------------------------------------------
-# ALIASES
-# -----------------------------------------------------
-
-if on_path "batcat" && ! on_path "bat";then
-    sudo ln -s "$(whence -p batcat)" /usr/local/bin/bat
-fi
-
-if on_path "fdfind" && ! on_path "fd";then
-    sudo ln -s "$(whence -p fdfind)" /usr/local/bin/fd
-fi
-{{- end }}
 
 # -----------------------------------------------------
 # Prompt

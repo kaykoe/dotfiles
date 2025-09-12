@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+{{- $version := printf "v%s" ( ( split " " ( output "bat" "-V" ) )._1 | trim ) }}
+{{- $cli_packages := dig .osid "cli" ( list ) .packages }}
+{{- if not ( or ( has "bat" $cli_packages ) ( has "batcat" $cli_packages ) ) }}
+
+tmpdir="$(mktemp -d)"
+trap 'rm -rf "$tmpdir"' EXIT
+
+curl -fsSL {{ gitHubReleaseAssetURL "sharkdp/bat" $version "bat-v*-x86_64-unknown-linux-gnu.tar.gz" }} | tar -C "$tmpdir" --strip-components 1 -xz --wildcards '*/bat.1' '*/autocomplete/bat.zsh'
+
+mkdir -p ~/.man/man1
+command mv "${tmpdir}/bat.1" ~/.man/man1
+
+# mkdir -p ~/.zsh_completions
+# command mv "${tmpdir}/autocomplete/bat.zsh" ~/.zsh_completions/_bat
+#
+{{- end }}
