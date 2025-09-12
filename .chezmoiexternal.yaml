@@ -7,14 +7,3 @@
     type: file
     url: https://raw.githubusercontent.com/lmburns/dotfiles/refs/heads/master/.config/zsh/completions/_fzf
     refreshPeriod: 168h
-
-{{- $cli_packages := dig .osid "cli" ( list ) .packages }}
-{{- if not ( has "tlrc" $cli_packages ) }}
-.zsh_completions/_tldr:
-    type: file
-    url: {{ printf "%s%s%s" "https://raw.githubusercontent.com/tldr-pages/tlrc/refs/tags/" (split " " (output "tldr" "-v"))._1 "/completions/_tldr" }}
-
-.man/man1/tldr.1:
-    type: file
-    url: {{ printf "%s%s%s" "https://raw.githubusercontent.com/tldr-pages/tlrc/refs/tags/" (split " " (output "tldr" "-v"))._1 "/tldr.1" }}
-{{ end }}

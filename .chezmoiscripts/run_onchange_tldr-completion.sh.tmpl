@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+
+{{- $version :=  ( split " " ( output "tldr" "-v" ) )._1 | trim }}
+{{- $cli_packages := dig .osid "cli" ( list ) .packages }}
+{{- $comp_exists := not (glob ".zsh_completions/_tldr" | empty) }}
+{{- $man_exists := not (glob ".man/man1/tldr.1" | empty) }}
+
+# {{ print "tldr version: " $version }}
+# {{ print "completion file exists: " $comp_exists }}
+# {{ print "man file exists: " $man_exists }}
+
+{{- if not (has "tlrc" $cli_packages) -}}
+
+{{ printf "curl -fsSLO https://raw.githubusercontent.com/tldr-pages/tlrc/refs/tags/%s/completions/_tldr --output-dir ~/.zsh_completions" $version }}
+{{ printf "curl -fsSLO https://raw.githubusercontent.com/tldr-pages/tlrc/refs/tags/%s/tldr.1 --output-dir ~/.man/man1" $version }}
+
+{{- end -}}
