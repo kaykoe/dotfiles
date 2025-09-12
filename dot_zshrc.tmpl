@@ -35,7 +35,6 @@ compdir=${ZDOTDIR:-~}/.zsh_completions
 [[ -f $compdir/_rustup ]] || rustup completions zsh > "$compdir/_rustup"
 [[ -f $compdir/_cargo ]] || rustup completions zsh cargo > "$compdir/_cargo"
 [[ -f $compdir/_chezmoi ]] || chezmoi completion zsh > "$compdir/_chezmoi"
-[[ -f $compdir/_bat ]] || bat --completion zsh > "$compdir/_bat"
 
 fpath=($fpath $compdir)
 

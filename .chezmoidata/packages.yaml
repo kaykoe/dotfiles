@@ -4,6 +4,7 @@ packages:
             - "fd"
             - "bat"
             - "eza"
+            - "tlrc"
         gui:
             - "hyprland"
     linux_debian: &debian
