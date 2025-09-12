@@ -10,6 +10,7 @@ packages:
     linux_debian: &debian
         cli:
             - "fd-find"
+            - "eza"
         gui:
             - "i3"
     linux_ubuntu: *debian
