@@ -37,7 +37,7 @@ on_path_info 'starship' || curl -sS https://starship.rs/install.sh | sh -- -y
 on_path_info 'pnpm' || { curl -fsSL https://get.pnpm.io/install.sh | sh - && { pnpm env use --global lts
     awk '{ if ($0 == "# pnpm") exit; print }' ~/.zshrc | head -n -1 > ~/.zshrc_tmp && mv ~/.zshrc_tmp ~/.zshrc; }; }
 
-on_path_info 'cargo' || { curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- --no-modify-path && . "$HOME/.cargo/env"; }
+on_path_info 'cargo' || { curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --no-modify-path && . "$HOME/.cargo/env"; }
 on_path_info 'rg' || { cargo install --git https://github.com/BurntSushi/ripgrep --features 'pcre2' && sudo ln -s "$(which rg)" /usr/local/bin/rg; }
 on_path_info 'rip' || { cargo install --locked rip2 && sudo ln -s "$(which rip)" /usr/local/bin/rip; }
 {{ if (or (eq .isWSL "yes") .hasGUI) }}
