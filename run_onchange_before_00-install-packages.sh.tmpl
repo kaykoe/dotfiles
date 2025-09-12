@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 {{- $package_manager_cmd := "" }}
 {{- if eq .osid "linux_opensuse_tumbleweed" }}
@@ -7,8 +7,10 @@
 {{- $package_manager_cmd = "sudo apt install" }}
 {{- end }}
 
-{{ if ne $package_manager_cmd "" }}
-{{- print $package_manager_cmd }} {{ range ( concat .packages.cli_common ( dig .osid "cli" ( list ) .packages ) ) }} {{- . | quote }} {{ end }}
+{{ if ne $package_manager_cmd "" -}}
+set -e
+
+{{ print $package_manager_cmd }} {{ range ( concat .packages.cli_common ( dig .osid "cli" ( list ) .packages ) ) }} {{- . | quote }} {{ end }}
 
 {{ if .hasGUI }}
 {{- print $package_manager_cmd }} {{ range ( concat .packages.gui_common ( dig .osid "gui" ( list ) .packages ) ) }} {{- . | quote }} {{ end }}

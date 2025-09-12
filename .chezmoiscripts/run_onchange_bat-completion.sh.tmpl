@@ -10,6 +10,7 @@
 # {{ print "man file exists: " $man_exists }}
 
 {{- if not (has "bat" $cli_packages) }}
+set -e
 
 {{- if (or (not $man_exists) (and $man_exists $comp_exists)) }}
 tmpdir="$(mktemp -d)"
