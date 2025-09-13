@@ -16,7 +16,7 @@ set -e
 tmpdir="$(mktemp -d)"
 trap 'rm -rf "$tmpdir"' EXIT
 
-curl -fsSL {{ gitHubReleaseAssetURL "sharkdp/bat" $version "bat-v*-x86_64-unknown-linux-gnu.tar.gz" }} | tar -C "$tmpdir" --strip-components 1 -xz --wildcards '*/bat.1' '*/autocomplete/bat.zsh'
+curl -fsSL {{ gitHubReleaseAssetURL "sharkdp/bat" $version "bat-v*-x86_64-unknown-linux-gnu.tar.gz" }} | tar -C "$tmpdir" --strip-components 1 -xz --wildcards '*/bat.1'
 
 mkdir -p ~/.man/man1
 command mv "${tmpdir}/bat.1" ~/.man/man1
