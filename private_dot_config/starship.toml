@@ -1,9 +1,16 @@
 "$schema" = 'https://starship.rs/config-schema.json'
 
 add_newline = false
+format = "$time$all"
+
+[time]
+disabled = false
+format = '[$time]($style) '
+time_format = '%R'
+style = "bold"
 
 [cmd_duration]
-disabled = true
+disabled = false
 
 [git_status]
 renamed = "r"
@@ -196,6 +203,7 @@ Void = "void "
 Windows = "win "
 
 [package]
+disabled = true
 symbol = "pkg "
 
 [perl]
