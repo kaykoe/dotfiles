@@ -40,7 +40,7 @@ on_path_info 'pnpm' || { curl -fsSL https://get.pnpm.io/install.sh | sh - && { p
 on_path_info 'cargo' || { curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --no-modify-path && . "$HOME/.cargo/env"; }
 on_path_info 'rg' || { cargo install --git https://github.com/BurntSushi/ripgrep --features 'pcre2' && sudo ln -s "$(which rg)" /usr/local/bin/rg; }
 on_path_info 'rip' || { cargo install --locked rip2 && sudo ln -s "$(which rip)" /usr/local/bin/rip; }
-{{ if (or (eq .isWSL "yes") .hasGUI) }}
+{{ if (or .isWSL .hasGUI) }}
 on_path_info 'wallust' || cargo install wallust --locked
 {{ end }}
 
@@ -55,7 +55,7 @@ on_path_info 'nvim' || { export TMP=mktemp; wget -q https://getbin.io/neovim/neo
 on_path_info 'sesh' || { wget -qO- https://getbin.io/joshmedeski/sesh | tar -xzO sesh > ~/.local/bin/sesh && chmod +x ~/.local/bin/sesh; }
 {{ end }}
 
-{{ if eq .isWSL "yes" }}
+{{ if .isWSL }}
 on_path_info 'win32yank.exe' || { curl -LsSfO https://github.com/equalsraf/win32yank/releases/latest/download/win32yank-x86.zip \
     && sudo unzip win32yank-x86.zip win32yank.exe -d /usr/local/bin/ && sudo chmod 755 /usr/local/bin/win32yank.exe && rm -rf win32yank-x86.zip; }
 

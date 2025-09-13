@@ -3,10 +3,7 @@
 {{-   $osid = ( printf "%s-%s" .chezmoi.os .chezmoi.osRelease.id | replace "-" "_" ) -}}
 {{- end -}}
 
-{{- $isWSL := "no" -}}
-{{- if (.chezmoi.kernel.osrelease | lower | contains "microsoft") -}}
-{{-   $isWSL = "yes" -}}
-{{- end -}}
+{{- $isWSL := (.chezmoi.kernel.osrelease | lower | contains "microsoft") -}}
 
 {{- $email := promptStringOnce . "email" "Email address:" -}}
 

@@ -156,7 +156,7 @@ zstyle ':fzf-tab:*' popup-max-height 10
 zstyle ':fzf-tab:*' fzf-bindings ctrl-y:accept
 zstyle ':fzf-tab:*' continuous-trigger 'tab'
 
-{{- if eq .isWSL "yes" }}
+{{- if .isWSL }}
 zstyle ':zle:evil-registers:+' yank win32yank.exe -i --crlf
 zstyle ':zle:evil-registers:+' put win32yank.exe -o --lf
 {{ end }}
@@ -223,7 +223,7 @@ if [[ -z "$TMUX" && -z "$VIM" ]]; then
     export ZSH_TMUX_AUTOSTARTED=true
 	eval "$(ssh-agent -s)"
 	ssh-add ~/.ssh/kaykoe+2025@asus_tumbleweed
-    {{ if eq .isWSL "yes" }}
+    {{ if .isWSL }}
 	wallust theme monokai
     {{ end }}
 	sesh connect "home "
