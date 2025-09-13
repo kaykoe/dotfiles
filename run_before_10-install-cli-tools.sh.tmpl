@@ -1,4 +1,7 @@
 #!/usr/bin/env zsh
+
+{{ $cli_packages := dig .osid "cli" ( list ) .packages -}}
+
 function on_path {
 	builtin whence -p "$1" &>/dev/null
 }
@@ -49,8 +52,16 @@ on_path_info 'bat' || { wget -qO- {{ gitHubLatestReleaseAssetURL "sharkdp/bat" "
 
 on_path_info 'delta' || { wget -qO- https://getbin.io/dandavison/delta | tar -xzO --wildcards '*/delta' > ~/.local/bin/delta && chmod +x ~/.local/bin/delta; }
 on_path_info 'tldr' || { wget -qO- https://getbin.io/tldr-pages/tlrc | tar -xzO tldr > ~/.local/bin/tldr && chmod +x ~/.local/bin/tldr; }
-on_path_info 'nvim' || { export TMP=mktemp; wget -q https://getbin.io/neovim/neovim -O "$TMP" && sudo mv "$TMP" /usr/local/bin/nvim \
-    && sudo chown root:root /usr/local/bin/nvim && sudo chmod 755 /usr/local/bin/nvim; unset TMP; }
+
+{{- if not (has "neovim" $cli_packages) }}
+{{- $nvim_installed := not (glob "/opt/nvim" | empty) }}
+{{- if not $nvim_installed }}
+echo 'Installing neovim...'
+sudo mkdir -p /opt/nvim
+wget -qO- {{ gitHubLatestReleaseAssetURL "neovim/neovim" "nvim-linux-x86_64.tar.gz" }} | sudo tar -C /opt/nvim -xz --strip-components 1
+{{- end }}
+{{- end }}
+
 {{- if .tmux }}
 on_path_info 'sesh' || { wget -qO- https://getbin.io/joshmedeski/sesh | tar -xzO sesh > ~/.local/bin/sesh && chmod +x ~/.local/bin/sesh; }
 {{ end }}

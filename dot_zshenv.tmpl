@@ -26,6 +26,11 @@ export VISUAL=nvim
 eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 {{ end }}
 
+{{ $cli_packages := dig .osid "cli" ( list ) .packages -}}
+{{- if not (has "neovim" $cli_packages) }}
+export PATH="/opt/nvim/bin:$PATH"
+{{ end }}
+
 export PNPM_HOME="$HOME/.local/share/pnpm"
 export PATH="$PNPM_HOME:$PATH"
 
