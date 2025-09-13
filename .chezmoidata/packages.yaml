@@ -7,8 +7,16 @@ packages:
             - "tlrc"
             - "neovim"
             - "yazi"
+            - "fastfetch"
+            - "ouch"
+            - "ripgrep"
         gui:
             - "hyprland"
+            - "hypridle"
+            - "hyprlock"
+            - "waybar"
+            - "wlogout"
+            - "rofi-wayland"
     linux_debian: &debian
         cli:
             - "fd-find"
@@ -17,6 +25,7 @@ packages:
             - "i3"
     linux_ubuntu: *debian
     cli_common:
+        - "ncdu"
         - "git"
         - "curl"
         - "wget"
