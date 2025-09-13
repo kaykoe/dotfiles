@@ -5,6 +5,7 @@ packages:
             - "bat"
             - "eza"
             - "tlrc"
+            - "neovim"
         gui:
             - "hyprland"
     linux_debian: &debian
