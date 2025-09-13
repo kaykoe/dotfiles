@@ -1,6 +1,7 @@
 .config/btop/btop.log
 .config/yazi/plugins
 .config/kitty/colors-wallust.conf
+.config/kitty/kitty-themes/01-Wallust.conf
 LICENSE
 README.md
 
