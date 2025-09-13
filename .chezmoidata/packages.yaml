@@ -6,6 +6,7 @@ packages:
             - "eza"
             - "tlrc"
             - "neovim"
+            - "yazi"
         gui:
             - "hyprland"
     linux_debian: &debian
