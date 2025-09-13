@@ -6,6 +6,7 @@ return {
         priority = 1000,
         opts = {
             use_palette = "wallust",
+            transparent_background = true,
             no_italic = true,
             styles = {
                 conditionals = { "bold" },
