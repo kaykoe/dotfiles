@@ -9,10 +9,10 @@
 # {{ print "completion file exists: " $comp_exists }}
 # {{ print "man file exists: " $man_exists }}
 
+set -e
 {{ printf "curl -fsSLO https://raw.githubusercontent.com/tldr-pages/tlrc/refs/tags/%s/completions/_tldr --output-dir ~/.zsh_completions" $version }}
 
 {{- if not (has "tlrc" $cli_packages) -}}
-set -e
 
 {{ printf "curl -fsSLO https://raw.githubusercontent.com/tldr-pages/tlrc/refs/tags/%s/tldr.1 --output-dir ~/.man/man1" $version }}
 
