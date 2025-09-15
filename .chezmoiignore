@@ -15,6 +15,7 @@ README.md
 .obsidian.vimrc
 .config/zed
 .config/kitty
+.config/hypr
 
 {{- if ne .isWSL "yes" }}
 .config/wallust
