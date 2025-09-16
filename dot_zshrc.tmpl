@@ -86,10 +86,19 @@ _fzf_comprun() {
 }
 
 # -----------------------------------------------------
-# General
+# Aliases
 # -----------------------------------------------------
 
-alias c='clear'
+function clear {
+    if [[ "$1" =~ ^(-f|--force)$ ]]; then
+        shift
+        command clear "$@"
+    else
+        echo 'Use <C-l> or use -f/--force as the first argument for default clear behaviour' >&2
+        return 1
+    fi
+}
+
 alias reload='. ~/.zshrc'
 
 alias l='eza --color=always --git --grid --no-filesize --icons=always --no-time --no-user --no-permissions'
@@ -102,12 +111,13 @@ alias mv='mv -i'
 alias mkdir='mkdir -p'
 alias rg='rg -S'
 
+{{ if .tmux -}}
 # -----------------------------------------------------
 # System
 # -----------------------------------------------------
-{{- if .tmux }}
+
 alias connect='sesh connect "home "'
-{{ end -}}
+{{- end }}
 
 # -----------------------------------------------------
 # Prompt
