@@ -1,4 +1,3 @@
 [[session]]
 name = "home "
 path = "~"
-startup_command = "clear && l"
