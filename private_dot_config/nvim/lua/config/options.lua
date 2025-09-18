@@ -4,9 +4,9 @@
 vim.opt.guicursor = ""
 
 vim.opt.clipboard = ""
-vim.opt.tabstop = 4
+vim.opt.tabstop = 6
 vim.opt.softtabstop = 4
-vim.opt.shiftwidth = 4
+vim.opt.smartindent = true
 vim.opt.scrolloff = 8
 
 vim.opt.swapfile = false
