@@ -15,6 +15,16 @@ return {
                 includes = { "bold" },
                 types = { "bold" },
             },
+            custom_highlights = function(C)
+                local U = require("neopywal.utils.color")
+                return {
+                    all = {
+                        ColorColumn = {
+                            bg = U.blend(C.foreground, C.background, 0.5),
+                        },
+                    },
+                }
+            end,
         },
     },
     {
