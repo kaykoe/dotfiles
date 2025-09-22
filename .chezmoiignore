@@ -7,6 +7,7 @@
 .config/hypr/wallpaper_effects/.wallpaper_current
 .config/hypr/wallpaper_effects/.wallpaper_modified
 
+.editorconfig
 LICENSE
 README.md
 
