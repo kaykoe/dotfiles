@@ -10,6 +10,5 @@ return {
 		for _, config in ipairs(require("dap").configurations.python) do
 			config.justMyCode = false
 		end
-	end
-,
+	end,
 }
