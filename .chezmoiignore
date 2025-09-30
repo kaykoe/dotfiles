@@ -17,10 +17,10 @@ README.md
 .config/zed
 .config/kitty
 .config/hypr
-.config/nvim/lua/plugins/neopywal.lua
 
 {{- if not .isWSL }}
 .config/wallust
+.config/nvim/lua/plugins/neopywal.lua
 {{ end -}}
 
 {{ end -}}
