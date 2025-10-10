@@ -1,12 +1,12 @@
-#!/usr/bin/env zsh
+#!/usr/bin/env bash
 
 {{ $cli_packages := dig .osid "cli" ( list ) .packages -}}
 
 function on_path {
-	builtin whence -p "$1" &>/dev/null
+	builtin type -P "$1" &>/dev/null
 }
 function on_path_info {
-	if ! builtin whence -p "$1" &>/dev/null; then
+	if ! on_path "$1"; then
         echo "Installing $1"
         return 1
     fi

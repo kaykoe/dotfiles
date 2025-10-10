@@ -11,6 +11,11 @@
 LICENSE
 README.md
 
+{{- if not .zsh }}
+.zshrc
+.zsh_plugins.txt
+{{ end -}}
+
 {{- if not .hasGUI }}
 .config/kanata
 .obsidian.vimrc

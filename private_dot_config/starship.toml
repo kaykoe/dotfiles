@@ -3,6 +3,10 @@
 add_newline = false
 format = "$time$all"
 
+[shell]
+disabled = false
+bash_indicator = "bash"
+
 [time]
 disabled = false
 format = '[$time]($style) '
