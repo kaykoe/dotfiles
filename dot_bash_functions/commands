@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+function commands() {
+	compgen -c | sort -u | fzf
+}
