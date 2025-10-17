@@ -27,8 +27,8 @@ antidote load
 compdir=${ZDOTDIR:-~}/.zsh_completions
 [[ -d $compdir ]] || mkdir -p "$compdir"
 
-[[ -f $compdir/_uv ]] || on_path "uv" && uv generate-shell-completion zsh > "$compdir/_uv"
-[[ -f $compdir/_uvx ]] || on_path "uvx" && uvx --generate-shell-completion zsh > "$compdir/_uvx"
+[[ -f $compdir/_uv ]] || { on_path "uv" && uv generate-shell-completion zsh > "$compdir/_uv"; }
+[[ -f $compdir/_uvx ]] || { on_path "uvx" && uvx --generate-shell-completion zsh > "$compdir/_uvx"; }
 [[ -f $compdir/_pnpm ]] || pnpm completion zsh > "$compdir/_pnpm"
 [[ -f $compdir/_rg ]] || rg --generate complete-zsh > "$compdir/_rg"
 [[ -f $compdir/_rip ]] || rip completions zsh > "$compdir/_rip"
@@ -49,6 +49,15 @@ source "/home/kaykoe/.local/share/bash-completion/completions/am"
 source <(delta --generate-completion zsh)
 # if I try to put this in a file the keybindings don't work
 source <(fzf --zsh)
+
+# -----------------------------------------------------
+# functions
+# -----------------------------------------------------
+
+# Lazy-load (autoload) Zsh function files from a directory.
+ZFUNCDIR=${ZDOTDIR:-~}/.zsh_functions
+fpath=($ZFUNCDIR $fpath)
+autoload -Uz $ZFUNCDIR/*(.:t)
 
 # -----------------------------------------------------
 # manpages
@@ -88,16 +97,6 @@ _fzf_comprun() {
 # -----------------------------------------------------
 # Aliases
 # -----------------------------------------------------
-
-function clear {
-	if [[ "$1" =~ ^(-f|--force)$ ]]; then
-		shift
-		command clear "$@"
-	else
-		echo 'Use <C-l> or use -f/--force as the first argument for default clear behaviour' >&2
-		return 1
-	fi
-}
 
 alias reload='. ~/.zshrc'
 

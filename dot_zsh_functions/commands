@@ -1,0 +1,4 @@
+#!/usr/bin/env zsh
+
+# open an fzf window with all files on the path
+print -l ${commands##*/} | fzf

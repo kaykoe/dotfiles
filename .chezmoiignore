@@ -13,6 +13,7 @@ README.md
 
 {{- if not .zsh }}
 .zshrc
+.zsh_functions
 .zsh_plugins.txt
 {{ end -}}
 

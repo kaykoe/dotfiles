@@ -1,0 +1,7 @@
+if [[ "$1" =~ ^(-f|--force)$ ]]; then
+	shift
+	command clear "$@"
+else
+	echo 'Use <C-l> or use -f/--force as the first argument for default clear behaviour' >&2
+	return 1
+fi
