@@ -7,6 +7,7 @@
 
 {{- $email := promptStringOnce . "email" "Email address:" -}}
 
+{{- $sudo := promptBoolOnce . "sudo" "Do you have permissions to use sudo on this machine?" -}}
 {{- $zsh := promptBoolOnce . "zsh" "Do you want to use zsh on this machine?" -}}
 {{- $hasGUI := promptBoolOnce . "hasGUI" "Does this machine have a GUI?" -}}
 {{- $yazi := promptBoolOnce . "yazi" "Do you want to use yazi on this machine?" -}}
@@ -16,6 +17,7 @@
 data:
   email: {{ $email | quote }}
   osid: {{ $osid | quote }}
+  sudo: {{ $sudo }}
   zsh: {{ $zsh }}
   hasGUI: {{ $hasGUI }}
   isWSL: {{ $isWSL }}

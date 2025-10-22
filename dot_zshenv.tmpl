@@ -28,7 +28,11 @@ eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 
 {{ $cli_packages := dig .osid "cli" ( list ) .packages -}}
 {{- if not (has "neovim" $cli_packages) }}
+{{- if .sudo }}
 export PATH="/opt/nvim/bin:$PATH"
+{{- else }}
+export PATH="~/.opt/nvim/bin:$PATH"
+{{- end }}
 {{ end }}
 
 export PNPM_HOME="$HOME/.local/share/pnpm"
