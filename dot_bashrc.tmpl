@@ -99,6 +99,7 @@ _fzf_comprun() {
 set -o vi
 
 bind -m vi '" e":edit-and-execute-command'
+bind -m vi-insert '"\C-l":clear-screen'
 
 # completion
 bind 'set completion-ignore-case on'
