@@ -59,11 +59,8 @@ on_path_info 'pnpm' || { curl -fsSL https://get.pnpm.io/install.sh | sh - && { e
     awk '{ if ($0 == "# pnpm") exit; print }' ~/.bashrc | head -n -1 > ~/.bashrc_tmp && mv ~/.bashrc_tmp ~/.bashrc; }; }
 
 on_path_info 'cargo' || { curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --no-modify-path && . "$HOME/.cargo/env"; }
-on_path_info 'rg' || { cargo install --git https://github.com/BurntSushi/ripgrep ripgrep --features 'pcre2' {{ if .sudo -}}
+on_path_info 'rg' || { cargo install --git https://github.com/BurntSushi/ripgrep ripgrep --target=x86_64-unknown-linux-musl --features 'pcre2' {{ if .sudo -}}
 && sudo ln -s "$(which rg)" /usr/local/bin/rg
-{{- end }}; }
-on_path_info 'rip' || { cargo install --locked rip2 {{ if .sudo -}}
-&& sudo ln -s "$(which rip)" /usr/local/bin/rip
 {{- end }}; }
 
 {{ if (or .isWSL .hasGUI) }}
@@ -73,19 +70,25 @@ on_path_info 'wallust' || cargo install wallust --locked
 # TODO: eza and fd completions and manpages
 # TODO: total completion system improvement
 # TODO: bash config
-on_path_info 'bat' || { wget -qO- {{ gitHubLatestReleaseAssetURL "sharkdp/bat" "bat-v*-x86_64-unknown-linux-gnu.tar.gz" }} | tar -xzO --wildcards '*/bat' | {{ if .sudo -}}
+on_path_info 'bat' || { wget -qO- {{ gitHubLatestReleaseAssetURL "sharkdp/bat" "bat-v*-x86_64-unknown-linux-musl.tar.gz" }} | tar -xzO --wildcards '*/bat' | {{ if .sudo -}}
 sudo tee /usr/local/bin/bat &>/dev/null && sudo chmod 755 /usr/local/bin/bat; }
 {{- else -}}
 tee ~/.local/bin/bat &>/dev/null && chmod 755 ~/.local/bin/bat; }
 {{ end }}
 
-on_path_info 'fd' || { wget -qO- {{ gitHubLatestReleaseAssetURL "sharkdp/fd" "fd_*-x86_64-unknown-linux-gnu.tar.gz" }} | tar -xzO --wildcards '*/fd' | {{ if .sudo -}}
+on_path_info 'rip' || { wget -qO- {{ gitHubLatestReleaseAssetURL "MilesCranmer/rip2" "rip-Linux-x86_64-musl.tar.gz" }} | tar -xzO | {{ if .sudo -}}
+sudo tee /usr/local/bin/rip &>/dev/null && sudo chmod 755 /usr/local/bin/rip; }
+{{- else -}}
+tee ~/.local/bin/rip &>/dev/null && chmod 755 ~/.local/bin/rip; }
+{{ end }}
+
+on_path_info 'fd' || { wget -qO- {{ gitHubLatestReleaseAssetURL "sharkdp/fd" "fd-v*-x86_64-unknown-linux-musl.tar.gz" }} | tar -xzO --wildcards '*/fd' | {{ if .sudo -}}
 sudo tee /usr/local/bin/fd &>/dev/null && sudo chmod 755 /usr/local/bin/fd; }
 {{- else -}}
 tee ~/.local/bin/fd &>/dev/null && chmod 755 ~/.local/bin/fd; }
 {{ end }}
 
-on_path_info 'eza' || { wget -qO- https://github.com/eza-community/eza/releases/latest/download/eza_x86_64-unknown-linux-gnu.tar.gz | tar -xzO | {{ if .sudo -}}
+on_path_info 'eza' || { wget -qO- https://github.com/eza-community/eza/releases/latest/download/eza_x86_64-unknown-linux-musl.tar.gz | tar -xzO | {{ if .sudo -}}
 sudo tee /usr/local/bin/eza &>/dev/null && sudo chmod 755 /usr/local/bin/eza; }
 {{- else -}}
 tee ~/.local/bin/eza &>/dev/null && chmod 755 ~/.local/bin/eza; }
