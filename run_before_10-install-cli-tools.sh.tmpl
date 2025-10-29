@@ -59,7 +59,7 @@ on_path_info 'pnpm' || { curl -fsSL https://get.pnpm.io/install.sh | sh - && { e
     awk '{ if ($0 == "# pnpm") exit; print }' ~/.bashrc | head -n -1 > ~/.bashrc_tmp && mv ~/.bashrc_tmp ~/.bashrc; }; }
 
 on_path_info 'cargo' || { curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --no-modify-path && . "$HOME/.cargo/env"; }
-on_path_info 'rg' || { cargo install --git https://github.com/BurntSushi/ripgrep ripgrep --target=x86_64-unknown-linux-musl --features 'pcre2' {{ if .sudo -}}
+on_path_info 'rg' || { rustup target add x86_64-unknown-linux-musl && cargo install --git https://github.com/BurntSushi/ripgrep ripgrep --target=x86_64-unknown-linux-musl --features 'pcre2' {{ if .sudo -}}
 && sudo ln -s "$(which rg)" /usr/local/bin/rg
 {{- end }}; }
 
@@ -67,7 +67,7 @@ on_path_info 'rg' || { cargo install --git https://github.com/BurntSushi/ripgrep
 on_path_info 'wallust' || cargo install wallust --locked
 {{ end }}
 
-# TODO: eza and fd completions and manpages
+# TODO: eza and fd and ouch completions and manpages
 # TODO: total completion system improvement
 # TODO: bash config
 on_path_info 'bat' || { wget -qO- {{ gitHubLatestReleaseAssetURL "sharkdp/bat" "bat-v*-x86_64-unknown-linux-musl.tar.gz" }} | tar -xzO --wildcards '*/bat' | {{ if .sudo -}}
@@ -76,13 +76,19 @@ sudo tee /usr/local/bin/bat &>/dev/null && sudo chmod 755 /usr/local/bin/bat; }
 tee ~/.local/bin/bat &>/dev/null && chmod 755 ~/.local/bin/bat; }
 {{ end }}
 
-on_path_info 'rip' || { wget -qO- {{ gitHubLatestReleaseAssetURL "MilesCranmer/rip2" "rip-Linux-x86_64-musl.tar.gz" }} | tar -xzO | {{ if .sudo -}}
-sudo tee /usr/local/bin/rip &>/dev/null && sudo chmod 755 /usr/local/bin/rip; }
+on_path_info 'fd' || { wget -qO- {{ gitHubLatestReleaseAssetURL "sharkdp/fd" "fd-v*-x86_64-unknown-linux-musl.tar.gz" }} | tar -xzO --wildcards '*/fd' | {{ if .sudo -}}
+sudo tee /usr/local/bin/fd &>/dev/null && sudo chmod 755 /usr/local/bin/fd; }
 {{- else -}}
-tee ~/.local/bin/rip &>/dev/null && chmod 755 ~/.local/bin/rip; }
+tee ~/.local/bin/fd &>/dev/null && chmod 755 ~/.local/bin/fd; }
 {{ end }}
 
-on_path_info 'fd' || { wget -qO- {{ gitHubLatestReleaseAssetURL "sharkdp/fd" "fd-v*-x86_64-unknown-linux-musl.tar.gz" }} | tar -xzO --wildcards '*/fd' | {{ if .sudo -}}
+on_path_info 'delta' || { wget -qO- {{ gitHubLatestReleaseAssetURL "dandavison/delta" "delta-*-x86_64-unknown-linux-musl.tar.gz" }} | tar -xzO --wildcards '*/delta' | {{ if .sudo -}}
+sudo tee /usr/local/bin/delta &>/dev/null && sudo chmod 755 /usr/local/bin/delta; }
+{{- else -}}
+tee ~/.local/bin/delta &>/dev/null && chmod 755 ~/.local/bin/delta; }
+{{ end }}
+
+on_path_info 'tldr' || { wget -qO- {{ gitHubLatestReleaseAssetURL "tldr-pages/tlrc" "tlrc-v*-x86_64-unknown-linux-musl.tar.gz" }} | tar -xzO tldr | {{ if .sudo -}}
 sudo tee /usr/local/bin/fd &>/dev/null && sudo chmod 755 /usr/local/bin/fd; }
 {{- else -}}
 tee ~/.local/bin/fd &>/dev/null && chmod 755 ~/.local/bin/fd; }
@@ -94,17 +100,24 @@ sudo tee /usr/local/bin/eza &>/dev/null && sudo chmod 755 /usr/local/bin/eza; }
 tee ~/.local/bin/eza &>/dev/null && chmod 755 ~/.local/bin/eza; }
 {{ end }}
 
+on_path_info 'rip' || { wget -qO- https://github.com/MilesCranmer/rip2/releases/latest/download/rip-Linux-x86_64-musl.tar.gz | tar -xzO | {{ if .sudo -}}
+sudo tee /usr/local/bin/rip &>/dev/null && sudo chmod 755 /usr/local/bin/rip; }
+{{- else -}}
+tee ~/.local/bin/rip &>/dev/null && chmod 755 ~/.local/bin/rip; }
+{{ end }}
 
-
-on_path_info 'delta' || { wget -qO- https://getbin.io/dandavison/delta | tar -xzO --wildcards '*/delta' > ~/.local/bin/delta && chmod +x ~/.local/bin/delta; }
-on_path_info 'tldr' || { wget -qO- https://getbin.io/tldr-pages/tlrc | tar -xzO tldr > ~/.local/bin/tldr && chmod +x ~/.local/bin/tldr; }
+on_path_info 'ouch' || { wget -qO- https://github.com/ouch-org/ouch/releases/latest/download/ouch-x86_64-unknown-linux-musl.tar.gz | tar -xzO --wildcards '*/ouch' | {{ if .sudo -}}
+sudo tee /usr/local/bin/ouch &>/dev/null && sudo chmod 755 /usr/local/bin/ouch; }
+{{- else -}}
+tee ~/.local/bin/ouch &>/dev/null && chmod 755 ~/.local/bin/ouch; }
+{{ end }}
 
 {{- if not (has "neovim" $cli_packages) }}
 {{- $nvim_installed := true }}
 {{- if .sudo }}
 {{- $nvim_installed = not (glob "/opt/nvim" | empty) }}
 {{- else }}
-{{- $nvim_installed = not (glob "~/.opt/nvim" | empty) }}
+{{- $nvim_installed = not (glob "~/.opt/nvim/squashfs-root/usr/bin/nvim" | empty) }}
 {{- end }}
 {{- if not $nvim_installed }}
 echo 'Installing neovim...'
@@ -113,7 +126,9 @@ sudo mkdir -p /opt/nvim
 wget -qO- {{ gitHubLatestReleaseAssetURL "neovim/neovim" "nvim-linux-x86_64.tar.gz" }} | sudo tar -C /opt/nvim -xz --strip-components 1
 {{- else }}
 mkdir -p ~/.opt/nvim
-wget -qO- {{ gitHubLatestReleaseAssetURL "neovim/neovim" "nvim-linux-x86_64.tar.gz" }} | tar -C ~/.opt/nvim -xz --strip-components 1
+wget -q {{ gitHubLatestReleaseAssetURL "neovim/neovim" "nvim-linux-x86_64.appimage" }} -O ~/.opt/nvim/ && \
+    cd ~/.opt/nvim && nvim-linux-x86_64.appimage --appimage-extract \
+    && rm nvim-linux-x86_64.appimage && ln -s ~/.opt/nvim/squashfs-root/usr/bin/nvim ~/.local/bin/nvim
 {{- end }}
 {{- end }}
 {{- end }}
