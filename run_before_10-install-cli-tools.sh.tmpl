@@ -59,9 +59,6 @@ on_path_info 'pnpm' || { curl -fsSL https://get.pnpm.io/install.sh | sh - && { e
     awk '{ if ($0 == "# pnpm") exit; print }' ~/.bashrc | head -n -1 > ~/.bashrc_tmp && mv ~/.bashrc_tmp ~/.bashrc; }; }
 
 on_path_info 'cargo' || { curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --no-modify-path && . "$HOME/.cargo/env"; }
-on_path_info 'rg' || { rustup target add x86_64-unknown-linux-musl && cargo install --git https://github.com/BurntSushi/ripgrep ripgrep --target=x86_64-unknown-linux-musl --features 'pcre2' {{ if .sudo -}}
-&& sudo ln -s "$(which rg)" /usr/local/bin/rg
-{{- end }}; }
 
 {{ if (or .isWSL .hasGUI) }}
 on_path_info 'wallust' || cargo install wallust --locked
@@ -89,9 +86,15 @@ tee ~/.local/bin/delta &>/dev/null && chmod 755 ~/.local/bin/delta; }
 {{ end }}
 
 on_path_info 'tldr' || { wget -qO- {{ gitHubLatestReleaseAssetURL "tldr-pages/tlrc" "tlrc-v*-x86_64-unknown-linux-musl.tar.gz" }} | tar -xzO tldr | {{ if .sudo -}}
-sudo tee /usr/local/bin/fd &>/dev/null && sudo chmod 755 /usr/local/bin/fd; }
+sudo tee /usr/local/bin/tldr &>/dev/null && sudo chmod 755 /usr/local/bin/tldr; }
 {{- else -}}
-tee ~/.local/bin/fd &>/dev/null && chmod 755 ~/.local/bin/fd; }
+tee ~/.local/bin/tldr &>/dev/null && chmod 755 ~/.local/bin/tldr; }
+{{ end }}
+
+on_path_info 'rg' || { wget -qO- {{ gitHubLatestReleaseAssetURL "BurntSushi/ripgrep" "ripgrep-*-x86_64-unknown-linux-musl.tar.gz" }} | tar -xzO --wildcards '*/rg' | {{ if .sudo -}}
+sudo tee /usr/local/bin/rg &>/dev/null && sudo chmod 755 /usr/local/bin/rg; }
+{{- else -}}
+tee ~/.local/bin/rg &>/dev/null && chmod 755 ~/.local/bin/rg; }
 {{ end }}
 
 on_path_info 'eza' || { wget -qO- https://github.com/eza-community/eza/releases/latest/download/eza_x86_64-unknown-linux-musl.tar.gz | tar -xzO | {{ if .sudo -}}
@@ -125,10 +128,11 @@ echo 'Installing neovim...'
 sudo mkdir -p /opt/nvim
 wget -qO- {{ gitHubLatestReleaseAssetURL "neovim/neovim" "nvim-linux-x86_64.tar.gz" }} | sudo tar -C /opt/nvim -xz --strip-components 1
 {{- else }}
-mkdir -p ~/.opt/nvim
-wget -q {{ gitHubLatestReleaseAssetURL "neovim/neovim" "nvim-linux-x86_64.appimage" }} -O ~/.opt/nvim/ && \
-    cd ~/.opt/nvim && nvim-linux-x86_64.appimage --appimage-extract \
-    && rm nvim-linux-x86_64.appimage && ln -s ~/.opt/nvim/squashfs-root/usr/bin/nvim ~/.local/bin/nvim
+mkdir -p ~/.opt/nvim && pushd ~/.opt/nvim
+wget -q {{ gitHubLatestReleaseAssetURL "neovim/neovim" "nvim-linux-x86_64.appimage" }} && \
+    chmod +x ./nvim-linux-x86_64.appimage && ./nvim-linux-x86_64.appimage --appimage-extract && \
+    rm nvim-linux-x86_64.appimage && ln -s ~/.opt/nvim/squashfs-root/usr/bin/nvim ~/.local/bin/nvim
+popd
 {{- end }}
 {{- end }}
 {{- end }}
