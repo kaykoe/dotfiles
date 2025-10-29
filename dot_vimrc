@@ -1,0 +1,50 @@
+set scrolloff=8
+
+" Do incremental searching.
+set incsearch
+
+set nohlsearch
+set nu
+set rnu
+set ignorecase
+set smartcase
+set showmode
+
+nmap Y y$
+nmap 0 ^
+vmap 0 ^
+
+let mapleader = " "
+
+" 'harpoon'
+nmap <C-n> :tabn 1<CR>
+nmap <C-e> :tabn 2<CR>
+nmap <C-i> :tabn 3<CR>
+nmap <C-o> :tabn 4<CR>
+vmap <C-n> :tabn 1<CR>
+vmap <C-e> :tabn 2<CR>
+vmap <C-i> :tabn 3<CR>
+vmap <C-o> :tabn 4<CR>
+" system clipboard
+vmap <leader>y "+y
+vmap <leader>d "+d
+nmap <leader>dd "+dd
+nmap <leader>yy "+yy
+nmap <leader>Y "+Y
+nmap <leader>p "+p
+nmap <leader>P "+P
+vmap <leader>p "+p
+vmap <leader>P "+P
+
+vmap J :m '>+1<CR>gv=gv
+vmap K :m '<-2<CR>gv=gv
+
+nnoremap J mzJ`z
+nnoremap n nzz
+nnoremap N Nzz
+nnoremap <C-d> <C-d>zz
+nnoremap <C-u> <C-u>zz
+noremap j gj
+noremap k gk
+noremap gj j
+noremap gk k
