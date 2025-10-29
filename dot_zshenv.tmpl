@@ -30,6 +30,8 @@ eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 {{- if not (has "neovim" $cli_packages) }}
 {{- if .sudo }}
 export PATH="/opt/nvim/bin:$PATH"
+{{- else }}
+export PATH="~/.opt/nvim/squashfs-root/usr/bin:$PATH"
 {{- end }}
 {{ end }}
 

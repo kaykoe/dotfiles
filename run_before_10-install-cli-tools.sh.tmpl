@@ -131,7 +131,7 @@ wget -qO- {{ gitHubLatestReleaseAssetURL "neovim/neovim" "nvim-linux-x86_64.tar.
 mkdir -p ~/.opt/nvim && pushd ~/.opt/nvim
 wget -q {{ gitHubLatestReleaseAssetURL "neovim/neovim" "nvim-linux-x86_64.appimage" }} && \
     chmod +x ./nvim-linux-x86_64.appimage && ./nvim-linux-x86_64.appimage --appimage-extract && \
-    rm nvim-linux-x86_64.appimage && ln -s ~/.opt/nvim/squashfs-root/usr/bin/nvim ~/.local/bin/nvim
+    rm nvim-linux-x86_64.appimage
 popd
 {{- end }}
 {{- end }}
