@@ -2,7 +2,7 @@
 
 {{- $version := printf "v%s" ( ( split " " ( output "bat" "-V" ) )._1 | trim ) }}
 {{- $cli_packages := dig .osid "cli" ( list ) .packages }}
-{{- $comp_exists := not (glob ".zsh_completions/_bat" | empty) }}
+{{- $comp_exists := not (glob ".bash_completions/bat.bash" | empty) }}
 {{- $man_exists := not (glob ".man/man1/bat.1" | empty) }}
 
 # {{ print "bat version: " $version }}
@@ -22,7 +22,12 @@ mkdir -p ~/.man/man1
 command mv "${tmpdir}/bat.1" ~/.man/man1
 {{- end }}
 
+mkdir -p ~/.bash_completions
+bat --completion bash > ~/.bash_completions/bat.bash
+
+{{ if .zsh -}}
 mkdir -p ~/.zsh_completions
 bat --completion zsh > ~/.zsh_completions/_bat
+{{- end }}
 
 {{- end }}

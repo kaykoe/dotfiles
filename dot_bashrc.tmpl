@@ -57,6 +57,39 @@ fi
 
 eval "$(starship init bash)"
 
+# -----------------------------------------------------
+# completions
+# -----------------------------------------------------
+
+function on_path {
+	builtin type -P "$1" &>/dev/null
+}
+
+compdir=~/.bash_completions
+[[ -d $compdir ]] || mkdir -p "$compdir"
+
+[[ -f $compdir/uv.bash ]] || { on_path "uv" && uv generate-shell-completion bash >"$compdir/uv.bash"; }
+[[ -f $compdir/uvx.bash ]] || { on_path "uvx" && uvx --generate-shell-completion bash >"$compdir/uvx.bash"; }
+[[ -f $compdir/pnpm.bash ]] || pnpm completion bash >"$compdir/pnpm.bash"
+[[ -f $compdir/rg.bash ]] || rg --generate complete-bash >"$compdir/rg.bash"
+[[ -f $compdir/rip.bash ]] || rip completions bash >"$compdir/rip.bash"
+[[ -f $compdir/rustup.bash ]] || rustup completions bash >"$compdir/rustup.bash"
+[[ -f $compdir/cargo.bash ]] || rustup completions bash cargo >"$compdir/cargo.bash"
+[[ -f $compdir/chezmoi.bash ]] || chezmoi completion bash >"$compdir/chezmoi.bash"
+[[ -f $compdir/starship.bash ]] || starship completions bash >"$compdir/starship.bash"
+
+for file in "$compdir"/*; do
+	. "$file"
+done
+
+{{- if .hasGUI }}
+source "/home/kaykoe/.local/share/bash-completion/completions/am"
+{{ end }}
+
+complete -F _longopt fzf
+# if I try to put this in a file it gets overwritten by the other delta's completions
+source <(delta --generate-completion bash)
+# if I try to put this in a file the keybindings don't work
 source <(fzf --bash)
 
 # -----------------------------------------------------

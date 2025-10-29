@@ -2,7 +2,7 @@
 
 {{- $version :=  ( split " " ( output "tldr" "-v" ) )._1 | trim }}
 {{- $cli_packages := dig .osid "cli" ( list ) .packages }}
-{{- $comp_exists := not (glob ".zsh_completions/_tldr" | empty) }}
+{{- $comp_exists := not (glob ".bash_completions/tldr.bash" | empty) }}
 {{- $man_exists := not (glob ".man/man1/tldr.1" | empty) }}
 
 # {{ print "tldr version: " $version }}
@@ -10,10 +10,16 @@
 # {{ print "man file exists: " $man_exists }}
 
 set -e
-{{ printf "curl -fsSLO https://raw.githubusercontent.com/tldr-pages/tlrc/refs/tags/%s/completions/_tldr --output-dir ~/.zsh_completions" $version }}
+mkdir -p ~/.bash_completions
+{{ printf "curl -fsSL https://raw.githubusercontent.com/tldr-pages/tlrc/refs/tags/%s/completions/tldr.bash -o ~/.bash_completions/tldr.bash" $version }}
+{{ if .zsh }}
+mkdir -p ~/.zsh_completions
+{{ printf "curl -fsSL https://raw.githubusercontent.com/tldr-pages/tlrc/refs/tags/%s/completions/_tldr -o ~/.zsh_completions/_tldr" $version }}
+{{ end }}
 
 {{- if not (has "tlrc" $cli_packages) }}
 
-{{ printf "curl -fsSLO https://raw.githubusercontent.com/tldr-pages/tlrc/refs/tags/%s/tldr.1 --output-dir ~/.man/man1" $version }}
+mkdir -p ~/.man/man1
+{{ printf "curl -fsSL https://raw.githubusercontent.com/tldr-pages/tlrc/refs/tags/%s/tldr.1 -o ~/.man/man1/tldr.1" $version }}
 
 {{- end }}
