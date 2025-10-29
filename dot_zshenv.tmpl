@@ -20,11 +20,11 @@ fi
 export SUDO_EDITOR=vim
 export EDITOR=vim
 export VISUAL=vim
-{{- else }}
+{{- else -}}
 export SUDO_EDITOR={{- if .hasGUI -}}n{{- end -}}vim
 export EDITOR=nvim
 export VISUAL=nvim
-{{ end }}
+{{- end }}
 
 . "$HOME/.cargo/env"
 
