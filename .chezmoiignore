@@ -11,6 +11,10 @@
 LICENSE
 README.md
 
+{{- if not .neovim }}
+.config/nvim
+{{ end -}}
+
 {{- if not .zsh }}
 .zshrc
 .zsh_functions

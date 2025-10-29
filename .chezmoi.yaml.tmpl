@@ -9,6 +9,7 @@
 
 {{- $sudo := promptBoolOnce . "sudo" "Do you have permissions to use sudo on this machine?" -}}
 {{- $zsh := promptBoolOnce . "zsh" "Do you want to use zsh on this machine?" -}}
+{{- $neovim := promptBoolOnce . "neovim" "Do you want to use neovim on this machine?" -}}
 {{- $hasGUI := promptBoolOnce . "hasGUI" "Does this machine have a GUI?" -}}
 {{- $yazi := promptBoolOnce . "yazi" "Do you want to use yazi on this machine?" -}}
 {{- $tmux := promptBoolOnce . "tmux" "Do you want to use tmux on this machine?" -}}
@@ -19,6 +20,7 @@ data:
   osid: {{ $osid | quote }}
   sudo: {{ $sudo }}
   zsh: {{ $zsh }}
+  neovim: {{ $neovim }}
   hasGUI: {{ $hasGUI }}
   isWSL: {{ $isWSL }}
   yazi: {{ $yazi }}

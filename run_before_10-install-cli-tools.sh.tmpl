@@ -115,7 +115,7 @@ sudo tee /usr/local/bin/ouch &>/dev/null && sudo chmod 755 /usr/local/bin/ouch; 
 tee ~/.local/bin/ouch &>/dev/null && chmod 755 ~/.local/bin/ouch; }
 {{ end }}
 
-{{- if not (has "neovim" $cli_packages) }}
+{{- if not (or (has "neovim" $cli_packages) (not .neovim)) }}
 {{- $nvim_installed := true }}
 {{- if .sudo }}
 {{- $nvim_installed = not (glob "/opt/nvim" | empty) }}

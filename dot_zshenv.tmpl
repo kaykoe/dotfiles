@@ -16,9 +16,15 @@ if [ -d "/usr/local/go/bin" ]; then
 	PATH=$PATH:/usr/local/go/bin
 fi
 
-export SUDO_EDITOR=nvim
+{{ if not .neovim -}}
+export SUDO_EDITOR=vim
+export EDITOR=vim
+export VISUAL=vim
+{{- else }}
+export SUDO_EDITOR={{- if .hasGUI -}}n{{- end -}}vim
 export EDITOR=nvim
 export VISUAL=nvim
+{{ end }}
 
 . "$HOME/.cargo/env"
 
@@ -27,7 +33,7 @@ eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 {{ end }}
 
 {{ $cli_packages := dig .osid "cli" ( list ) .packages -}}
-{{- if not (has "neovim" $cli_packages) }}
+{{- if not (or (has "neovim" $cli_packages) (not .neovim)) }}
 {{- if .sudo }}
 export PATH="/opt/nvim/bin:$PATH"
 {{- else }}

@@ -6,34 +6,41 @@
 [pull]
 	rebase = true
 [diff]
-    colorMoved = default
+	colorMoved = default
 [rerere]
 	enabled = true
 [merge]
-    conflictStyle = zdiff3
+	{{- if .neovim }}
+	conflictStyle = zdiff3
 	tool = "nvim"
+	{{- else }}
+	conflictStyle = diff3
+	tool = "vimdiff"
+	{{- end }}
 
 [mergetool]
 	keepBackup = false
 	prompt = false
 
+{{ if .neovim -}}
 [mergetool "nvim"]
 	cmd = "nvim -d -c \"wincmd l\" -c \"norm ]c\" \"$LOCAL\" \"$MERGED\" \"$REMOTE\""
+{{- end }}
 
 [core]
-    pager = delta
+	pager = delta
 
 [interactive]
-    diffFilter = delta --color-only --diff-so-fancy
+	diffFilter = delta --color-only --diff-so-fancy
 
 [include]
 	path = ~/.config/delta/themes.gitconfig
 
 [delta]
-    features = chameleon
+	features = chameleon
 	line-numbers = true
 	side-by-side = true
-    navigate = true
+	navigate = true
 
 [push]
 	autoSetupRemote = true
