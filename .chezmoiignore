@@ -24,6 +24,7 @@ README.md
 {{- if not .hasGUI }}
 .config/kanata
 .obsidian.vimrc
+.ideavimrc
 .config/zed
 .config/kitty
 .config/hypr
@@ -37,6 +38,7 @@ README.md
 
 {{- if not .tmux }}
 .config/tmux
+.config/sesh
 .tmux.conf
 {{ end -}}
 
