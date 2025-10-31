@@ -21,6 +21,7 @@ packages:
         cli:
             - "fd-find"
             - "eza"
+            - "hyperfine"
         gui:
             - "i3"
     linux_ubuntu: *debian
@@ -33,7 +34,6 @@ packages:
         - "clang"
         - "gcc"
         - "make"
-        - "zsh"
         - "tmux"
         - "btop"
         - "jq"

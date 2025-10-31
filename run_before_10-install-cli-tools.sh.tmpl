@@ -64,9 +64,11 @@ on_path_info 'cargo' || { curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup
 on_path_info 'wallust' || cargo install wallust --locked
 {{ end }}
 
-# TODO: eza and fd and ouch completions and manpages
+# TODO: fd completions and manpages
+# TODO: hyperfine
+# TODO: vimrc
 # TODO: total completion system improvement
-# TODO: bash config
+# TODO: bash fzf tab
 on_path_info 'bat' || { wget -qO- {{ gitHubLatestReleaseAssetURL "sharkdp/bat" "bat-v*-x86_64-unknown-linux-musl.tar.gz" }} | tar -xzO --wildcards '*/bat' | {{ if .sudo -}}
 sudo tee /usr/local/bin/bat &>/dev/null && sudo chmod 755 /usr/local/bin/bat; }
 {{- else -}}

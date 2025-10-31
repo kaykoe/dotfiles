@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-{{- $version := printf "v%s" ( ( split " " ( output "ouch" "-V" ) )._1 | trim ) }}
+{{- $version := printf "%s" ( ( split " " ( output "ouch" "-V" ) )._1 | trim ) }}
 {{- $cli_packages := dig .osid "cli" ( list ) .packages }}
 {{- $comp_exists := not (glob ".bash_completions/ouch.bash" | empty) }}
 {{- $man_exists := not (glob ".man/man1/ouch.1" | empty) }}

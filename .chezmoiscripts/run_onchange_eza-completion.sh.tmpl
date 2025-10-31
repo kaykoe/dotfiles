@@ -1,0 +1,35 @@
+#!/usr/bin/env bash
+
+{{- $version := ( ( split " " ( ( split "\n" ( output "eza" "--version" ) )._1 ) )._0 | trim ) }}
+{{- $cli_packages := dig .osid "cli" ( list ) .packages }}
+{{- $comp_exists := not (glob ".bash_completions/eza.bash" | empty) }}
+{{- $man_exists := not (glob ".man/man1/eza.1" | empty) }}
+
+# {{ print "eza version: " $version }}
+# {{ print "completion file exists: " $comp_exists }}
+# {{ print "man file exists: " $man_exists }}
+
+{{- if not (has "eza" $cli_packages) }}
+set -e
+
+tmpdir="$(mktemp -d)"
+trap 'rm -rf "$tmpdir"' EXIT
+
+wget -qO- {{ gitHubReleaseAssetURL "eza-community/eza" $version "man-*.tar.gz" }} | tar -C "$tmpdir" --strip-components 3 -xz
+wget -qO- {{ gitHubReleaseAssetURL "eza-community/eza" $version "completions-*.tar.gz" }} | tar -C "$tmpdir" --strip-components 3 -xz --wildcards '*/*/*eza'
+
+mkdir -p ~/.bash_completions
+command mv "${tmpdir}/eza" ~/.bash_completions/eza.bash
+
+{{ if .zsh -}}
+mkdir -p ~/.zsh_completions
+command mv -t ~/.zsh_completions "${tmpdir}/_eza"
+{{- end }}
+
+mkdir -p ~/.man/man1
+command mv -t ~/.man/man1 "${tmpdir}"/eza.1
+
+mkdir -p ~/.man/man5
+command mv -t ~/.man/man5 "${tmpdir}"/*.5
+
+{{- end }}

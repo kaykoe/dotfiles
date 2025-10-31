@@ -11,7 +11,7 @@
 set -e
 
 echo 'Installing packages...'
-{{ print $package_manager_cmd }} {{ range ( concat .packages.cli_common ( dig .osid "cli" ( list ) .packages ) ) }} {{- . | quote }} {{ end }}
+{{ print $package_manager_cmd }} {{ range ( concat .packages.cli_common ( dig .osid "cli" ( list ) .packages ) ) }} {{- . | quote }} {{ end }} {{- if .zsh }}"zsh"{{ end }}
 
 {{ if .hasGUI }}
 {{- print $package_manager_cmd }} {{ range ( concat .packages.gui_common ( dig .osid "gui" ( list ) .packages ) ) }} {{- . | quote }} {{ end }}
