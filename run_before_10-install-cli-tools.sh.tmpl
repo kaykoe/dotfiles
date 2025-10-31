@@ -19,17 +19,17 @@ function on_path_info {
 
 if on_path "batcat" && ! on_path "bat";then
     {{ if .sudo }}
-    sudo ln -s "$(whence -p batcat)" /usr/local/bin/bat
+    sudo ln -s "$(builtin type -P batcat)" /usr/local/bin/bat
     {{ else }}
-    ln -s "$(whence -p batcat)" ~/.local/bin/bat
+    ln -s "$(builtin type -P batcat)" ~/.local/bin/bat
     {{ end }}
 fi
 
 if on_path "fdfind" && ! on_path "fd";then
     {{ if .sudo }}
-    sudo ln -s "$(whence -p fdfind)" /usr/local/bin/fd
+    sudo ln -s "$(builtin type -P fdfind)" /usr/local/bin/fd
     {{ else }}
-    ln -s "$(whence -p fdfind)" ~/.local/bin/fd
+    ln -s "$(builtin type -P fdfind)" ~/.local/bin/fd
     {{ end }}
 fi
 {{- end }}
