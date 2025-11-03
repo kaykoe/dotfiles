@@ -3,7 +3,9 @@
     url: https://raw.githubusercontent.com/dandavison/delta/main/themes.gitconfig
     refreshPeriod: 168h
 
+{{ if .zsh -}}
 .zsh_completions/_fzf:
     type: file
     url: https://raw.githubusercontent.com/lmburns/dotfiles/refs/heads/master/.config/zsh/completions/_fzf
     refreshPeriod: 168h
+{{ end -}}
