@@ -23,6 +23,7 @@ README.md
 {{ end -}}
 
 {{- if not .hasGUI }}
+.local/bin/matlab
 .config/kanata
 .obsidian.vimrc
 .ideavimrc

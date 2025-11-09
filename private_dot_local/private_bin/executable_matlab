@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+
+if ! { docker container ls --all --format json | jq --raw-output .Names | grep -q '^matlab$'; }; then
+	docker run -it --name matlab -v --shm-size=512M -p 5901:5901 -d mathworks/matlab:r2025b -vnc
+fi
+docker start matlab
+docker cp ~/Documents/MATLAB matlab:/home/matlab/Documents/
+
+function connect() (
+	sleep 1
+	VNC_PASSWORD='matlab' vncviewer localhost:1 2>/dev/null &
+	job_id=$!
+	while kill -0 "$job_id" 2>/dev/null; do
+		sleep 10
+		docker cp matlab:/home/matlab/Documents/MATLAB ~/Documents/
+	done
+	docker stop matlab
+	echo 'matlab container stopped'
+)
+connect &
