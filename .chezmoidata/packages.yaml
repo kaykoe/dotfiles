@@ -10,6 +10,7 @@ packages:
             - "fastfetch"
             - "ouch"
             - "ripgrep"
+            - "gh"
         gui:
             - "hyprland"
             - "hypridle"
