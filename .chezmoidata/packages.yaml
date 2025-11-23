@@ -35,6 +35,7 @@ packages:
         - "clang"
         - "gcc"
         - "make"
+        - "unzip"
         - "tmux"
         - "btop"
         - "jq"

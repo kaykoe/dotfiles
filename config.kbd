@@ -1,3 +1,4 @@
+;; Kanata config
 (defsrc
   esc
   grv  1    2    3    4    5    6    7    8    9    0    -    =    bspc
@@ -25,6 +26,15 @@
   lctl lmet lalt           spc            ralt rmet rctl
 )
 
+(deflayer macro
+  _
+  @grl @dp1 @dp2 @dp3 @dp4 @dp5 @dp6 @dp7 @dp8 @dp9 @dp0 _    _    _
+  _    @dr1 @dr2 @dr3 @dr4 @dr5 @dr6 @dr7 @dr8 @dr9 @dr0 _    _    _
+  _    _    _    _    _    _    _    _    _    _    _    _    _
+  _    _    _    _    _    _    _    _    _    _    _    _
+  _    _    _              @dst           _    _    _
+)
+
 (defvirtualkeys relf24 (release-key f24))
 (defvar
   quick-tap-term 90
@@ -42,6 +52,29 @@
   ;; layer-switch changes the base layer.
   cmk (layer-switch colemak-dhk)
   qwr (layer-switch qwerty)
+  mac (one-shot-press 3000 (layer-while-held macro))
+
+  dr0 (dynamic-macro-record 0)
+  dr1 (dynamic-macro-record 1)
+  dr2 (dynamic-macro-record 2)
+  dr3 (dynamic-macro-record 3)
+  dr4 (dynamic-macro-record 4)
+  dr5 (dynamic-macro-record 5)
+  dr6 (dynamic-macro-record 6)
+  dr7 (dynamic-macro-record 7)
+  dr8 (dynamic-macro-record 8)
+  dr9 (dynamic-macro-record 9)
+  dp0 (dynamic-macro-play 0)
+  dp1 (dynamic-macro-play 1)
+  dp2 (dynamic-macro-play 2)
+  dp3 (dynamic-macro-play 3)
+  dp4 (dynamic-macro-play 4)
+  dp5 (dynamic-macro-play 5)
+  dp6 (dynamic-macro-play 6)
+  dp7 (dynamic-macro-play 7)
+  dp8 (dynamic-macro-play 8)
+  dp9 (dynamic-macro-play 9)
+  dst (dynamic-macro-record-stop-truncate 2)
 
   ;; tap for capslk, hold for lctl
   cap (tap-hold-release $quick-tap-term $tapping-term esc caps)
@@ -58,10 +91,10 @@
 ;; behaviour is used when pressing that key.
 (deflayer layers
  esc
-  _    _    _    _    _    _    _    _    _    _    _    _    _	   _
-  _    _    _    _    _    _    _    @cmk @qwr lrld _    _    _    _
-  _    _    _    _    _    _    _    _    _    _    _    _    _
-  _    _    _    _    _    _    _    _    _    _    _    _
+  _    _    _    _    _    _    _    _    _    _    _    _    _    _
+  _    @qwr _    _    _    _    _    _    _    _    _    _    _    _
+  _    _    lrld _    _    _    _    _    _    _    _    _    _
+  _    _    _    @cmk _    _    @mac _    _    _    _    _
   _    _    _              _              _    _    _
 )
 (defcfg

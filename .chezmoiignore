@@ -11,6 +11,10 @@
 LICENSE
 README.md
 
+# These get copied to /etc so they are ignored so they don't end up in my home directory
+kanata.service
+config.kbd
+
 {{- if not .neovim }}
 .config/nvim
 {{ end -}}
@@ -24,7 +28,6 @@ README.md
 
 {{- if not .hasGUI }}
 .local/bin/matlab
-.config/kanata
 .obsidian.vimrc
 .ideavimrc
 .config/zed

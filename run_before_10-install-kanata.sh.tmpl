@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+
+function on_path {
+	builtin type -P "$1" &>/dev/null
+}
+function on_path_info {
+	if ! on_path "$1"; then
+		echo "Installing $1"
+		return 1
+	fi
+}
+
+{{ if .hasGUI -}}
+shopt -s failglob
+set -o pipefail
+if ! on_path_info 'kanata'; then
+	wget -q {{ gitHubLatestReleaseAssetURL "jtroo/kanata" "linux-binaries-x64-v*.zip" }} &&
+		sudo unzip -p linux-binaries-x64-v*.zip kanata_linux_x64 | sudo tee /usr/bin/kanata >/dev/null &&
+		sudo chmod +x /usr/bin/kanata
+	rm linux-binaries-x64-v*.zip
+fi
+{{ end }}
