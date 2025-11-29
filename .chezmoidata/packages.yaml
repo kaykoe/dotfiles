@@ -11,12 +11,15 @@ packages:
             - "ouch"
             - "ripgrep"
             - "gh"
+            - "distrobox"
+            - "docker"
         gui:
             - "hyprland"
             - "hypridle"
             - "hyprlock"
             - "waybar"
             - "wlogout"
+            - "easyeffects"
             - "rofi-wayland"
     linux_debian: &debian
         cli:
@@ -30,6 +33,7 @@ packages:
         - "ncdu"
         - "git"
         - "curl"
+        - "bc"
         - "wget"
         - "vim"
         - "clang"
@@ -37,8 +41,13 @@ packages:
         - "make"
         - "unzip"
         - "tmux"
+        - "nmap"
         - "btop"
         - "jq"
         - "yq"
     gui_common:
         - "kitty"
+        - "pavucontrol"
+        - "ffmpeg"
+        - "mpv"
+        - "gimp"
