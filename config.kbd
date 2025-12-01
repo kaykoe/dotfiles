@@ -31,7 +31,7 @@
   @grl @dp1 @dp2 @dp3 @dp4 @dp5 @dp6 @dp7 @dp8 @dp9 @dp0 _    _    _
   _    @dr1 @dr2 @dr3 @dr4 @dr5 @dr6 @dr7 @dr8 @dr9 @dr0 _    _    _
   _    _    _    _    _    _    _    _    _    _    _    _    _
-  _    _    _    _    _    _    _    _    _    _    _    _
+  _    _    _    _    @del _    _    _    _    _    _    _
   _    _    _              @dst           _    _    _
 )
 
@@ -75,6 +75,7 @@
   dp8 (dynamic-macro-play 8)
   dp9 (dynamic-macro-play 9)
   dst (dynamic-macro-record-stop-truncate 2)
+  del (on-press-fakekey-delay 100)
 
   ;; tap for capslk, hold for lctl
   cap (tap-hold-release $quick-tap-term $tapping-term esc caps)
