@@ -15,6 +15,10 @@ README.md
 kanata.service
 config.kbd
 
+{{- if ne .osid "linux_opensuse_tumbleweed" }}
+.chezmoiscripts/run_once_000-add-packman.sh
+{{ end -}}
+
 {{- if not .neovim }}
 .config/nvim
 {{ end -}}

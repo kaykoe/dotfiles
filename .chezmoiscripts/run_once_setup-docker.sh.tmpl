@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+{{ $docker_exists := lookPath "docker" }}
+
+{{ if (and $docker_exists .sudo) -}}
+set -e
+
+sudo systemctl enable docker
+sudo usermod -G docker -a "$USER"
+newgrp docker
+sudo systemctl restart docker
+{{ end -}}
