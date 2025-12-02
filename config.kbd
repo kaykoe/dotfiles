@@ -4,7 +4,7 @@
   grv  1    2    3    4    5    6    7    8    9    0    -    =    bspc
   tab  q    w    e    r    t    y    u    i    o    p    [    ]    \
   caps a    s    d    f    g    h    j    k    l    ;    '    ret
-  lsft z    x    c    v    b    n    m    ,    .    /    rsft
+  lsft IntlBackslash z    x    c    v    b    n    m    ,    .    /    rsft
   lctl lmet lalt           spc            ralt rmet rctl
 )
 
@@ -13,7 +13,7 @@
   @grl 1    2    3    4    5    6    7    8    9    0    -    =    bspc
   tab  q    w    f    p    b    j    l    u    y    ;    [    ]    \
   esc  a    r    s    t    g    k    n    e    i    o    '    ret
-  lsft z    x    c    d    v    m    h    ,    .    /    rsft
+  lsft shft  z    x    c    d    v    m    h    ,    .    /    rsft
   lctl lmet lalt           spc            ralt rmet rctl
 )
 
@@ -22,7 +22,7 @@
   @grl 1    2    3    4    5    6    7    8    9    0    -    =    bspc
   tab  q    w    e    r    t    y    u    i    o    p    [    ]    \
   caps a    s    d    f    g    h    j    k    l    ;    '    ret
-  lsft z    x    c    v    b    n    m    ,    .    /    rsft
+  lsft IntlBackslash  z    x    c    v    b    n    m    ,    .    /    rsft
   lctl lmet lalt           spc            ralt rmet rctl
 )
 
@@ -31,11 +31,10 @@
   @grl @dp1 @dp2 @dp3 @dp4 @dp5 @dp6 @dp7 @dp8 @dp9 @dp0 _    _    _
   _    @dr1 @dr2 @dr3 @dr4 @dr5 @dr6 @dr7 @dr8 @dr9 @dr0 _    _    _
   _    _    _    _    _    _    _    _    _    _    _    _    _
-  _    _    _    _    @del _    _    _    _    _    _    _
+  _    _    _    _    _    @del _    _    _    _    _    _    _
   _    _    _              @dst           _    _    _
 )
 
-(defvirtualkeys relf24 (release-key f24))
 (defvar
   quick-tap-term 90
   tapping-term 185
@@ -95,7 +94,7 @@
   _    _    _    _    _    _    _    _    _    _    _    _    _    _
   _    @qwr _    _    _    _    _    _    _    _    _    _    _    _
   _    _    lrld _    _    _    _    _    _    _    _    _    _
-  _    _    _    @cmk _    _    @mac _    _    _    _    _
+  _    _    _    _    @cmk _    _    @mac _    _    _    _    _
   _    _    _              _              _    _    _
 )
 (defcfg

@@ -9,7 +9,7 @@ StartLimitIntervalSec=30
 [Service]
 Type=simple
 User=kanata
-ExecStart=/usr/bin/sh -c 'exec /usr/bin/kanata --quiet --cfg /etc/kanata/config.kbd'
+ExecStart=/usr/bin/sh -c 'exec /usr/bin/kanata --cfg /etc/kanata/config.kbd'
 Restart=on-failure
 # Security
 CapabilityBoundingSet=
