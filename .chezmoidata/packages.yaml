@@ -54,6 +54,7 @@ packages:
         - "ffmpeg"
         - "mpv"
         - "gimp"
+        - "brightnessctl"
     laptop:
         - "tlpui"
         - "powertop"
