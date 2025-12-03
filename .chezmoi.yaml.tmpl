@@ -15,6 +15,19 @@
 {{- $tmux := promptBoolOnce . "tmux" "Do you want to use tmux on this machine?" -}}
 {{- $brew := promptBoolOnce . "brew" "Do you want to use brew on this machine?" -}}
 
+{{- $chassisType := "desktop" }}
+{{- if eq .chezmoi.os "darwin" }}
+{{-   if contains "MacBook" (output "system_profiler" "SPHardwareDataType") }}
+{{-     $chassisType = "laptop" }}
+{{-   else }}
+{{-     $chassisType = "desktop" }}
+{{-   end }}
+{{- else if eq .chezmoi.os "linux" }}
+{{-   $chassisType = (output "hostnamectl" "--json=short" | mustFromJson).Chassis }}
+{{- else if eq .chezmoi.os "windows" }}
+{{-   $chassisType = (output "powershell.exe" "-NoProfile" "-NonInteractive" "-Command" "if ((Get-CimInstance -Class Win32_Battery | Measure-Object).Count -gt 0) { Write-Output 'laptop' } else { Write-Output 'desktop' }") | trim }}
+{{- end }}
+
 data:
   email: {{ $email | quote }}
   osid: {{ $osid | quote }}
@@ -23,6 +36,7 @@ data:
   neovim: {{ $neovim }}
   hasGUI: {{ $hasGUI }}
   isWSL: {{ $isWSL }}
+  isLaptop: {{ eq $chassisType "laptop" }}
   yazi: {{ $yazi }}
   tmux: {{ $tmux }}
   brew: {{ $brew }}

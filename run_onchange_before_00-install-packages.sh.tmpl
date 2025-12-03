@@ -17,4 +17,8 @@ echo 'Installing packages...'
 {{- print $package_manager_cmd }} {{ range ( concat .packages.gui_common ( dig .osid "gui" ( list ) .packages ) ) }} {{- . | quote }} {{ end }}
 {{ end -}}
 
+{{ if .isLaptop }}
+{{- print $package_manager_cmd }} {{ range .packages.laptop }} {{- . | quote }} {{ end }}
+{{ end -}}
+
 {{ end -}}

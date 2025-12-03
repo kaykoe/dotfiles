@@ -51,3 +51,6 @@ packages:
         - "ffmpeg"
         - "mpv"
         - "gimp"
+    laptop:
+        - "tlpui"
+        - "powertop"
