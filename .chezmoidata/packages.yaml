@@ -15,6 +15,7 @@ packages:
             - "docker"
         gui:
             - "hyprland"
+            - "kdeconnect-kde"
             - "hypridle"
             - "hyprlock"
             - "waybar"
