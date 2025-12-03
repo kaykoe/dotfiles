@@ -15,6 +15,7 @@ packages:
             - "docker"
         gui:
             - "hyprland"
+            - "wireguard-tools"
             - "kdeconnect-kde"
             - "hypridle"
             - "hyprlock"
