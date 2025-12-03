@@ -21,6 +21,7 @@ packages:
             - "wlogout"
             - "easyeffects"
             - "rofi-wayland"
+            - "dragon-drop"
     linux_debian: &debian
         cli:
             - "fd-find"
