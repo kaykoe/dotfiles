@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+
+{{- $version := printf "%s" ( ( split " " ( output "uv" "self" "version" ) )._1 | trim ) }}
+{{- $comp_exists := eq (len (glob ".bash_completions/{uv,uvx}.bash")) 2 }}
+
+# {{ print "uv version: " $version }}
+# {{ print "completion file exists: " $comp_exists }}
+
+set -e
+
+mkdir -p ~/.bash_completions
+uv generate-shell-completion bash > ~/.bash_completions/uv.bash
+uvx --generate-shell-completion bash > ~/.bash_completions/uvx.bash
+
+{{ if .zsh -}}
+mkdir -p ~/.zsh_completions
+uv generate-shell-completion zsh > ~/.zsh_completions/_uv
+uvx --generate-shell-completion zsh > ~/.zsh_completions/_uvx
+{{- end }}

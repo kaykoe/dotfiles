@@ -27,8 +27,6 @@ antidote load
 compdir=${ZDOTDIR:-~}/.zsh_completions
 [[ -d $compdir ]] || mkdir -p "$compdir"
 
-[[ -f $compdir/_uv ]] || { on_path "uv" && uv generate-shell-completion zsh > "$compdir/_uv"; }
-[[ -f $compdir/_uvx ]] || { on_path "uvx" && uvx --generate-shell-completion zsh > "$compdir/_uvx"; }
 [[ -f $compdir/_pnpm ]] || pnpm completion zsh > "$compdir/_pnpm"
 [[ -f $compdir/_rg ]] || rg --generate complete-zsh > "$compdir/_rg"
 [[ -f $compdir/_rip ]] || rip completions zsh > "$compdir/_rip"

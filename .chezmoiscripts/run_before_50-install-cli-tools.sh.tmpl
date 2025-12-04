@@ -58,6 +58,7 @@ on_path_info 'pnpm' || { curl -fsSL https://get.pnpm.io/install.sh | sh - && { e
     {{- end }}
     awk '{ if ($0 == "# pnpm") exit; print }' ~/.bashrc | head -n -1 > ~/.bashrc_tmp && mv ~/.bashrc_tmp ~/.bashrc; }; }
 
+on_path_info 'uv' || curl -LsSf https://astral.sh/uv/install.sh | env UV_NO_MODIFY_PATH=1 sh
 on_path_info 'cargo' || { curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --no-modify-path && . "$HOME/.cargo/env"; }
 
 {{ if (or .isWSL .hasGUI) }}

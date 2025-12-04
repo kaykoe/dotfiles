@@ -68,8 +68,6 @@ function on_path {
 compdir=~/.bash_completions
 [[ -d $compdir ]] || mkdir -p "$compdir"
 
-[[ -f $compdir/uv.bash ]] || { on_path "uv" && uv generate-shell-completion bash >"$compdir/uv.bash"; }
-[[ -f $compdir/uvx.bash ]] || { on_path "uvx" && uvx --generate-shell-completion bash >"$compdir/uvx.bash"; }
 [[ -f $compdir/pnpm.bash ]] || pnpm completion bash >"$compdir/pnpm.bash"
 [[ -f $compdir/rg.bash ]] || rg --generate complete-bash >"$compdir/rg.bash"
 [[ -f $compdir/rip.bash ]] || rip completions bash >"$compdir/rip.bash"
