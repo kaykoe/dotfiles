@@ -15,6 +15,8 @@ README.md
 kanata.service
 config.kbd
 
+winapps-compose.yaml
+
 {{- if ne .osid "linux_opensuse_tumbleweed" }}
 .chezmoiscripts/run_once_000-add-packman.sh.tmpl
 {{ end -}}

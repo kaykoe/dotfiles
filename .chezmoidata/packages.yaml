@@ -13,6 +13,7 @@ packages:
             - "gh"
             - "distrobox"
             - "docker"
+            - "docker-compose"
         gui:
             - "hyprland"
             - "bitwarden"
@@ -25,6 +26,12 @@ packages:
             - "easyeffects"
             - "rofi-wayland"
             - "dragon-drop"
+        winapps:
+            - "dialog"
+            - "freerdp"
+            - "iproute2"
+            - "libnotify-tools" 
+            - "netcat-openbsd"
     linux_debian: &debian
         cli:
             - "fd-find"

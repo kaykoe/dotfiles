@@ -5,7 +5,7 @@
 {{ if (and $docker_exists .sudo) -}}
 set -e
 
-sudo systemctl enable docker
+sudo systemctl enable --now docker
 sudo usermod -G docker -a "$USER"
 newgrp docker
 sudo systemctl restart docker
