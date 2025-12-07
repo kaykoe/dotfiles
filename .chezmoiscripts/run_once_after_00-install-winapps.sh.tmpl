@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 
-{{ if .winapps -}}
 set -e
 git clone --recurse-submodules --remote-submodules https://github.com/winapps-org/winapps.git ~/.local/bin/winapps-src
 echo -e '\n\nGo to 127.0.0.1:8006 and do the initial setup and app installation of Windows, then press Ctrl-c to continue\n'
@@ -10,4 +9,3 @@ docker compose --file ~/.local/bin/winapps-src/compose.yaml up -d
 echo -e \n\n'Go to 127.0.0.1:8006 and click ok when asked to log out to be able to properly install.\n'
 sleep 10
 bash <(curl https://raw.githubusercontent.com/winapps-org/winapps/main/setup.sh)
-{{ end }}

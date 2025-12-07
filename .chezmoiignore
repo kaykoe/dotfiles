@@ -17,8 +17,14 @@ config.kbd
 
 winapps-compose.yaml
 
+{{- if not .winapps }}
+.chezmoiscripts/run_once_after_00-install-winapps.sh
+.chezmoiscripts/run_onchange_after_10-update-winapps-container.sh.tmpl
+.config/winapps
+{{ end -}}
+
 {{- if ne .osid "linux_opensuse_tumbleweed" }}
-.chezmoiscripts/run_once_000-add-packman.sh.tmpl
+.chezmoiscripts/run_once_before_000-add-packman.sh.tmpl
 {{ end -}}
 
 {{- if not .neovim }}
@@ -39,7 +45,8 @@ winapps-compose.yaml
 .config/zed
 .config/kitty
 .config/hypr
-.chezmoiscripts/run_once_60-install-flatpak-apps.sh
+.chezmoiscripts/run_once_install-flatpak-apps.sh
+.chezmoiscripts/run_once_install-zen.sh
 
 {{- if not .isWSL }}
 .config/wallust
