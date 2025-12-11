@@ -80,10 +80,6 @@ for file in "$compdir"/*; do
 	. "$file"
 done
 
-{{- if .hasGUI }}
-source "/home/kaykoe/.local/share/bash-completion/completions/am"
-{{ end }}
-
 complete -F _longopt fzf
 complete -F _longopt fd
 # if I try to put this in a file it gets overwritten by the other delta's completions

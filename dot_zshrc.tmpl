@@ -37,12 +37,6 @@ compdir=${ZDOTDIR:-~}/.zsh_completions
 
 fpath=($fpath $compdir)
 
-{{- if .hasGUI }}
-autoload -Uz bashcompinit
-bashcompinit
-source "/home/kaykoe/.local/share/bash-completion/completions/am"
-{{ end }}
-
 # if I try to put this in a file it gets overwritten by the other delta's completions
 source <(delta --generate-completion zsh)
 # if I try to put this in a file the keybindings don't work
