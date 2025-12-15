@@ -123,17 +123,6 @@ _fzf_comprun() {
 	esac
 }
 
-# vi mode
-set -o vi
-
-bind -m vi '" e":edit-and-execute-command'
-bind -m vi-insert '"\C-l":clear-screen'
-bind -m vi-insert '"\C-p":previous-history'
-bind -m vi-insert '"\C-n":next-history'
-
-# completion
-bind 'set completion-ignore-case on'
-
 # -----------------------------------------------------
 # Aliases
 # -----------------------------------------------------

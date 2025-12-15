@@ -1,0 +1,12 @@
+set show-mode-in-prompt on
+set editing-mode vi
+
+set keymap vi-command
+"e": edit-and-execute-command
+
+set keymap vi-insert
+"\C-l": clear-screen
+"\C-p": previous-history
+"\C-n": next-history
+
+set completion-ignore-case on
