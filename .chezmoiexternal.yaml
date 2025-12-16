@@ -9,3 +9,34 @@
     url: https://raw.githubusercontent.com/lmburns/dotfiles/refs/heads/master/.config/zsh/completions/_fzf
     refreshPeriod: 168h
 {{ end -}}
+
+{{ if .hasGUI -}}
+
+.local/share/fonts/CascadiaMono:
+    type: archive
+    url: {{ gitHubLatestReleaseAssetURL "ryanoasis/nerd-fonts" "CascadiaMono.tar.xz" }}
+
+.local/share/fonts/IosevkaTerm:
+    type: archive
+    url: {{ gitHubLatestReleaseAssetURL "ryanoasis/nerd-fonts" "IosevkaTerm.tar.xz" }}
+
+.local/share/fonts/FiraCode:
+    type: archive
+    url: {{ gitHubLatestReleaseAssetURL "ryanoasis/nerd-fonts" "FiraCode.tar.xz" }}
+
+.local/share/fonts/FiraMono:
+    type: archive
+    url: {{ gitHubLatestReleaseAssetURL "ryanoasis/nerd-fonts" "FiraMono.tar.xz" }}
+
+.local/share/fonts/JetBrainsMono:
+    type: archive
+    url: {{ gitHubLatestReleaseAssetURL "ryanoasis/nerd-fonts" "JetBrainsMono.tar.xz" }}
+
+.local/share/fonts/SanFrancisco:
+    type: git-repo
+    url: https://github.com/aishalih/sfwin
+    clone.args:
+        - --depth
+        - 1
+
+{{ end -}}
