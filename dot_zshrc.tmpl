@@ -102,8 +102,7 @@ alias mv='mv -i'
 alias mkdir='mkdir -p'
 
 {{ if .winapps -}}
-alias win='docker compose --file ~/.local/bin/winapps-src/compose.yaml start &'
-alias winoff='docker compose --file ~/.local/bin/winapps-src/compose.yaml stop &'
+alias winoff='docker compose --file ~/.config/winapps/compose.yaml stop &'
 {{ end }}
 
 # -----------------------------------------------------

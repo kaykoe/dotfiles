@@ -1,8 +1,0 @@
-#!/usr/bin/env bash
-
-# winapps-compose.yaml hash: {{ include "winapps-compose.yaml" | sha256sum }}
-echo 'Updating winapps container config...'
-cp -f {{ joinPath .chezmoi.sourceDir "winapps-compose.yaml" | quote }} ~/.local/bin/winapps-src/compose.yaml
-if docker compose ls | tail -n +2 | grep '^winapps\s' -q; then
-	docker compose --file ~/.local/bin/winapps-src/compose.yaml up -d
-fi

@@ -2,12 +2,10 @@
 
 set -e
 echo 'Installing WinApps'
-git clone --recurse-submodules --remote-submodules https://github.com/winapps-org/winapps.git ~/.local/bin/winapps-src
-cp -f {{ joinPath .chezmoi.sourceDir "winapps-compose.yaml" | quote }} ~/.local/bin/winapps-src/compose.yaml
 echo -e '\n\nGo to 127.0.0.1:8006 and run "netplwiz" and check the "Users must enter a user name and password to use this computer checkbox".
 Otherwise RDP connections will fail every time the VM is restarted ,and you will have to manually connect via vnc and confirm logout each time.
 Afterwards do the initial setup and app installation of Windows, then press Ctrl-c to continue\n'
-docker compose --file ~/.local/bin/winapps-src/compose.yaml up
-docker compose --file ~/.local/bin/winapps-src/compose.yaml up -d
+docker compose --file ~/.config/winapps/compose.yaml up
+docker compose --file ~/.config/winapps/compose.yaml up -d
 sleep 5
 bash <(curl https://raw.githubusercontent.com/winapps-org/winapps/main/setup.sh)

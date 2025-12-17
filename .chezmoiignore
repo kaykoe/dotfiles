@@ -15,11 +15,8 @@ README.md
 kanata.service
 config.kbd
 
-winapps-compose.yaml
-
 {{- if not .winapps }}
 .chezmoiscripts/run_once_after_00-install-winapps.sh
-.chezmoiscripts/run_onchange_after_10-update-winapps-container.sh.tmpl
 .config/winapps
 {{ end -}}
 
