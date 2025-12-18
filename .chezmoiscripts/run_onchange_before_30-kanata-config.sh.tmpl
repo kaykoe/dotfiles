@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 # config.kbd hash: {{ include "config.kbd" | sha256sum }}
-{{ if .hasGUI -}}
 echo 'Applying kanata config'
 sudo mkdir -p /etc/kanata && sudo cp -f -t /etc/kanata {{ joinPath .chezmoi.sourceDir "config.kbd" | quote }}
 kanata_status="$(sudo systemctl is-active kanata.service)"
@@ -8,4 +7,3 @@ kanata_status_code=$?
 if [[ "$kanata_status_code" -eq 0 || "$kanata_status" == 'failed' ]]; then
 	sudo systemctl restart kanata.service
 fi
-{{ end }}

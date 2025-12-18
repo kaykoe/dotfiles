@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # kanata.service hash: {{ include "kanata.service" | sha256sum }}
-{{ if .hasGUI -}}
+
 echo 'Applying kanata.service file'
 sudo cp -f -t /etc/systemd/system {{ joinPath .chezmoi.sourceDir "kanata.service" | quote }}
 sudo systemctl daemon-reload
@@ -9,4 +9,3 @@ if sudo systemctl is-enabled kanata.service; then
 else
 	sudo systemctl enable kanata.service --now
 fi
-{{ end }}

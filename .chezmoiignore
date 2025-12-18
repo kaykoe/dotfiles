@@ -33,6 +33,7 @@ config.kbd
 .zsh_functions
 .zsh_plugins.txt
 .zsh_completions
+.chezmoiscripts/run_once_make-zsh-default.sh
 {{ end -}}
 
 {{- if not .hasGUI }}
@@ -44,10 +45,19 @@ config.kbd
 .config/hypr
 .chezmoiscripts/run_once_install-flatpak-apps.sh
 .chezmoiscripts/run_once_install-zen.sh
+.chezmoiscripts/run_once_install-fonts.sh.tmpl
+.chezmoiscripts/run_before_10-install-kanata.sh.tmpl
+.chezmoiscripts/run_once_before_20-setup-kanata.sh
+.chezmoiscripts/run_onchange_before_30-kanata-config.sh.tmpl
+.chezmoiscripts/run_onchange_before_40-kanata-service.sh.tmpl
 
 {{- if not .isWSL }}
 .config/wallust
 .config/nvim/lua/plugins/neopywal.lua
+{{ end -}}
+
+{{- if not .sudo }}
+.chezmoiscripts/run_once_setup-docker.sh.tmpl
 {{ end -}}
 
 {{ end -}}

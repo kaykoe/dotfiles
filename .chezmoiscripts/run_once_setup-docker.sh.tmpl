@@ -2,7 +2,7 @@
 
 {{ $docker_exists := lookPath "docker" }}
 
-{{ if (and $docker_exists .sudo) -}}
+{{ if $docker_exists -}}
 set -e
 
 sudo systemctl enable --now docker

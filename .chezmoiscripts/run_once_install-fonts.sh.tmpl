@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+
+{{- $nerd_fonts := list "CascadiaMono" "IosevkaTerm" "FiraCode" "FiraMono" "JetBrainsMono" }}
+
+set -eo pipefail
+
+[[ -d ~/.local/share/fonts/ ]] || mkdir -p ~/.local/share/fonts/
+
+{{ range $nerd_fonts }}
+wget -qO- {{ gitHubLatestReleaseAssetURL "ryanoasis/nerd-fonts" ( printf "%s.tar.xz" . ) }} | tar -xJ -C ~/.local/share/fonts --wildcards '*.[t,o]tf'
+{{- end }}
+
+pushd /tmp
+trap popd EXIT
+wget -qO sfwin.zip https://github.com/aishalih/sfwin/archive/refs/heads/master.zip
+unzip -j -d ~/.local/share/fonts/ sfwin.zip '**/*.ttf'
+rm sfwin.zip
+fc-cache

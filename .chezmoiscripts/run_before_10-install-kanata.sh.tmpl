@@ -10,13 +10,12 @@ function on_path_info {
 	fi
 }
 
-{{ if .hasGUI -}}
-shopt -s failglob
-set -o pipefail
+set -e
 if ! on_path_info 'kanata'; then
-	wget -q {{ gitHubLatestReleaseAssetURL "jtroo/kanata" "linux-binaries-x64-v*.zip" }} &&
-		sudo unzip -p linux-binaries-x64-v*.zip kanata_linux_x64 | sudo tee /usr/bin/kanata >/dev/null &&
-		sudo chmod +x /usr/bin/kanata
-	rm linux-binaries-x64-v*.zip
+	pushd /tmp
+	trap popd EXIT
+	wget -qO kanata.zip {{ gitHubLatestReleaseAssetURL "jtroo/kanata" "linux-binaries-x64-v*.zip" }}
+	sudo unzip kanata.zip kanata_linux_x64 -d /usr/bin
+	sudo chmod +x /usr/bin/kanata
+	rm kanata.zip
 fi
-{{ end }}
