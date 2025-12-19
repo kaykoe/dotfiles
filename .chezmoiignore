@@ -16,12 +16,12 @@ kanata.service
 config.kbd
 
 {{- if not .winapps }}
-.chezmoiscripts/run_once_after_00-install-winapps.sh
+.chezmoiscripts/00-install-winapps.sh
 .config/winapps
 {{ end -}}
 
 {{- if ne .osid "linux_opensuse_tumbleweed" }}
-.chezmoiscripts/run_once_before_000-add-packman.sh.tmpl
+.chezmoiscripts/000-add-packman.sh
 {{ end -}}
 
 {{- if not .neovim }}
@@ -33,7 +33,7 @@ config.kbd
 .zsh_functions
 .zsh_plugins.txt
 .zsh_completions
-.chezmoiscripts/run_once_make-zsh-default.sh
+.chezmoiscripts/make-zsh-default.sh
 {{ end -}}
 
 {{- if not .hasGUI }}
@@ -43,13 +43,13 @@ config.kbd
 .config/zed
 .config/kitty
 .config/hypr
-.chezmoiscripts/run_once_install-flatpak-apps.sh
-.chezmoiscripts/run_once_install-zen.sh
-.chezmoiscripts/run_once_install-fonts.sh.tmpl
-.chezmoiscripts/run_before_10-install-kanata.sh.tmpl
-.chezmoiscripts/run_once_before_20-setup-kanata.sh
-.chezmoiscripts/run_onchange_before_30-kanata-config.sh.tmpl
-.chezmoiscripts/run_onchange_before_40-kanata-service.sh.tmpl
+.chezmoiscripts/install-flatpak-apps.sh
+.chezmoiscripts/install-zen.sh
+.chezmoiscripts/install-fonts.sh
+.chezmoiscripts/10-install-kanata.sh
+.chezmoiscripts/20-setup-kanata.sh
+.chezmoiscripts/30-kanata-config.sh
+.chezmoiscripts/40-kanata-service.sh
 
 {{- if not .isWSL }}
 .config/wallust
@@ -57,7 +57,7 @@ config.kbd
 {{ end -}}
 
 {{- if not .sudo }}
-.chezmoiscripts/run_once_setup-docker.sh.tmpl
+.chezmoiscripts/setup-docker.sh
 {{ end -}}
 
 {{ end -}}
