@@ -21,6 +21,11 @@ echo 'Installing packages...'
 {{- print $package_manager_cmd }} {{ range ( dig .osid "winapps" ( list ) .packages ) }} {{- . | quote }} {{ end }}
 {{ end -}}
 
+{{ if .steam }}
+{{- print $package_manager_cmd }} --recommends {{ range ( dig .osid "steam" ( list ) .packages ) }} {{- . | quote }} {{ end }}
+{{ end -}}
+
+
 {{ if .isLaptop }}
 {{- print $package_manager_cmd }} {{ range .packages.laptop }} {{- . | quote }} {{ end }}
 {{ end -}}

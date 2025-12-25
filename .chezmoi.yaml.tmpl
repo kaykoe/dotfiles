@@ -12,6 +12,7 @@
 {{- $neovim := promptBoolOnce . "neovim" "Do you want to use neovim on this machine?" -}}
 {{- $hasGUI := promptBoolOnce . "hasGUI" "Does this machine have a GUI?" -}}
 {{- $winapps := promptBoolOnce . "winapps" "Do you want to use winapps on this machine?" -}}
+{{- $steam := promptBoolOnce . "steam" "Do you want to use steam on this machine?" -}}
 {{- $yazi := promptBoolOnce . "yazi" "Do you want to use yazi on this machine?" -}}
 {{- $tmux := promptBoolOnce . "tmux" "Do you want to use tmux on this machine?" -}}
 {{- $brew := promptBoolOnce . "brew" "Do you want to use brew on this machine?" -}}
@@ -37,6 +38,7 @@ data:
   neovim: {{ $neovim }}
   hasGUI: {{ $hasGUI }}
   winapps: {{ $winapps }}
+  steam: {{ $steam }}
   isWSL: {{ $isWSL }}
   isLaptop: {{ eq $chassisType "laptop" }}
   yazi: {{ $yazi }}
