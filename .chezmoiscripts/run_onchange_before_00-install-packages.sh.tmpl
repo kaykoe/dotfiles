@@ -1,33 +1,39 @@
 #!/usr/bin/env bash
 
-{{- $package_manager_cmd := "" }}
+{{- $pkg_mgr_install_cmd := "" }}
+{{- $pkg_mgr_uninstall_cmd := "" }}
+{{- $uninstall_list := ( dig .osid "uninstall" ( list ) .packages ) }}
 {{- if eq .osid "linux_opensuse_tumbleweed" }}
-{{- $package_manager_cmd = "sudo zypper in" }}
+{{- $pkg_mgr_install_cmd = "sudo zypper in" }}
+{{- $pkg_mgr_uninstall_cmd = "sudo zypper rm --clean-deps" }}
 {{- else if eq .osid "linux_ubuntu" "linux_debian" }}
-{{- $package_manager_cmd = "sudo apt install" }}
+{{- $pkg_mgr_install_cmd = "sudo apt install" }}
+{{- $pkg_mgr_uninstall_cmd = "sudo apt remove --autoremove" }}
 {{- end }}
 
-{{ if ne $package_manager_cmd "" -}}
+{{ if ne $pkg_mgr_install_cmd "" -}}
 set -e
 
 echo 'Installing packages...'
-{{ print $package_manager_cmd }} {{ range ( concat .packages.cli_common ( dig .osid "cli" ( list ) .packages ) ) }} {{- . | quote }} {{ end }} {{- if .zsh }}"zsh"{{ end }}
+{{ print $pkg_mgr_install_cmd }} {{ range ( concat .packages.cli_common ( dig .osid "cli" ( list ) .packages ) ) }} {{- . | quote }} {{ end -}}
 
-{{ if .hasGUI }}
-{{- print $package_manager_cmd }} {{ range ( concat .packages.gui_common ( dig .osid "gui" ( list ) .packages ) ) }} {{- . | quote }} {{ end }}
-{{ end -}}
+{{- if .zsh -}}"zsh" {{ end -}}
 
-{{ if .winapps }}
-{{- print $package_manager_cmd }} {{ range ( dig .osid "winapps" ( list ) .packages ) }} {{- . | quote }} {{ end }}
-{{ end -}}
+{{- if .hasGUI -}} {{- range ( concat .packages.gui_common ( dig .osid "gui" ( list ) .packages ) ) }} {{- . | quote }} {{ end -}} {{- end -}}
+
+{{- if .winapps -}} {{- range ( dig .osid "winapps" ( list ) .packages ) }} {{- . | quote }} {{ end -}} {{- end -}}
+
+{{- if .isLaptop -}} {{- range ( concat .packages.laptop_common ( dig .osid "laptop" ( list ) .packages ) ) }} {{- . | quote }} {{ end -}} {{- end -}}
 
 {{ if .steam }}
-{{- print $package_manager_cmd }} --recommends {{ range ( dig .osid "steam" ( list ) .packages ) }} {{- . | quote }} {{ end }}
-{{ end -}}
 
+{{ print $pkg_mgr_install_cmd }} --recommends {{ range ( dig .osid "steam" ( list ) .packages ) }} {{- . | quote }} {{ end -}}
 
-{{ if .isLaptop }}
-{{- print $package_manager_cmd }} {{ range .packages.laptop }} {{- . | quote }} {{ end }}
-{{ end -}}
+{{ end }}
 
+{{ if $uninstall_list -}}
+
+{{ print $pkg_mgr_uninstall_cmd }} {{ range $uninstall_list }} {{- . | quote }} {{ end }} || true
+
+{{- end }}
 {{ end -}}

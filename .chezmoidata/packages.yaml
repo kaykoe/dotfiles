@@ -14,6 +14,8 @@ packages:
             - "distrobox"
             - "docker"
             - "docker-compose"
+            - "git-delta"
+            - "starship"
         gui:
             - "hyprland"
             - "bitwarden"
@@ -26,6 +28,9 @@ packages:
             - "easyeffects"
             - "rofi-wayland"
             - "dragon-drop"
+            - "nautilus"
+            - "nautilus-extension-terminal"
+            - "nautilus-image-converter"
         winapps:
             - "dialog"
             - "freerdp"
@@ -47,6 +52,12 @@ packages:
             - "Mesa-libGL1-32bit"
             - "libvulkan1-32bit"
             - "Mesa-dri-32bit"
+        uninstall:
+            - "dolphin"
+            - "konsole"
+            - "patterns-kde-kde_pim"
+            - "MozillaFirefox"
+            - "kompare"
     linux_debian: &debian
         cli:
             - "fd-find"
@@ -71,6 +82,7 @@ packages:
         - "btop"
         - "jq"
         - "yq"
+        - "speedtest-cli"
     gui_common:
         - "kitty"
         - "pavucontrol"
@@ -78,6 +90,6 @@ packages:
         - "mpv"
         - "gimp"
         - "brightnessctl"
-    laptop:
+    laptop_common:
         - "tlpui"
         - "powertop"
