@@ -7,18 +7,14 @@
 // GROUPS
 "group/app_drawer": {
 	"orientation": "inherit",
-	"drawer": {
-		"transition-duration": 500,
-		"children-class": "custom/menu",
-		"transition-left-to-right": true
-        },
+	//"drawer": {
+	//"transition-duration": 500,
+	//"children-class": "custom/menu",
+	//"transition-left-to-right": true
+      //},
 	"modules": [
 		"custom/menu",
 		"custom/light_dark",
-		"custom/file_manager",
-		"custom/tty",
-		"custom/browser",
-		"custom/settings",
 	]
 },
 "group/motherboard": {
@@ -56,11 +52,11 @@
 },
 "group/audio": {
 	"orientation": "inherit",
-	"drawer": {
-		"transition-duration": 500,
-		"children-class": "pulseaudio",
-		"transition-left-to-right": true
-        },
+	//"drawer": {
+	//	"transition-duration": 500,
+	//	"children-class": "pulseaudio",
+	//	"transition-left-to-right": true
+      //},
 	"modules": [
 		"pulseaudio",
 		"pulseaudio#microphone",
@@ -82,29 +78,30 @@
 
 "group/status": {
 	"orientation": "inherit",
-	"drawer": {
-		"transition-duration": 500,
-		"children-class": "custom/power",
-		"transition-left-to-right": false
-        },
+	//"drawer": {
+	//	"transition-duration": 500,
+	//	"children-class": "custom/power",
+	//	"transition-left-to-right": false
+	//},
 	"modules": [
-		"custom/power",
-		"custom/lock",
 		"keyboard-state",
-		"custom/keyboard",
+		"idle_inhibitor",
+		"custom/lock",
+		"custom/power",
 	]
 },
 "group/notify": {
 	"orientation": "inherit",
-	"drawer": {
-		"transition-duration": 500,
-		"children-class": "custom/swaync",
-		"transition-left-to-right": false
-        },
+	//"drawer": {
+	//	"transition-duration": 500,
+	//	"children-class": "custom/swaync",
+	//	"transition-left-to-right": false
+      //},
 	"modules": [
+		"custom/clipboard",
 		"custom/swaync",
-		"custom/dot_update",
 	]
+	//"custom/dot_update",
 },
 
 "group/power": {
