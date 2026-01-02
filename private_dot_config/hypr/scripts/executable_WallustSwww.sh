@@ -35,5 +35,9 @@ if [ "$ln_success" = true ]; then
 	# execute wallust
 	echo 'about to execute wallust'
 	# execute wallust skipping tty and terminal changes
-	wallust run "$wallpaper_path" -s &
+	sed -Ei 's/^#((\w+)\.(target|template) = .*$)/\1/' ~/.config/wallust/wallust.toml
+	sed -Ei 's/^((kitty|neopywal)\.(target|template) = .*$)/#\1/' ~/.config/wallust/wallust.toml
+	wallust run "$wallpaper_path" -s
+	sed -Ei 's/^((\w+)\.(target|template) = .*$)/#\1/' ~/.config/wallust/wallust.toml
+	sed -Ei 's/^#((kitty|neopywal)\.(target|template) = .*$)/\1/' ~/.config/wallust/wallust.toml
 fi

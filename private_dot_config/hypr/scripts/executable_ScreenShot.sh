@@ -15,87 +15,53 @@ active_window_class=$(hyprctl -j activewindow | jq -r '(.class)')
 active_window_file="Screenshot_${time}_${active_window_class}.png"
 active_window_path="${dir}/${active_window_file}"
 
-notify_cmd_base="notify-send -t 10000 -A action1=Open -A action2=Delete -h string:x-canonical-private-synchronous:shot-notify"
+notify_cmd_base="notify-send -t 10000 -A action1=Open -A action2=Delete"
 notify_cmd_shot="${notify_cmd_base} -i ${iDIR}/picture.png "
 notify_cmd_shot_win="${notify_cmd_base} -i ${iDIR}/picture.png "
 notify_cmd_NOT="notify-send -u low -i ${iDoR}/note.png "
 
 # notify and view screenshot
 notify_view() {
-    if [[ "$1" == "active" ]]; then
-        if [[ -e "${active_window_path}" ]]; then
-			"${sDIR}/Sounds.sh" --screenshot        
-            resp=$(timeout 5 ${notify_cmd_shot_win} " Screenshot of:" " ${active_window_class} Saved.")
-            case "$resp" in
-				action1)
-					xdg-open "${active_window_path}" &
-					;;
-				action2)
-					rm "${active_window_path}" &
-					;;
-			esac
-        else
-            ${notify_cmd_NOT} " Screenshot of:" " ${active_window_class} NOT Saved."
-            "${sDIR}/Sounds.sh" --error
-        fi
-
-    elif [[ "$1" == "swappy" ]]; then
-		"${sDIR}/Sounds.sh" --screenshot
-		resp=$(${notify_cmd_shot} " Screenshot:" " Captured by Swappy")
-		case "$resp" in
+	if [[ "$1" == "active" ]]; then
+		if [[ -e "${active_window_path}" ]]; then
+			"${sDIR}/Sounds.sh" --screenshot
+			resp=$(timeout 5 ${notify_cmd_shot_win} " Screenshot of:" " ${active_window_class} Saved to $file")
+			case "$resp" in
 			action1)
-				swappy -f - <"$tmpfile"
+				xdg-open "${active_window_path}" &
 				;;
 			action2)
-				rm "$tmpfile"
+				rm "${active_window_path}" &
 				;;
-		esac
-
-    else
-        local check_file="${dir}/${file}"
-        if [[ -e "$check_file" ]]; then
-            "${sDIR}/Sounds.sh" --screenshot
-            resp=$(timeout 5 ${notify_cmd_shot} " Screenshot" " Saved")
-			case "$resp" in
-				action1)
-					xdg-open "${check_file}" &
-					;;
-				action2)
-					rm "${check_file}" &
-					;;
 			esac
-        else
-            ${notify_cmd_NOT} " Screenshot" " NOT Saved"
-            "${sDIR}/Sounds.sh" --error
-        fi
-    fi
-}
-
-# countdown
-countdown() {
-	for sec in $(seq $1 -1 1); do
-		notify-send -h string:x-canonical-private-synchronous:shot-notify -t 1000 -i "$iDIR"/timer.png  " Taking shot" " in: $sec secs"
-		sleep 1
-	done
+		else
+			${notify_cmd_NOT} " Screenshot of:" " ${active_window_class} NOT Saved."
+			"${sDIR}/Sounds.sh" --error
+		fi
+	else
+		local check_file="${dir}/${file}"
+		if [[ -e "$check_file" ]]; then
+			"${sDIR}/Sounds.sh" --screenshot
+			resp=$(timeout 5 ${notify_cmd_shot} " Screenshot" " Saved to $file")
+			case "$resp" in
+			action1)
+				xdg-open "${check_file}" &
+				;;
+			action2)
+				rm "${check_file}" &
+				;;
+			esac
+		else
+			${notify_cmd_NOT} " Screenshot" " NOT Saved"
+			"${sDIR}/Sounds.sh" --error
+		fi
+	fi
 }
 
 # take shots
 shotnow() {
 	cd ${dir} && grim - | tee "$file" | wl-copy
-	sleep 2
-	notify_view
-}
-
-shot5() {
-	countdown '5'
-	sleep 1 && cd ${dir} && grim - | tee "$file" | wl-copy
-	sleep 1
-	notify_view
-}
-
-shot10() {
-	countdown '10'
-	sleep 1 && cd ${dir} && grim - | tee "$file" | wl-copy
+	sleep 0.1
 	notify_view
 }
 
@@ -103,14 +69,21 @@ shotwin() {
 	w_pos=$(hyprctl activewindow | grep 'at:' | cut -d':' -f2 | tr -d ' ' | tail -n1)
 	w_size=$(hyprctl activewindow | grep 'size:' | cut -d':' -f2 | tr -d ' ' | tail -n1 | sed s/,/x/g)
 	cd ${dir} && grim -g "$w_pos $w_size" - | tee "$file" | wl-copy
+	sleep 0.1
 	notify_view
+}
+
+shotactive() {
+	hyprctl -j activewindow | jq -r '"\(.at[0]),\(.at[1]) \(.size[0])x\(.size[1])"' | grim -g - - | tee "${active_window_path}" | wl-copy
+	sleep 0.1
+	notify_view "active"
 }
 
 shotarea() {
 	tmpfile=$(mktemp)
 	grim -g "$(slurp)" - >"$tmpfile"
 
-  # Copy with saving
+	# Copy with saving
 	if [[ -s "$tmpfile" ]]; then
 		wl-copy <"$tmpfile"
 		mv "$tmpfile" "$dir/$file"
@@ -118,25 +91,79 @@ shotarea() {
 	notify_view
 }
 
-shotactive() {
-    active_window_class=$(hyprctl -j activewindow | jq -r '(.class)')
-    active_window_file="Screenshot_${time}_${active_window_class}.png"
-    active_window_path="${dir}/${active_window_file}"
+menu() {
 
-    hyprctl -j activewindow | jq -r '"\(.at[0]),\(.at[1]) \(.size[0])x\(.size[1])"' | grim -g - "${active_window_path}"
-	sleep 1
-    notify_view "active"
-}
+	## Author  : Aditya Shakya (adi1090x)
+	## Github  : @adi1090x
+	#
+	## Applets : Screenshot (Ported to use Grimblast)
 
-shotswappy() {
-	tmpfile=$(mktemp)
-	grim -g "$(slurp)" - >"$tmpfile" 
+	## Modify
+	## Author  : Gonçalo Duarte (MrDuartePT)
+	## Github  : @MrDuartePT
+	##
+	## Github  : @Xartoks
 
-  # Copy without saving
-  if [[ -s "$tmpfile" ]]; then
-		wl-copy <"$tmpfile"
-    notify_view "swappy"
-  fi
+	## Port for Grimblast (https://github.com/hyprwm/contrib/tree/main/grimblast)
+
+	menu_command="rofi"
+	# Options
+	# main_opts=("󰹑 Capture" "󰁫 Timer capture")
+	screenshot_opts=("󰍹 Screen" " Active Window" " Window" "󱣴 Capture Area")
+	action_opts=(" Copy" " Save" " Copy &amp; Save" " Edit")
+
+	# Detect available menu program
+	define_menu() {
+		if ! command -v $menu_command; then
+			if command -v wofi >/dev/null 2>&1; then
+				menu_command="wofi"
+			elif command -v rofi >/dev/null 2>&1; then
+				menu_command="rofi"
+			elif command -v walker >/dev/null 2>&1; then
+				menu_command="walker"
+			else
+				echo "No menu program found (wofi, rofi, walker)" >&2
+				exit 1
+			fi
+		fi
+	}
+
+	# Show menu based on detected command
+	show_menu() {
+		prompt="$1"
+		shift
+		menu_opts=("$@") # global array
+		case $menu_command in
+		"wofi") wofi_menu ;;
+		"rofi") rofi_menu ;;
+		"walker") walker_menu ;;
+		esac
+	}
+
+	wofi_menu() {
+		printf '%s\n' "${menu_opts[@]}" | wofi --dmenu --prompt "$prompt" -m
+	}
+
+	rofi_menu() {
+		printf '%s\n' "${menu_opts[@]}" | rofi \
+			-dmenu \
+			-p "$prompt" \
+			-markup-rows
+	}
+
+	walker_menu() {
+		printf '%s\n' "${menu_opts[@]}" | walker -p "$prompt" -d
+	}
+
+	define_menu
+
+	type_choice=$(show_menu "Type Of Screenshot" "${screenshot_opts[@]}") || exit 1
+	case "$type_choice" in
+	"󰍹 Screen") shotnow ;;
+	" Active Window") shotactive ;;
+	" Window") shotwin ;;
+	"󱣴 Capture Area") shotarea ;;
+	esac
 }
 
 if [[ ! -d "$dir" ]]; then
@@ -145,20 +172,16 @@ fi
 
 if [[ "$1" == "--now" ]]; then
 	shotnow
-elif [[ "$1" == "--in5" ]]; then
-	shot5
-elif [[ "$1" == "--in10" ]]; then
-	shot10
 elif [[ "$1" == "--win" ]]; then
 	shotwin
 elif [[ "$1" == "--area" ]]; then
 	shotarea
 elif [[ "$1" == "--active" ]]; then
 	shotactive
-elif [[ "$1" == "--swappy" ]]; then
-	shotswappy
+elif [[ "$#" == 0 ]]; then
+	menu
 else
-	echo -e "Available Options : --now --in5 --in10 --win --area --active --swappy"
+	echo -e "Available Options : --now --win --area --active"
 fi
 
 exit 0

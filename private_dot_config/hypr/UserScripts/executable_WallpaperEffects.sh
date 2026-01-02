@@ -47,8 +47,12 @@ declare -A effects=(
 no-effects() {
     swww img -o "$focused_monitor" "$wallpaper_current" $SWWW_PARAMS &&
     wait $!
+    sed -Ei 's/^#((\w+)\.(target|template) = .*$)/\1/' ~/.config/wallust/wallust.toml
+    sed -Ei 's/^((kitty|neopywal)\.(target|template) = .*$)/#\1/' ~/.config/wallust/wallust.toml
     wallust run "$wallpaper_current" -s &&
     wait $!
+    sed -Ei 's/^((\w+)\.(target|template) = .*$)/#\1/' ~/.config/wallust/wallust.toml
+    sed -Ei 's/^#((kitty|neopywal)\.(target|template) = .*$)/\1/' ~/.config/wallust/wallust.toml
     # Refresh rofi, waybar, wallust palettes
 	sleep 2
 	"$SCRIPTSDIR/Refresh.sh"

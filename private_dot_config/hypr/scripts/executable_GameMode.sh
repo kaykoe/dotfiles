@@ -5,8 +5,8 @@
 notif="$HOME/.config/swaync/images/ja.png"
 SCRIPTSDIR="$HOME/.config/hypr/scripts"
 
-HYPRGAMEMODE=$(hyprctl getoption animations:enabled | awk 'NR==1{print $2}')
-if [[ "$HYPRGAMEMODE" == 1 ]]; then
+read -r _ EYECANDY_ENABLED < <(hyprctl getoption decoration:rounding)
+if [[ "$EYECANDY_ENABLED" -ne 0 ]]; then
 	hyprctl --batch "\
     keyword animations:enabled 0;\
     keyword animation borderangle,0; \
@@ -23,10 +23,10 @@ if [[ "$HYPRGAMEMODE" == 1 ]]; then
 	exit
 else
 	swww-daemon --format xrgb && swww img "$HOME/.config/rofi/.current_wallpaper" &
-	# sleep 0.1
-	# ${SCRIPTSDIR}/WallustSwww.sh
-	# sleep 0.5
-	# ${SCRIPTSDIR}/Refresh.sh
+	sleep 0.1
+	${SCRIPTSDIR}/WallustSwww.sh
+	sleep 0.5
+	${SCRIPTSDIR}/Refresh.sh
 	hyprctl reload
 	notify-send -e -u normal -i "$notif" " Gamemode:" " disabled"
 	exit

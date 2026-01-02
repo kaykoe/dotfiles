@@ -23,9 +23,9 @@ iDIRi="$HOME/.config/swaync/icons"
 # Parse arguments
 mode="effects" # default
 if [[ "$1" == "--normal" ]]; then
-    mode="normal"
+	mode="normal"
 elif [[ "$1" == "--effects" ]]; then
-    mode="effects"
+	mode="effects"
 fi
 
 # Extract colors from rofi wallust config
@@ -41,13 +41,13 @@ foreground=$(grep -oP 'foreground:\s*\K#[A-Fa-f0-9]+' "$rofi_wallust")
 
 # wallpaper to use
 if [[ "$mode" == "normal" ]]; then
-    wallpaper_path="$wallpaper_current"
+	wallpaper_path="$wallpaper_current"
 else
-    wallpaper_path="$wallpaper_modified"
+	wallpaper_path="$wallpaper_modified"
 fi
 
 # Launch terminal and apply changes
-$terminal -e bash -c "
+pkexec bash -c "
 echo 'Enter your password to update SDDM wallpapers and colors';
 
 # Update the colors in the SDDM config

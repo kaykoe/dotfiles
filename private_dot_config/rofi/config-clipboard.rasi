@@ -3,6 +3,10 @@
 
 @import "~/.config/rofi/config.rasi"  
 
+configuration {
+    modi: "cliphist-rofi-img";
+  }
+
 /* ---- Window ---- */
 window {
   width: inherit;
@@ -36,7 +40,7 @@ element {
 }
 
 element-icon {
-  size: 0%;
+  size: 96px;
 }
 
 element-text {
