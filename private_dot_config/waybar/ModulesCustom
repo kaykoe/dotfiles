@@ -154,6 +154,12 @@
 	"tooltip-format": "Left Click: Logout Menu\nRight Click: Change Blur",
 },
 
+"custom/floating_windows": {
+	"format": "",
+	"on-click": "$HOME/.config/hypr/UserScripts/FloatingWindows.sh --recall",
+	"tooltip": false,
+},
+
 "custom/reboot": {
     "format": "󰜉",
     "on-click": "systemctl reboot",

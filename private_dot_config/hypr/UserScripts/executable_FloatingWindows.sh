@@ -34,6 +34,7 @@ run_daemon() {
 			;;
 		closewindow*)
 			# Clean up state file when windows are closed
+			hyprctl dispatch cyclenext floating
 			closed_addr="0x${1#*>>}"
 			sed -i "/^$closed_addr /d" "$STATE_FILE"
 			;;
@@ -84,6 +85,19 @@ run_recall() {
 	fi
 }
 
+minimize() {
+	local window_info addr curr_ws
+	window_info="$(hyprctl activewindow -j)"
+	addr=$(echo "$window_info" | jq -r '.address')
+	curr_ws=$(echo "$window_info" | jq -r '.workspace.name')
+	sed -i "/^$addr /d" "$STATE_FILE"
+	echo "$addr $curr_ws" >>"$STATE_FILE"
+	hyprctl dispatch cyclenext floating
+
+	hyprctl dispatch movetoworkspacesilent "special,address:$addr"
+
+}
+
 # Main entry point
 case "$1" in
 --daemon)
@@ -91,6 +105,9 @@ case "$1" in
 	;;
 --recall)
 	run_recall
+	;;
+--minimize)
+	minimize
 	;;
 *)
 	echo "Usage: $0 {--monitor|--recall}"

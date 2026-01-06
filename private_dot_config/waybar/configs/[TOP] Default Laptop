@@ -30,6 +30,8 @@
 
 "modules-center": [
 	"group/app_drawer",
+	"custom/separator#dot-line",
+	"custom/floating_windows",
 	"custom/separator#line",
 	"clock#2",
 	"custom/separator#line",
