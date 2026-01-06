@@ -9,6 +9,9 @@ configuration {
     display-filebrowser:     " files";
     display-window:          " window";
     drun-display-format:     "{name}";
+    normalize-match:         true;
+    case-smart:              true;
+    matching:                "fuzzy";
     hover-select:            true;
     me-select-entry:         "MouseSecondary";
     me-accept-entry:         "MousePrimary";

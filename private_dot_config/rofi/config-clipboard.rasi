@@ -28,7 +28,7 @@ entry {
 /* ---- Listview ---- */
 listview {
   columns: 1;
-  lines: 8;
+  lines: 5;
   fixed-height: true;
   spacing: 6px;
   cycle: true;
