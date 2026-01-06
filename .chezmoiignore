@@ -46,6 +46,7 @@ config.kbd
 .chezmoiscripts/install-flatpak-apps.sh
 .chezmoiscripts/install-zen.sh
 .chezmoiscripts/install-fonts.sh
+.chezmoiscripts/install-sddm-theme.sh
 .chezmoiscripts/fetch-wallpapers.sh
 .chezmoiscripts/10-install-kanata.sh
 .chezmoiscripts/20-setup-kanata.sh
