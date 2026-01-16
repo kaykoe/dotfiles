@@ -140,6 +140,10 @@ popd
 {{- end }}
 {{- end }}
 
+{{- if .neovim }}
+on_path_info 'sesh' || cargo install --locked tree-sitter-cli
+{{- end }}
+
 {{- if .tmux }}
 on_path_info 'sesh' || { wget -qO- https://getbin.io/joshmedeski/sesh | tar -xzO sesh > ~/.local/bin/sesh && chmod +x ~/.local/bin/sesh; }
 {{ end }}
