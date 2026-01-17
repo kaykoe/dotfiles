@@ -27,7 +27,7 @@ echo 'Installing packages...'
 
 {{ if .steam }}
 
-{{ print $pkg_mgr_install_cmd }} --recommends {{ range ( dig .osid "steam" ( list ) .packages ) }} {{- . | quote }} {{ end -}}
+{{ print $pkg_mgr_install_cmd }} --recommends --from download.opensuse.org-oss {{ range ( dig .osid "steam" ( list ) .packages ) }} {{- . | quote }} {{ end -}}
 
 {{ end }}
 

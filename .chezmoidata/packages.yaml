@@ -24,7 +24,6 @@ packages:
             - "kdeconnect-kde"
             - "hypridle"
             - "hyprlock"
-            - "hyprpaper"
             - "hyprpicker"
             - "hyprpolkitagent"
             - "hyprland-plugin-hyprbars"

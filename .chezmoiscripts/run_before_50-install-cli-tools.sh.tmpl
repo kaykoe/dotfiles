@@ -52,14 +52,11 @@ ln -s -t ~/.local/bin ~/.fzf/bin/*; }
 on_path_info 'zoxide' || curl -sSfL https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | sh
 
 on_path_info 'starship' || curl -sS https://starship.rs/install.sh | {{- if not .sudo }} BIN_DIR="$HOME/.local/bin" {{- end }} sh -s -- -y
-on_path_info 'pnpm' || { curl -fsSL https://get.pnpm.io/install.sh | sh - && { export PATH="$PATH:$HOME/.local/share/pnpm"; pnpm env use --global 23
-    {{- if .zsh }}
-    awk '{ if ($0 == "# pnpm") exit; print }' ~/.zshrc | head -n -1 > ~/.zshrc_tmp && mv ~/.zshrc_tmp ~/.zshrc
-    {{- end }}
-    awk '{ if ($0 == "# pnpm") exit; print }' ~/.bashrc | head -n -1 > ~/.bashrc_tmp && mv ~/.bashrc_tmp ~/.bashrc; }; }
 
 on_path_info 'uv' || curl -LsSf https://astral.sh/uv/install.sh | env UV_NO_MODIFY_PATH=1 sh
+{{ if (or .isWSL .hasGUI .neovim) }}
 on_path_info 'cargo' || { curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --no-modify-path && . "$HOME/.cargo/env"; }
+{{ end }}
 
 {{ if (or .isWSL .hasGUI) }}
 on_path_info 'wallust' || { cargo install wallust --locked && ln -s ~/.cargo/bin/wallust ~/.local/bin/wallust; }
@@ -141,7 +138,12 @@ popd
 {{- end }}
 
 {{- if .neovim }}
-on_path_info 'sesh' || cargo install --locked tree-sitter-cli
+on_path_info 'pnpm' || { curl -fsSL https://get.pnpm.io/install.sh | sh - && { export PATH="$PATH:$HOME/.local/share/pnpm"; pnpm env use --global lts
+    {{- if .zsh }}
+    awk '{ if ($0 == "# pnpm") exit; print }' ~/.zshrc | head -n -1 > ~/.zshrc_tmp && mv ~/.zshrc_tmp ~/.zshrc
+    {{- end }}
+    awk '{ if ($0 == "# pnpm") exit; print }' ~/.bashrc | head -n -1 > ~/.bashrc_tmp && mv ~/.bashrc_tmp ~/.bashrc; }; }
+on_path_info 'tree-sitter' || cargo install --locked tree-sitter-cli
 {{- end }}
 
 {{- if .tmux }}
