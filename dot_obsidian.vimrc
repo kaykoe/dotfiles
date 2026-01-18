@@ -6,6 +6,8 @@ noremap gk k
 nmap J mzJ`z
 map <C-d> 18jzz
 map <C-u> 18kzz
+map <C-n> <Down>
+map <C-p> <Up>
 map n nzz
 map N Nzz
 
