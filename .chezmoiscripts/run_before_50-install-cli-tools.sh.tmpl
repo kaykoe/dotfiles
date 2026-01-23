@@ -143,6 +143,9 @@ on_path_info 'pnpm' || { curl -fsSL https://get.pnpm.io/install.sh | sh - && { e
     awk '{ if ($0 == "# pnpm") exit; print }' ~/.zshrc | head -n -1 > ~/.zshrc_tmp && mv ~/.zshrc_tmp ~/.zshrc
     {{- end }}
     awk '{ if ($0 == "# pnpm") exit; print }' ~/.bashrc | head -n -1 > ~/.bashrc_tmp && mv ~/.bashrc_tmp ~/.bashrc; }; }
+{{- if .opencode }}
+on_path_info 'opencode' || pnpm install -g opencode-ai
+{{- end }}
 on_path_info 'tree-sitter' || cargo install --locked tree-sitter-cli
 {{- end }}
 

@@ -15,6 +15,7 @@
 {{- $steam := promptBoolOnce . "steam" "Do you want to use steam on this machine?" -}}
 {{- $yazi := promptBoolOnce . "yazi" "Do you want to use yazi on this machine?" -}}
 {{- $tmux := promptBoolOnce . "tmux" "Do you want to use tmux on this machine?" -}}
+{{- $opencode := promptBoolOnce . "opencode" "Do you want to use opencode on this machine?" -}}
 {{- $brew := promptBoolOnce . "brew" "Do you want to use brew on this machine?" -}}
 
 {{- $chassisType := "desktop" }}
@@ -43,6 +44,7 @@ data:
   isLaptop: {{ eq $chassisType "laptop" }}
   yazi: {{ $yazi }}
   tmux: {{ $tmux }}
+  opencode: {{ $opencode }}
   brew: {{ $brew }}
 
 diff:

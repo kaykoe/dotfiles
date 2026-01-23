@@ -70,6 +70,10 @@ config.kbd
 .tmux.conf
 {{ end -}}
 
+{{- if not .opencode }}
+.config/opencode
+{{ end -}}
+
 {{ if not .yazi }}
 .config/yazi
 .duckdbrc
