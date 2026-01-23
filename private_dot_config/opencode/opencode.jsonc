@@ -7,7 +7,7 @@
 			"*": "allow",
 			"*.env": "deny",
 			"*.env.*": "deny",
-			"*.env.example": "allow"
+			"*.env.example": "allow",
 		},
 		"edit": "allow",
 		"bash": {
@@ -28,6 +28,8 @@
 			"find *": "allow",
 			"npm list *": "allow",
 			"npm info *": "allow",
+			"pdftotext *": "allow",
+			"notify-send *": "allow",
 			"rm -rf /*": "deny",
 			"rm -rf /": "deny",
 			"rm -rf *": "deny",
@@ -40,10 +42,35 @@
 			"git reset --hard *": "deny",
 			"dd *": "deny",
 			"mkfs *": "deny",
-			"> /dev/*": "deny"
+			"> /dev/*": "deny",
 		},
 		"webfetch": "allow",
 		"external_directory": "ask",
-		"doom_loop": "ask"
+		"doom_loop": "ask",
+	},
+	"agent": {
+		"plan": {
+			"permission": {
+				"edit": "deny",
+				"bash": {
+					"*": "deny",
+					"git status *": "allow",
+					"git log *": "allow",
+					"git diff *": "allow",
+					"git branch *": "allow",
+					"ls *": "allow",
+					"pwd": "allow",
+					"which *": "allow",
+					"cat *": "allow",
+					"head *": "allow",
+					"tail *": "allow",
+					"grep *": "allow",
+					"find *": "allow",
+					"npm list *": "allow",
+					"npm info *": "allow",
+					"pdftotext *": "allow",
+				},
+			},
+		},
 	},
 }
