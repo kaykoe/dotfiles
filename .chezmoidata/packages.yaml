@@ -9,6 +9,7 @@ packages:
             - "yazi"
             - "fastfetch"
             - "ouch"
+            - "hyperfine"
             - "ripgrep"
             - "gh"
             - "distrobox"
