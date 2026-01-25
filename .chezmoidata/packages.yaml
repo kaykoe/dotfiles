@@ -95,6 +95,7 @@ packages:
         - "clang"
         - "gcc"
         - "make"
+        - "cmake"
         - "unzip"
         - "tmux"
         - "nmap"
