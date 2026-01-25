@@ -78,3 +78,7 @@ config.kbd
 .config/yazi
 .duckdbrc
 {{ end }}
+
+{{- if not .isLaptop }}
+.chezmoiscripts/install-auto-cpufreq.sh
+{{- end }}
