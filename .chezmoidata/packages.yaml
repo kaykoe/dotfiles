@@ -59,6 +59,7 @@ packages:
         steam:
             - "selinux-policy-targeted-gaming"
             - "steam"
+            - "protontricks"
             - "mangohud"
             - "goverlay"
             - "gamemode"
