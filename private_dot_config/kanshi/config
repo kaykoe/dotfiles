@@ -1,0 +1,9 @@
+profile laptop {
+	output eDP-1 enable scale 1
+	exec swww img ~/.config/hypr/wallpaper_effects/.wallpaper_current
+}
+profile docked {
+	output eDP-1 disable
+	output "Shenzhen KTC Technology Group H24T09P 000000000000" enable mode 1920x1080@165.00Hz
+	exec swww img ~/.config/hypr/wallpaper_effects/.wallpaper_current
+}

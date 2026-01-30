@@ -45,7 +45,7 @@ declare -A effects=(
 
 # Function to apply no effects
 no-effects() {
-    swww img -o "$focused_monitor" "$wallpaper_current" $SWWW_PARAMS &&
+    swww img "$wallpaper_current" $SWWW_PARAMS &&
     wait $!
     sed -Ei 's/^#((\w+)\.(target|template) = .*$)/\1/' ~/.config/wallust/wallust.toml
     sed -Ei 's/^((kitty|neopywal)\.(target|template) = .*$)/#\1/' ~/.config/wallust/wallust.toml
@@ -87,7 +87,7 @@ main() {
             done
 
             sleep 1
-            swww img -o "$focused_monitor" "$wallpaper_output" $SWWW_PARAMS &
+            swww img "$wallpaper_output" $SWWW_PARAMS &
 
             sleep 2
   
