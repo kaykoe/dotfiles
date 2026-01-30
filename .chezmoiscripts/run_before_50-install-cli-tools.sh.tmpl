@@ -66,7 +66,6 @@ on_path_info 'wallust' || { cargo install wallust --locked && ln -s ~/.cargo/bin
 on_path_info 'yazi' || { cargo install --force yazi-build && ln -s -t ~/.local/bin/ ~/.cargo/bin/yazi ~/.cargo/bin/ya; }
 {{- end }}
 
-# TODO: fd completions and manpages
 # TODO: total completion system improvement
 # TODO: bash fzf tab
 on_path_info 'bat' || { wget -qO- {{ gitHubLatestReleaseAssetURL "sharkdp/bat" "bat-v*-x86_64-unknown-linux-musl.tar.gz" }} | tar -xzO --wildcards '*/bat' | {{ if .sudo -}}
