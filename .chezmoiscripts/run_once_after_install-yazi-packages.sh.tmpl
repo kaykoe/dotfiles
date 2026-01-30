@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+{{ $yazi_exists := lookPath "yazi" }}
+{{ if $yazi_exists }}
+ya pkg install
+{{ end }}

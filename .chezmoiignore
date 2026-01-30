@@ -76,6 +76,7 @@ config.kbd
 
 {{ if not .yazi }}
 .config/yazi
+.chezmoiscripts/install-yazi-packages.sh
 .duckdbrc
 {{ end }}
 
