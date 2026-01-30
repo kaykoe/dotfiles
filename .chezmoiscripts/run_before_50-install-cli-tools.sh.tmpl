@@ -156,8 +156,19 @@ on_path_info 'sesh' || { wget -qO- https://getbin.io/joshmedeski/sesh | tar -xzO
 {{ end }}
 
 {{ if .isWSL }}
-on_path_info 'win32yank.exe' || { curl -LsSfO https://github.com/equalsraf/win32yank/releases/latest/download/win32yank-x86.zip \
-    && sudo unzip win32yank-x86.zip win32yank.exe -d /usr/local/bin/ && sudo chmod 755 /usr/local/bin/win32yank.exe && rm -rf win32yank-x86.zip; }
+if ! on_path_info 'win32yank.exe'; then
+	set -e
+	pushd /tmp
+	trap popd EXIT
+	curl -LsSfO https://github.com/equalsraf/win32yank/releases/latest/download/win32yank-x86.zip
+	sudo unzip win32yank-x86.zip win32yank.exe -d /usr/local/bin/
+	sudo chmod 755 /usr/local/bin/win32yank.exe
+	rm -rf win32yank-x86.zip
+	trap - EXIT
+	popd
+	set +e
+fi
+
 
 # for tmux-yank
 on_path_info 'clip.exe' || sudo ln -s /mnt/c/Windows/System32/clip.exe /usr/local/bin/clip.exe
