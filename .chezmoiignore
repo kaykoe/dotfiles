@@ -43,6 +43,7 @@ config.kbd
 .config/zed
 .config/kitty
 .config/hypr
+.config/kanshi
 .chezmoiscripts/install-flatpak-apps.sh
 .chezmoiscripts/install-zen.sh
 .chezmoiscripts/install-fonts.sh
