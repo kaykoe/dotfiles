@@ -63,7 +63,20 @@ on_path_info 'wallust' || { cargo install wallust --locked && ln -s ~/.cargo/bin
 {{ end }}
 
 {{- if not (or (has "yazi" $cli_packages) (not .yazi)) }}
-on_path_info 'yazi' || { cargo install --force yazi-build && ln -s -t ~/.local/bin/ ~/.cargo/bin/yazi ~/.cargo/bin/ya; }
+if ! on_path_info 'yazi'; then
+    set -e
+    pushd /tmp
+    trap popd EXIT
+
+    wget -qO yazi.zip https://github.com/sxyazi/yazi/releases/latest/download/yazi-x86_64-unknown-linux-musl.zip
+    sudo unzip -j yazi.zip -d /usr/local/bin */ya */yazi
+    sudo chmod 755 /usr/local/bin/ya /usr/local/bin/yazi
+    rm -rf yazi.zip
+
+    set +e
+    trap - EXIT
+    popd
+fi
 {{- end }}
 
 # TODO: total completion system improvement
@@ -127,10 +140,10 @@ tee ~/.local/bin/ouch &>/dev/null && chmod 755 ~/.local/bin/ouch; }
 echo 'Installing neovim...'
 {{- if .sudo }}
 sudo mkdir -p /opt/nvim
-wget -qO- {{ gitHubLatestReleaseAssetURL "neovim/neovim" "nvim-linux-x86_64.tar.gz" }} | sudo tar -C /opt/nvim -xz --strip-components 1
+wget -qO- https://github.com/neovim/neovim/releases/latest/download/nvim-linux-x86_64.tar.gz | sudo tar -C /opt/nvim -xz --strip-components 1
 {{- else }}
 mkdir -p ~/.opt/nvim && pushd ~/.opt/nvim
-wget -q {{ gitHubLatestReleaseAssetURL "neovim/neovim" "nvim-linux-x86_64.appimage" }} && \
+wget -q https://github.com/neovim/neovim/releases/latest/download/nvim-linux-x86_64.appimage && \
     chmod +x ./nvim-linux-x86_64.appimage && ./nvim-linux-x86_64.appimage --appimage-extract && \
     rm nvim-linux-x86_64.appimage
 popd
@@ -151,7 +164,7 @@ on_path_info 'tree-sitter' || cargo install --locked tree-sitter-cli
 {{- end }}
 
 {{- if .tmux }}
-on_path_info 'sesh' || { wget -qO- https://getbin.io/joshmedeski/sesh | tar -xzO sesh > ~/.local/bin/sesh && chmod +x ~/.local/bin/sesh; }
+on_path_info 'sesh' || { wget -qO- https://github.com/joshmedeski/sesh/releases/latest/download/sesh_Linux_x86_64.tar.gz  | tar -xzO sesh > ~/.local/bin/sesh && chmod +x ~/.local/bin/sesh; }
 {{ end }}
 
 {{ if .isWSL }}
