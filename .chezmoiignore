@@ -91,6 +91,7 @@ config.kbd
 {{ if not .yazi }}
 .config/yazi
 .chezmoiscripts/install-yazi-packages.sh
+.chezmoiscripts/yazi-completion.sh
 .duckdbrc
 {{ end }}
 
