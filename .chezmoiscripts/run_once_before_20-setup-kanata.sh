@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
 echo 'Setting up Kanata'
-sudo groupadd uinput
-echo 'KERNEL=="uinput", MODE="0660", GROUP="uinput", OPTIONS+="static_node=uinput"' | sudo tee -a /etc/udev/rules.d/99-input.rules >/dev/null
+sudo groupadd --system uinput
+echo 'KERNEL=="uinput", MODE="0660", GROUP="uinput", OPTIONS+="static_node=uinput"' | sudo tee /etc/udev/rules.d/99-input.rules >/dev/null
 sudo udevadm control --reload-rules && sudo udevadm trigger
 sudo modprobe uinput
 sudo useradd --system --no-create-home -s /sbin/nologin -G uinput,input kanata
