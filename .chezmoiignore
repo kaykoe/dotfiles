@@ -36,6 +36,18 @@ config.kbd
 .chezmoiscripts/make-zsh-default.sh
 {{ end -}}
 
+
+{{- $gui_packages := dig .osid "gui" ( list ) .packages }}
+{{- $is_hyprland := has "hyprland" $gui_packages }}
+{{- if .hasGUI }}
+{{- if not $is_hyprland }}
+.config/hypr
+.config/kanshi
+.chezmoiscripts/install-sddm-theme.sh
+.chezmoiscripts/60-recompile-hyprbars.sh
+{{ end -}}
+{{ end -}}
+
 {{- if not .hasGUI }}
 .local/bin/matlab
 .obsidian.vimrc
@@ -53,16 +65,17 @@ config.kbd
 .chezmoiscripts/20-setup-kanata.sh
 .chezmoiscripts/30-kanata-config.sh
 .chezmoiscripts/40-kanata-service.sh
+.chezmoiscripts/60-recompile-hyprbars.sh
 
 {{- if not .isWSL }}
 .config/wallust
 .config/nvim/lua/plugins/neopywal.lua
 {{ end -}}
 
-{{- if not .sudo }}
-.chezmoiscripts/setup-docker.sh
 {{ end -}}
 
+{{- if not .sudo }}
+.chezmoiscripts/setup-docker.sh
 {{ end -}}
 
 {{- if not .tmux }}
