@@ -59,7 +59,7 @@ on_path_info 'cargo' || { curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup
 {{ end }}
 
 {{ if (or .isWSL .hasGUI) }}
-on_path_info 'wallust' || { cargo install wallust --locked && ln -s ~/.cargo/bin/wallust ~/.local/bin/wallust; }
+on_path_info 'wallust' || { cargo install wallust --locked && ln -s ~/.cargo/bin/wallust ~/.local/bin/wallust && ~/.local/bin/wallust theme Tokyo-Night-Storm; }
 {{ end }}
 
 {{- if not (or (has "yazi" $cli_packages) (not .yazi)) }}
