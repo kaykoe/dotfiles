@@ -174,11 +174,36 @@ if [[ -z "$TMUX" && -z "$VIM" ]]; then
 	if [[ "$BASH_TMUX_AUTOSTARTED" != "true" ]]; then
 		export BASH_TMUX_AUTOSTARTED=true
 		eval "$(ssh-agent -s)"
-		ssh-add ~/.ssh/kaykoe+2025@asus_tumbleweed
+
+		# Load SSH keys from ~/.ssh/ssh_keys_to_load
+		ssh_keys_file="$HOME/.ssh/ssh_keys_to_load"
+		keys_loaded=0
+
+		if [[ -f "$ssh_keys_file" ]]; then
+			while IFS= read -r key || [[ -n "$key" ]]; do
+				# Skip empty lines and comments
+				[[ -z "$key" || "$key" =~ ^[[:space:]]*# ]] && continue
+
+				# Handle both relative (to ~/.ssh/) and absolute paths
+				if [[ "$key" = /* ]]; then
+					key_path="$key"
+				else
+					key_path="$HOME/.ssh/$key"
+				fi
+
+				ssh-add "$key_path" && ((keys_loaded++))
+			done <"$ssh_keys_file"
+		fi
+
 		{{ if .isWSL }}
 		wallust theme monokai
 		{{ end }}
-		sesh connect "home "
+		# Show warning if no keys were loaded
+		if [[ $keys_loaded -eq 0 ]]; then
+			sesh connect "home " -c 'command clear && echo "$(tput setaf 1)No SSH keys loaded. Add key paths to ~/.ssh/ssh_keys_to_load (one per line)$(tput sgr0)"'
+		else
+			sesh connect "home "
+		fi
 	fi
 fi
 {{ end }}
