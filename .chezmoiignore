@@ -43,6 +43,8 @@ config.kbd
 {{- if not $is_hyprland }}
 .config/hypr
 .config/kanshi
+.config/swaync
+.config/waybar
 .chezmoiscripts/install-sddm-theme.sh
 .chezmoiscripts/60-recompile-hyprbars.sh
 {{ end -}}
@@ -56,6 +58,8 @@ config.kbd
 .config/kitty
 .config/hypr
 .config/kanshi
+.config/swaync
+.config/waybar
 .chezmoiscripts/install-flatpak-apps.sh
 .chezmoiscripts/install-zen.sh
 .chezmoiscripts/install-fonts.sh
