@@ -106,6 +106,7 @@ packages:
         - "yq"
         - "speedtest-cli"
     gui_common:
+        - "flatpak"
         - "kitty"
         - "pavucontrol"
         - "pamixer"
