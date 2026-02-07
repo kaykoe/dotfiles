@@ -14,8 +14,9 @@ set -e
 if ! on_path_info 'kanata'; then
 	pushd /tmp
 	trap popd EXIT
-	wget -qO kanata.zip {{ gitHubLatestReleaseAssetURL "jtroo/kanata" "linux-binaries-x64-v*.zip" }}
+	wget -qO kanata.zip {{ gitHubLatestReleaseAssetURL "jtroo/kanata" "kanata-linux-binaries-v*.*.*-x64.zip" }}
 	sudo unzip kanata.zip kanata_linux_x64 -d /usr/bin
+	sudo mv /usr/bin/{kanata_linux_x64,kanata}
 	sudo chmod +x /usr/bin/kanata
 	rm kanata.zip
 fi
