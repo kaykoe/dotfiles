@@ -191,7 +191,7 @@ if [[ -z "$TMUX" && -z "$VIM" ]]; then
 					key_path="$HOME/.ssh/$key"
 				fi
 
-				ssh-add "$key_path" && ((keys_loaded++))
+				SSH_ASKPASS_REQUIRE='never' ssh-add "$key_path" && ((keys_loaded++))
 			done <"$ssh_keys_file"
 		fi
 
