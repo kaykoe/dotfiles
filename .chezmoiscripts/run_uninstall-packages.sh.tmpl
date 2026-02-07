@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+
+{{- $pkg_mgr_uninstall_cmd := "" }}
+{{- if eq .osid "linux_opensuse_tumbleweed" }}
+{{- $pkg_mgr_uninstall_cmd = "sudo zypper rm --clean-deps" }}
+{{- else if eq .osid "linux_ubuntu" "linux_debian" }}
+{{- $pkg_mgr_uninstall_cmd = "sudo apt remove --autoremove" }}
+{{- end }}
+
+{{ if eq $pkg_mgr_uninstall_cmd "" -}}
+exit 0
+{{- end }}
+
+set -e
+
+{{- $packages_to_uninstall := list }}
+{{- range ( dig .osid "uninstall" ( list ) .packages ) }}
+{{- if lookPath . }}
+{{- $packages_to_uninstall = append $packages_to_uninstall . }}
+{{- end }}
+{{- end }}
+
+{{ if eq (len $packages_to_uninstall) 0 -}}
+exit 0
+{{- end }}
+
+echo "Uninstalling unwanted packages..."
+{{ print $pkg_mgr_uninstall_cmd }} {{ range $packages_to_uninstall }} {{- . | quote }} {{ end }}

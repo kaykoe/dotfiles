@@ -1,14 +1,10 @@
 #!/usr/bin/env bash
 
 {{- $pkg_mgr_install_cmd := "" }}
-{{- $pkg_mgr_uninstall_cmd := "" }}
-{{- $uninstall_list := ( dig .osid "uninstall" ( list ) .packages ) }}
 {{- if eq .osid "linux_opensuse_tumbleweed" }}
 {{- $pkg_mgr_install_cmd = "sudo zypper in" }}
-{{- $pkg_mgr_uninstall_cmd = "sudo zypper rm --clean-deps" }}
 {{- else if eq .osid "linux_ubuntu" "linux_debian" }}
 {{- $pkg_mgr_install_cmd = "sudo apt install" }}
-{{- $pkg_mgr_uninstall_cmd = "sudo apt remove --autoremove" }}
 {{- end }}
 
 {{ if ne $pkg_mgr_install_cmd "" -}}
@@ -30,10 +26,4 @@ echo 'Installing packages...'
 {{ print $pkg_mgr_install_cmd }} --recommends --from download.opensuse.org-oss {{ range ( dig .osid "steam" ( list ) .packages ) }} {{- . | quote }} {{ end -}}
 
 {{ end }}
-
-{{ if $uninstall_list -}}
-
-{{ print $pkg_mgr_uninstall_cmd }} {{ range $uninstall_list }} {{- . | quote }} {{ end }} || true
-
-{{- end }}
 {{ end -}}
