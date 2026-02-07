@@ -1,0 +1,77 @@
+#!/usr/bin/env bash
+
+# Hyprland hyprbars plugin auto-recompiler
+
+{{ $hyprland_version := output "hyprctl" "version" | regexFind "Tag: ([0-9]+\\.[0-9]+\\.[0-9]+)" | trimPrefix "Tag: " }}
+
+set -e
+
+PLUGIN_DIR="$HOME/.local/share/hyprland/plugins"
+REPO_DIR="$HOME/.cache/hyprland-plugins"
+PLUGIN_NAME="hyprbars"
+
+echo "Recompiling ${PLUGIN_NAME} plugin for Hyprland {{ $hyprland_version }}..."
+
+# Clone or update the hyprland-plugins repository
+if [ ! -d "$REPO_DIR" ]; then
+	echo "Cloning hyprland-plugins repository..."
+	git clone https://github.com/hyprwm/hyprland-plugins.git "$REPO_DIR"
+else
+	echo "Cleaning and updating hyprland-plugins repository..."
+	pushd "$REPO_DIR"
+	trap popd EXIT
+	git reset --hard main
+	git clean -dfx
+	git switch main
+	git pull
+	popd
+	trap - EXIT
+fi
+
+pushd "$REPO_DIR"
+trap popd EXIT
+
+# Parse hyprpm.toml to find the correct commit for this Hyprland version
+echo "Finding correct plugin commit for Hyprland {{ $hyprland_version }}..."
+PLUGIN_COMMIT=$(grep "# {{ $hyprland_version }}" hyprpm.toml | grep -oP '"[a-f0-9]{40}"' | tail -n 1 | tr -d '"')
+
+if [ -z "$PLUGIN_COMMIT" ]; then
+	echo "Error: Could not find plugin commit for Hyprland version {{ $hyprland_version }} in hyprpm.toml"
+	echo "Available versions in hyprpm.toml:"
+	grep -oP '# \K[0-9]+\.[0-9]+\.[0-9]+' hyprpm.toml | tail -10
+	exit 1
+fi
+
+echo "Plugin commit: $PLUGIN_COMMIT"
+
+# Checkout the correct commit
+echo "Checking out commit $PLUGIN_COMMIT..."
+git checkout "$PLUGIN_COMMIT" 2>&1 | grep -v "detached HEAD"
+
+# Build the plugin
+echo "Building ${PLUGIN_NAME} plugin..."
+popd
+pushd "$REPO_DIR/$PLUGIN_NAME"
+make clean 2>/dev/null || true
+make -j $(nproc)
+
+# Verify the plugin was built
+if [ ! -f "${PLUGIN_NAME}.so" ]; then
+	echo "Error: Plugin build failed - ${PLUGIN_NAME}.so not found"
+	exit 1
+fi
+
+# Create plugin directory if it doesn't exist
+mkdir -p "$PLUGIN_DIR"
+
+# Install the plugin
+echo "Installing ${PLUGIN_NAME}.so to $PLUGIN_DIR..."
+mv "${PLUGIN_NAME}.so" "$PLUGIN_DIR/"
+
+# Verify installation
+if [ -f "$PLUGIN_DIR/${PLUGIN_NAME}.so" ]; then
+	echo "${PLUGIN_NAME} plugin successfully compiled and installed!"
+else
+	echo "Error: Plugin installation failed"
+	exit 1
+fi

@@ -28,7 +28,7 @@ packages:
             - "hyprlock"
             - "hyprpicker"
             - "hyprpolkitagent"
-            - "hyprland-plugin-hyprbars"
+            - "hyprland-devel"
             - "xdg-desktop-portal-hyprland"
             - "NetworkManager-applet"
             - "NetworkManager-connection-editor"
