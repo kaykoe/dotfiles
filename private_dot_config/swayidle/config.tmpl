@@ -1,0 +1,9 @@
+{{- $gui_packages := dig .osid "gui" ( list ) .packages }}
+{{- $is_sway := has "sway" $gui_packages }}
+# Swayidle configuration
+# Idle management for Sway
+
+timeout 300 'swaylock -f' \
+timeout 600 'swaymsg "output * dpms off"' \
+    resume 'swaymsg "output * dpms on"' \
+before-sleep 'swaylock -f'

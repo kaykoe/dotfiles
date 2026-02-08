@@ -1,11 +1,81 @@
 //* ---- 💫 https://github.com/JaKooLit 💫 ---- *//
 /* Waybar Workspaces modules */
 
-/* Generally, this is a potential expanding of choices for hyprland/workspace */
-// HYPRLAND WORKSPACES. CHOOSE as desired and place on waybar configs
+/* Generally, this is a potential expanding of choices for hyprland/workspace or sway/workspaces */
+// WORKSPACES. CHOOSE as desired and place on waybar configs
+
+{{- $gui_packages := dig .osid "gui" ( list ) .packages }}
+{{- $is_hyprland := has "hyprland" $gui_packages }}
+{{- $is_sway := has "sway" $gui_packages }}
 
 {
-// CIRCLES Style
+{{- if $is_sway }}
+// SWAY WORKSPACES - CIRCLES Style
+"sway/workspaces": {
+	"all-outputs": true,
+	"format": "{icon}",
+	"on-click": "activate",
+    "persistent-workspaces": {
+      "*": 5
+	},
+	"format-icons": {
+		"active": "",
+		"default": "",
+	},
+},
+// SWAY WORKSPACES - ROMAN Numerals style
+"sway/workspaces#roman": {
+	"all-outputs": true,
+	"format": "{icon}",
+    "persistent-workspaces": {
+      "*": 5
+	},
+	"format-icons": {
+		"1": "I",
+		"2": "II",
+		"3": "III",
+		"4": "IV",
+		"5": "V",
+		"6": "VI",
+		"7": "VII",
+		"8": "VIII",
+		"9": "IX",
+		"10": "X",
+	},
+},
+// SWAY WORKSPACES - numbers style
+"sway/workspaces#numbers": {
+	"all-outputs": true,
+	"format": "{icon}",
+    "persistent-workspaces": {
+      "*": 5
+	},
+	"format-icons": {
+		"1": "1",
+		"2": "2",
+		"3": "3",
+		"4": "4",
+		"5": "5",
+		"6": "6",
+		"7": "7",
+		"8": "8",
+		"9": "9",
+		"10": "10",
+	},
+},
+// SWAY WINDOW
+"sway/window": {
+	"format": "{}",
+	"max-length": 25,
+	"separate-outputs": true,
+	"rewrite": {
+		"(.*) — Mozilla Firefox": " $1",
+		"(.*) - fish": "> [$1]",
+		"(.*) - zsh": "> [$1]",
+	},
+},
+{{- else if $is_hyprland }}
+// HYPRLAND WORKSPACES - CIRCLES Style
 "hyprland/workspaces": {
 	"active-only": false,
 	"all-outputs": true,
@@ -265,4 +335,6 @@
 		"class<PrusaSlicer|UltiMaker-Cura|OrcaSlicer>": "󰹛",
 		}
 	},
+}
+{{- end }}
 }

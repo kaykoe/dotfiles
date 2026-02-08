@@ -1,0 +1,20 @@
+{
+    "border": "none",
+    "floating": "auto_off",
+    "fullscreen_mode": 1,
+    "geometry": {
+        "height": 990,
+        "width": 1868,
+        "x": 0,
+        "y": 0
+    },
+    "marks": [],
+    "name": "kitty",
+    "percent": 1,
+    "swallows": [
+        {
+            "class": "^kitty$"
+        }
+    ],
+    "type": "con"
+}

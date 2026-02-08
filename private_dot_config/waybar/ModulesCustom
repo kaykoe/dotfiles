@@ -26,14 +26,14 @@
 
 "custom/file_manager": {
 	"format": " ",
-	"on-click": "$HOME/.config/hypr/scripts/WaybarScripts.sh --files",
+	"on-click": "$HOME/.config/wayland-scripts/WaybarScripts.sh --files",
 	"tooltip": true,
 	"tooltip-format": "File Manager",
 },
 
 "custom/tty": {
 	"format": " ",
-	"on-click": "$HOME/.config/hypr/scripts/WaybarScripts.sh --term",
+	"on-click": "$HOME/.config/wayland-scripts/WaybarScripts.sh --term",
 	"tooltip": true,
 	"tooltip-format": "Launch Terminal",
 },
@@ -47,7 +47,7 @@
 
 "custom/settings": {
 	"format": " ",
-	"on-click": "$HOME/.config/hypr/scripts/Kool_Quick_Settings.sh",
+	"on-click": "$HOME/.config/wayland-scripts/Kool_Quick_Settings.sh",
 	"tooltip": true,
 	"tooltip-format": "Launch KooL Hyprland Settings Menu",
 },
@@ -56,22 +56,22 @@
 	"format": " ",
 	"on-click": "$HOME/.config/hypr/UserScripts/WallpaperSelect.sh",
 	"on-click-right": "$HOME/.config/hypr/UserScripts/WallpaperRandom.sh",
-	"on-click-middle": "$HOME/.config/hypr/scripts/WaybarStyles.sh",
+	"on-click-middle": "$HOME/.config/wayland-scripts/WaybarStyles.sh",
 	"tooltip": true,
 	"tooltip-format": "Left Click: Wallpaper Menu\nMiddle Click: Random wallpaper\nRight Click: Waybar Styles Menu",
 },
 
 "custom/hint": {
 	"format": "󰺁 HINT!",
-	"on-click": "$HOME/.config/hypr/scripts/KeyHints.sh",
-	"on-click-right": "$HOME/.config/hypr/scripts/KeyBinds.sh",
+	"on-click": "$HOME/.config/wayland-scripts/KeyHints.sh",
+	"on-click-right": "$HOME/.config/wayland-scripts/KeyBinds.sh",
 	"tooltip": true,
 	"tooltip-format": "Left Click: Quick Tips\nRight Click: Keybinds",
 },
 
 "custom/dot_update": {
 	"format": " 󰁈 ",
-	"on-click": "$HOME/.config/hypr/scripts/KooLsDotsUpdate.sh",
+	"on-click": "$HOME/.config/wayland-scripts/KooLsDotsUpdate.sh",
 	"tooltip": true,
 	"tooltip-format": "Check KooL Dots update\nIf available",
 },
@@ -83,8 +83,8 @@
 	"escape": true,
 	"exec-on-event": true,
 	"interval": 60,
-	"exec": "$HOME/.config/hypr/scripts/Hypridle.sh status",
-	"on-click": "$HOME/.config/hypr/scripts/Hypridle.sh toggle",
+	"exec": "$HOME/.config/wayland-scripts/Hypridle.sh status",
+	"on-click": "$HOME/.config/wayland-scripts/Hypridle.sh toggle",
 	"on-click-right": "hyprlock"
 },
 
@@ -92,28 +92,28 @@
 	"exec": "cat $HOME/.cache/kb_layout",
 	"interval": 1,
 	"format": " {}",
-	"on-click": "$HOME/.config/hypr/scripts/SwitchKeyboardLayout.sh",
+	"on-click": "$HOME/.config/wayland-scripts/SwitchKeyboardLayout.sh",
 },
 
 "custom/light_dark": {
 	"format": "󰔎 ",
-	//"on-click": "$HOME/.config/hypr/scripts/DarkLight.sh",
+	//"on-click": "$HOME/.config/wayland-scripts/DarkLight.sh",
 	"on-click": "$HOME/.config/hypr/UserScripts/WallpaperSelect.sh",
-	"on-click-right": "$HOME/.config/hypr/scripts/WaybarStyles.sh",
+	"on-click-right": "$HOME/.config/wayland-scripts/WaybarStyles.sh",
 	"tooltip": true,
 	"tooltip-format": "Left Click: Wallpaper Menu\nRight Click: Waybar Styles Menu",
 },
 
 "custom/lock": {
 	"format": "󰌾",
-	"on-click": "$HOME/.config/hypr/scripts/LockScreen.sh",
+	"on-click": "$HOME/.config/wayland-scripts/LockScreen.sh",
 	"tooltip": true,
 	"tooltip-format": "󰷛 Screen Lock",
 },
 
 "custom/clipboard": {
 	"format": "" ,
-	"on-click": "$HOME/.config/hypr/scripts/ClipManager.sh",
+	"on-click": "$HOME/.config/wayland-scripts/ClipManager.sh",
 	"tooltip": true,
 	"tooltip-format": " Clipboard History",
 },
@@ -122,13 +122,13 @@
 	"format": "  ",
 	"on-click": "pkill rofi || rofi -show drun -modi run,drun,filebrowser,window",
 	//"on-click-middle": "$HOME/.config/hypr/UserScripts/WallpaperSelect.sh",
-	"on-click-right": "$HOME/.config/hypr/scripts/WaybarLayout.sh",
+	"on-click-right": "$HOME/.config/wayland-scripts/WaybarLayout.sh",
 	"tooltip": true,
 	"tooltip-format": "Left Click: Rofi Menu\nRight Click: Waybar Layout Menu",
 },
 // This is a custom cava visualizer
 "custom/cava_mviz": {
-	"exec": "$HOME/.config/hypr/scripts/WaybarCava.sh",
+	"exec": "$HOME/.config/wayland-scripts/WaybarCava.sh",
 	"format": "{}"
 },
 
@@ -141,15 +141,15 @@
 	"on-click": "playerctl previous",
 	"on-click-right": "playerctl next",
 	"scroll-step": 5.0,
-	"on-scroll-up": "$HOME/.config/hypr/scripts/Volume.sh --inc",
-	"on-scroll-down": "$HOME/.config/hypr/scripts/Volume.sh --dec",
+	"on-scroll-up": "$HOME/.config/wayland-scripts/Volume.sh --inc",
+	"on-scroll-down": "$HOME/.config/wayland-scripts/Volume.sh --dec",
 	"smooth-scrolling-threshold": 1,
 },
     
 "custom/power": {
 	"format": " ⏻ ",
-	"on-click": "$HOME/.config/hypr/scripts/Wlogout.sh",
-	"on-click-right": "$HOME/.config/hypr/scripts/ChangeBlur.sh",
+	"on-click": "$HOME/.config/wayland-scripts/Wlogout.sh",
+	"on-click-right": "$HOME/.config/wayland-scripts/ChangeBlur.sh",
 	"tooltip": true,
 	"tooltip-format": "Left Click: Logout Menu\nRight Click: Change Blur",
 },
@@ -202,7 +202,7 @@
 	"exec": "checkupdates | wc -l",
 	"exec-if": "[[ $(checkupdates | wc -l) ]]",
 	"interval": 43200, // (Arch Linux will try to check 12 hrs interval only
-	"on-click": "$HOME/.config/hypr/scripts/Distro_update.sh",
+	"on-click": "$HOME/.config/wayland-scripts/Distro_update.sh",
 	"tooltip": true,
 	"tooltip-format": "Left Click: Update System\nArch (w/ notification)\nFedora, OpenSuse, Debian/Ubuntu click to update",
 },

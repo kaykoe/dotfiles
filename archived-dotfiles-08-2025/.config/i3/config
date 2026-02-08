@@ -1,0 +1,14 @@
+#set super key as mod
+set $mod Mod4
+#variables for cleaner config
+set $exec exec --no-startup-id
+set $execa exec_always --no-startup-id
+
+# Define names for default workspaces for which we configure key bindings later on.
+set $ws1 "1:"
+set $ws2 "2:"
+set $ws7 "7: 󰙯 "
+
+include set.conf
+include startup.conf
+include bind.conf

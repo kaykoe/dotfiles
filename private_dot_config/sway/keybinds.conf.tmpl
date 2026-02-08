@@ -1,0 +1,126 @@
+{{- $gui_packages := dig .osid "gui" ( list ) .packages }}
+{{- $is_sway := has "sway" $gui_packages }}
+# -------------------------------------------------------------------------------------------------------------------------------------------
+# KEYBINDINGS
+# -------------------------------------------------------------------------------------------------------------------------------------------
+
+# Volume controls
+bindsym XF86AudioRaiseVolume exec $scriptsDir/Volume.sh --inc
+bindsym XF86AudioLowerVolume exec $scriptsDir/Volume.sh --dec
+bindsym XF86AudioMute exec $scriptsDir/Volume.sh --toggle
+bindsym $mod+Shift+a exec $scriptsDir/Volume.sh --toggle-mic
+
+# Media controls
+bindsym XF86AudioPlay exec $scriptsDir/MediaCtrl.sh --pause
+bindsym XF86AudioPause exec $scriptsDir/MediaCtrl.sh --pause
+bindsym XF86AudioStop exec $scriptsDir/MediaCtrl.sh --stop
+bindsym XF86AudioPrev exec $scriptsDir/MediaCtrl.sh --prv
+bindsym XF86AudioNext exec $scriptsDir/MediaCtrl.sh --nxt
+
+# Brightness controls
+bindsym XF86MonBrightnessUp exec $scriptsDir/Brightness.sh --inc
+bindsym XF86MonBrightnessDown exec $scriptsDir/Brightness.sh --dec
+
+# Screenshot bindings
+bindsym Print exec $scriptsDir/ScreenShot.sh
+bindsym Shift+Print exec $scriptsDir/ScreenShot.sh --area
+bindsym $mod+Print exec $scriptsDir/ScreenShot.sh --now
+bindsym $mod+Shift+Print exec $scriptsDir/ScreenShot.sh --active
+
+# Start terminal
+bindsym $mod+Return exec kitty
+
+# Kill focused window
+bindsym $mod+Shift+q kill
+
+# Start rofi launcher
+bindsym $mod+comma exec rofi -show drun
+
+# Lock screen
+bindsym Super+l exec $scriptsDir/LockScreen.sh
+
+# Notification panel
+bindsym $mod+Ctrl+Shift+n exec swaync-client -t -sw
+
+# Change focus (vim keys)
+bindsym $mod+h focus left
+bindsym $mod+j focus down
+bindsym $mod+k focus up
+bindsym $mod+l focus right
+
+# Move focused window (vim keys)
+bindsym $mod+Shift+h move left
+bindsym $mod+Shift+j move down
+bindsym $mod+Shift+k move up
+bindsym $mod+Shift+l move right
+
+# Resize windows (vim keys)
+bindsym $mod+Ctrl+h resize shrink width 50 px
+bindsym $mod+Ctrl+j resize grow height 50 px
+bindsym $mod+Ctrl+k resize shrink height 50 px
+bindsym $mod+Ctrl+l resize grow width 50 px
+
+# Split orientation
+bindsym $mod+bar split h
+bindsym $mod+minus split v
+
+# Fullscreen toggle
+bindsym $mod+f fullscreen toggle
+
+# Container layout
+bindsym $mod+w layout tabbed
+bindsym $mod+s layout toggle split
+
+# Toggle tiling / floating
+bindsym $mod+Shift+space floating toggle
+
+# Change focus between tiling / floating windows
+bindsym $mod+space focus mode_toggle
+
+# Focus parent/child container
+bindsym $mod+plus focus parent
+bindsym $mod+equal focus child
+
+# Switch to workspace (Colemak-friendly: N, E, I, O, U, Y, then 1-9 for extended workspaces)
+bindsym $mod+n workspace $ws1
+bindsym $mod+e workspace $ws2
+bindsym $mod+i workspace $ws3
+bindsym $mod+o workspace $ws4
+bindsym $mod+u workspace $ws5
+bindsym $mod+y workspace $ws6
+bindsym $mod+apostrophe workspace $ws7
+bindsym $mod+1 workspace $ws8
+bindsym $mod+2 workspace $ws9
+bindsym $mod+3 workspace $ws10
+
+# Move focused container to workspace
+bindsym $mod+Shift+n move container to workspace $ws1
+bindsym $mod+Shift+e move container to workspace $ws2
+bindsym $mod+Shift+i move container to workspace $ws3
+bindsym $mod+Shift+o move container to workspace $ws4
+bindsym $mod+Shift+u move container to workspace $ws5
+bindsym $mod+Shift+y move container to workspace $ws6
+bindsym $mod+Shift+apostrophe move container to workspace $ws7
+bindsym $mod+Shift+1 move container to workspace $ws8
+bindsym $mod+Shift+2 move container to workspace $ws9
+bindsym $mod+Shift+3 move container to workspace $ws10
+
+# Reload sway configuration
+bindsym $mod+Shift+r reload
+
+# Exit menu
+bindsym $mod+Shift+minus exec wlogout
+
+# Resize mode
+mode "resize" {
+    bindsym h resize shrink width 5 px
+    bindsym j resize grow height 5 px
+    bindsym k resize shrink height 5 px
+    bindsym l resize grow width 5 px
+
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+    bindsym $mod+r mode "default"
+}
+
+bindsym $mod+r mode "resize"
