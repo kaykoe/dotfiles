@@ -44,7 +44,7 @@ packages:
             - "nwg-displays"
             - "wlogout"
             - "easyeffects"
-            - "rofi-wayland"
+            - "rofi"
             - "dragon-drop"
             - "qt6ct"
             - "seahorse"
