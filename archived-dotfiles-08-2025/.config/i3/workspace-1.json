@@ -1,0 +1,22 @@
+{
+    "border": "none",
+    "floating": "auto_off",
+    "current_border_width": 0,
+	"fullscreen_mode": 1,
+    "geometry": {
+       "height": 1016,
+       "width": 930,
+       "x": 970,
+       "y": 200
+    },
+    "marks": [],
+    "name": "zen",
+    "percent": 1,
+    "swallows": [
+       {
+       "class": "zen"
+       }
+    ],
+    "type": "con"
+}
+

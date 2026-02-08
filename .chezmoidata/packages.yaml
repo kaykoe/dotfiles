@@ -86,7 +86,26 @@ packages:
             - "hyperfine"
         gui:
             - "i3"
-    linux_ubuntu: *debian
+    linux_ubuntu:
+        cli:
+            - "fd-find"
+            - "eza"
+            - "hyperfine"
+        gui:
+            - "sway"
+            - "swaybg"
+            - "waybar"
+            - "sway-notification-center"
+            - "swayidle"
+            - "swaylock"
+            - "grim"
+            - "slurp"
+            - "wl-clipboard"
+            - "kanshi"
+            - "rofi"
+            - "wlogout"
+            - "xdg-desktop-portal-wlr"
+            - "python3-i3ipc"
     cli_common:
         - "ncdu"
         - "git"

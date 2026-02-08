@@ -2,6 +2,10 @@
 # /* ---- 💫 https://github.com/JaKooLit 💫 ---- */  ##
 # Wallust Colors for current wallpaper
 
+{{- $gui_packages := dig .osid "gui" ( list ) .packages }}
+{{- $is_hyprland := has "hyprland" $gui_packages }}
+{{- $is_sway := has "sway" $gui_packages }}
+
 # Define the path to the swww cache directory
 cache_dir="$HOME/.cache/swww/"
 
@@ -11,8 +15,13 @@ monitor_outputs=($(ls "$cache_dir"))
 # Initialize a flag to determine if the ln command was executed
 ln_success=false
 
+{{- if $is_hyprland }}
 # Get current focused monitor
 current_monitor=$(hyprctl monitors | awk '/^Monitor/{name=$2} /focused: yes/{print name}')
+{{- else if $is_sway }}
+# Get current focused monitor
+current_monitor=$(swaymsg -t get_outputs | jq -r '.[] | select(.focused) | .name')
+{{- end }}
 echo $current_monitor
 # Construct the full path to the cache file
 cache_file="$cache_dir$current_monitor"
@@ -26,8 +35,14 @@ if [ -f "$cache_file" ]; then
 	if ln -sf "$wallpaper_path" "$HOME/.config/rofi/.current_wallpaper"; then
 		ln_success=true # Set the flag to true upon successful execution
 	fi
+{{- if $is_hyprland }}
 	# copy the wallpaper for wallpaper effects
 	cp -r "$wallpaper_path" "$HOME/.config/hypr/wallpaper_effects/.wallpaper_current"
+{{- else if $is_sway }}
+	# copy the wallpaper for wallpaper effects (sway uses same path structure for consistency)
+	mkdir -p "$HOME/.config/hypr/wallpaper_effects"
+	cp -r "$wallpaper_path" "$HOME/.config/hypr/wallpaper_effects/.wallpaper_current"
+{{- end }}
 fi
 
 # Check the flag before executing further commands

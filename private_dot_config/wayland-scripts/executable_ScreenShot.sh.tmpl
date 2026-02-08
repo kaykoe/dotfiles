@@ -2,6 +2,10 @@
 # /* ---- 💫 https://github.com/JaKooLit 💫 ---- */  ##
 # Screenshots scripts
 
+{{- $gui_packages := dig .osid "gui" ( list ) .packages }}
+{{- $is_hyprland := has "hyprland" $gui_packages }}
+{{- $is_sway := has "sway" $gui_packages }}
+
 # variables
 time=$(date "+%d-%b_%H-%M-%S")
 dir="$(xdg-user-dir PICTURES)/Screenshots"
@@ -9,9 +13,13 @@ file="Screenshot_${time}_${RANDOM}.png"
 
 iDIR="$HOME/.config/swaync/icons"
 iDoR="$HOME/.config/swaync/images"
-sDIR="$HOME/.config/hypr/scripts"
+sDIR="$HOME/.config/wayland-scripts"
 
+{{- if $is_hyprland }}
 active_window_class=$(hyprctl -j activewindow | jq -r '(.class)')
+{{- else if $is_sway }}
+active_window_class=$(swaymsg -t get_tree | jq -r '.. | select(.focused?) | .app_id // .window_properties.class')
+{{- end }}
 active_window_file="Screenshot_${time}_${active_window_class}.png"
 active_window_path="${dir}/${active_window_file}"
 
@@ -66,15 +74,23 @@ shotnow() {
 }
 
 shotwin() {
+{{- if $is_hyprland }}
 	w_pos=$(hyprctl activewindow | grep 'at:' | cut -d':' -f2 | tr -d ' ' | tail -n1)
 	w_size=$(hyprctl activewindow | grep 'size:' | cut -d':' -f2 | tr -d ' ' | tail -n1 | sed s/,/x/g)
 	cd ${dir} && grim -g "$w_pos $w_size" - | tee "$file" | wl-copy
+{{- else if $is_sway }}
+	swaymsg -t get_tree | jq -r '.. | select(.focused?) | "\(.rect.x),\(.rect.y) \(.rect.width)x\(.rect.height)"' | grim -g - - | tee "${dir}/${file}" | wl-copy
+{{- end }}
 	sleep 0.1
 	notify_view
 }
 
 shotactive() {
+{{- if $is_hyprland }}
 	hyprctl -j activewindow | jq -r '"\(.at[0]),\(.at[1]) \(.size[0])x\(.size[1])"' | grim -g - - | tee "${active_window_path}" | wl-copy
+{{- else if $is_sway }}
+	swaymsg -t get_tree | jq -r '.. | select(.focused?) | "\(.rect.x),\(.rect.y) \(.rect.width)x\(.rect.height)"' | grim -g - - | tee "${active_window_path}" | wl-copy
+{{- end }}
 	sleep 0.1
 	notify_view "active"
 }
@@ -109,8 +125,8 @@ menu() {
 	menu_command="rofi"
 	# Options
 	# main_opts=("󰹑 Capture" "󰁫 Timer capture")
-	screenshot_opts=("󰍹 Screen" " Active Window" " Window" "󱣴 Capture Area")
-	action_opts=(" Copy" " Save" " Copy &amp; Save" " Edit")
+	screenshot_opts=("󰍹 Screen" " Active Window" " Window" "󱣴 Capture Area")
+	action_opts=(" Copy" " Save" " Copy &amp; Save" " Edit")
 
 	# Detect available menu program
 	define_menu() {
@@ -160,8 +176,8 @@ menu() {
 	type_choice=$(show_menu "Type Of Screenshot" "${screenshot_opts[@]}") || exit 1
 	case "$type_choice" in
 	"󰍹 Screen") shotnow ;;
-	" Active Window") shotactive ;;
-	" Window") shotwin ;;
+	" Active Window") shotactive ;;
+	" Window") shotwin ;;
 	"󱣴 Capture Area") shotarea ;;
 	esac
 }

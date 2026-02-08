@@ -2,10 +2,14 @@
 # /* ---- 💫 https://github.com/JaKooLit 💫 ---- */
 # This script for selecting wallpapers (SUPER W)
 
+{{- $gui_packages := dig .osid "gui" ( list ) .packages }}
+{{- $is_hyprland := has "hyprland" $gui_packages }}
+{{- $is_sway := has "sway" $gui_packages }}
+
 # WALLPAPERS PATH
 terminal=kitty
 wallDIR="$HOME/Pictures/wallpapers"
-SCRIPTSDIR="$HOME/.config/hypr/scripts"
+SCRIPTSDIR="$HOME/.config/wayland-scripts"
 wallpaper_current="$HOME/.config/hypr/wallpaper_effects/.wallpaper_current"
 
 # Directory for swaync
@@ -27,7 +31,11 @@ fi
 
 # Variables
 rofi_theme="$HOME/.config/rofi/config-wallpaper.rasi"
+{{- if $is_hyprland }}
 focused_monitor=$(hyprctl monitors -j | jq -r '.[] | select(.focused) | .name')
+{{- else if $is_sway }}
+focused_monitor=$(swaymsg -t get_outputs | jq -r '.[] | select(.focused) | .name')
+{{- end }}
 
 # Ensure focused_monitor is detected
 if [[ -z "$focused_monitor" ]]; then
@@ -36,8 +44,13 @@ if [[ -z "$focused_monitor" ]]; then
 fi
 
 # Monitor details
+{{- if $is_hyprland }}
 scale_factor=$(hyprctl monitors -j | jq -r --arg mon "$focused_monitor" '.[] | select(.name == $mon) | .scale')
 monitor_height=$(hyprctl monitors -j | jq -r --arg mon "$focused_monitor" '.[] | select(.name == $mon) | .height')
+{{- else if $is_sway }}
+scale_factor=$(swaymsg -t get_outputs | jq -r --arg mon "$focused_monitor" '.[] | select(.name == $mon) | .scale')
+monitor_height=$(swaymsg -t get_outputs | jq -r --arg mon "$focused_monitor" '.[] | select(.name == $mon) | .current_mode.height')
+{{- end }}
 
 icon_size=$(echo "scale=1; ($monitor_height * 3) / ($scale_factor * 150)" | bc)
 adjusted_icon_size=$(echo "$icon_size" | awk '{if ($1 < 15) $1 = 20; if ($1 > 25) $1 = 25; print $1}')
@@ -113,7 +126,11 @@ set_sddm_wallpaper() {
 
 modify_startup_config() {
 	local selected_file="$1"
+{{- if $is_hyprland }}
 	local startup_config="$HOME/.config/hypr/UserConfigs/Startup_Apps.conf"
+{{- else if $is_sway }}
+	local startup_config="$HOME/.config/sway/startup.conf"
+{{- end }}
 
 	# Check if it's a live wallpaper (video)
 	if [[ "$selected_file" =~ \.(mp4|mkv|mov|webm)$ ]]; then
@@ -152,7 +169,11 @@ apply_image_wallpaper() {
 	# Run additional scripts
 	"$SCRIPTSDIR/WallustSwww.sh"
 	sleep 2
-	"$SCRIPTSDIR/Refresh.sh"
+{{- if $is_hyprland }}
+	"$HOME/.config/hypr/scripts/Refresh.sh"
+{{- else if $is_sway }}
+	swaymsg reload
+{{- end }}
 	sleep 1
 
 	set_sddm_wallpaper

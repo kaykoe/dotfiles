@@ -1,0 +1,59 @@
+{{- $gui_packages := dig .osid "gui" ( list ) .packages }}
+{{- $is_sway := has "sway" $gui_packages }}
+# -------------------------------------------------------------------------------------------------------------------------------------------
+# STARTUP APPLICATIONS
+# -------------------------------------------------------------------------------------------------------------------------------------------
+
+# Wayland environment
+exec dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP
+exec systemctl --user import-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP
+
+# Monitor management with kanshi
+exec kanshi
+
+# Wallpaper with swww
+exec swww-daemon --format xrgb
+exec swww img ~/Pictures/wallpapers/*.png
+
+# Polkit authentication agent
+exec $scriptsDir/Polkit.sh
+
+# Status bar
+exec waybar
+
+# Notification daemon
+exec swaync
+
+# System tray applications
+exec nm-applet --indicator
+exec blueman-applet
+exec easyeffects --gapplication-service
+
+# Clipboard manager
+exec wl-paste --type text --watch cliphist store
+exec wl-paste --type image --watch cliphist store
+
+# Idle management and screen locking
+exec swayidle -w
+
+# Autotiling
+exec autotiling
+
+# KDE Connect
+exec kdeconnectd
+
+# Import environment variables for tmux and system
+exec $scriptsDir/import_env.sh tmux
+exec $scriptsDir/import_env.sh system
+
+# -------------------------------------------------------------------------------------------------------------------------------------------
+# STARTUP APPLICATIONS ON SPECIFIC WORKSPACES
+# -------------------------------------------------------------------------------------------------------------------------------------------
+
+# Launch apps on specific workspaces
+exec swaymsg "workspace $ws1; exec flatpak run io.github.zen_browser.zen"
+exec swaymsg "workspace $ws2; exec kitty"
+exec swaymsg "workspace $ws4; exec flatpak run md.obsidian.Obsidian"
+
+# Return to workspace 2 after initial setup
+exec sleep 5 && swaymsg "workspace $ws2"

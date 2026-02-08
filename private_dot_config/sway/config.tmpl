@@ -1,0 +1,33 @@
+{{- $gui_packages := dig .osid "gui" ( list ) .packages }}
+{{- $is_sway := has "sway" $gui_packages }}
+# Sway configuration
+# Adapted from i3 config to match Hyprland ergonomics
+
+# Set mod key to ALT (matching Hyprland)
+set $mod Mod1
+
+# Variables for cleaner config
+set $exec exec
+set $execa exec_always
+
+# Config directories
+set $configDir $HOME/.config/sway
+set $scriptsDir $HOME/.config/wayland-scripts
+
+# Define workspace names with icons
+set $ws1 "1:"
+set $ws2 "2:"
+set $ws3 "3"
+set $ws4 "4"
+set $ws5 "5"
+set $ws6 "6"
+set $ws7 "7: 󰙯 "
+set $ws8 "8"
+set $ws9 "9"
+set $ws10 "10"
+
+# Source modular configuration files
+include $configDir/settings.conf
+include $configDir/keybinds.conf
+include $configDir/window-rules.conf
+include $configDir/startup.conf

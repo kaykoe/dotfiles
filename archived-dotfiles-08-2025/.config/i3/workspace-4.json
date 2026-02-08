@@ -1,0 +1,22 @@
+{
+    "border": "none",
+    "floating": "auto_off",
+    "current_border_width": 0,
+    "fullscreen_mode": 1,
+    "geometry": {
+        "height": 498,
+        "width": 930,
+        "x": 970,
+        "y": 718
+    },
+    "marks": [],
+    "name": "Obsidian Vault", 
+    "percent": 1,
+    "swallows": [
+        {
+            "class": "^obsidian$"
+        }
+    ],
+    "type": "con"
+}
+

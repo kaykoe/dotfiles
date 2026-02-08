@@ -1,0 +1,50 @@
+# ~/.config/betterlockscreenrc
+
+# default options
+display_on=0
+span_image=false
+lock_timeout=300
+fx_list=(blur)
+dim_level=40
+blur_level=1.0
+pixel_scale=10,1000
+solid_color=333333
+wallpaper_cmd="feh --bg-fill"
+quiet=false
+
+# default theme
+loginbox=434c5e66
+loginshadow=3b425200
+locktext="Type password to unlock..."
+font="LigaSFMonoNerdFont-Medium"
+ringcolor=d8dee9ff
+insidecolor=00000000
+separatorcolor=00000000
+ringvercolor=d8dee9ff
+insidevercolor=00000000
+ringwrongcolor=d8dee9ff
+insidewrongcolor=bf616aff
+timecolor=d8dee9ff
+time_format="%H:%M %A %d %b %Y"
+greetercolor=d8dee9ff
+layoutcolor=d8dee9ff
+keyhlcolor=bf616aff
+bshlcolor=bf616aff
+veriftext="Verifying..."
+verifcolor=d8dee9ff
+wrongtext="Failure!"
+wrongcolor=bf616aff
+modifcolor=bf616aff
+bgcolor=000000ff
+
+
+#
+# expert options (change at own risk!)
+#
+
+i3lockcolor_bin="i3lock"      # Manually set command for i3lock-color
+# suspend_command="systemctl suspend" # Manually change action e.g. hibernate/suspend-command
+
+# i3lock-color - custom arguments
+# lockargs=() 						  # overwriting default "(-n)"
+lockargs+=(--no-modkey-text --time-pos="ix-375:iy-30" --greeter-pos="ix-375:iy-8" --wrong-pos="ix+24:iy-74" --layout-pos="ix-375:iy+12" --verif-pos="ix+35:iy-74") # appending new argument
