@@ -72,6 +72,7 @@ config.kbd
 .chezmoiscripts/60-recompile-hyprbars.sh
 
 {{- if not .isWSL }}
+.chezmoiscripts/setup-wallust-templates.sh
 .config/wallust
 .config/nvim/lua/plugins/neopywal.lua
 {{ end -}}
