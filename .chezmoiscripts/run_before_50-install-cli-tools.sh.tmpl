@@ -58,6 +58,14 @@ on_path_info 'uv' || curl -LsSf https://astral.sh/uv/install.sh | env UV_NO_MODI
 on_path_info 'cargo' || { curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --no-modify-path && . "$HOME/.cargo/env"; }
 {{ end }}
 
+
+{{- $gui_packages := dig .osid "gui" ( list ) .packages }}
+{{- $is_hyprland := has "hyprland" $gui_packages }}
+{{- $is_sway := has "sway" $gui_packages }}
+{{ if (and .isGUI (or $is_sway $is_hyprland) (not has "swww" $gui_packages) }}
+on_path_info 'swww' || { cargo install --git https://codeberg.org/LGFae/awww awww awww-daemon && ln -s ~/.cargo/bin/awww ~/.local/bin/swww && ln -s ~/.cargo/bin/awww-daemon ~/.local/bin/swww-daemon; }
+{{ end }}
+
 {{ if (or .isWSL .hasGUI) }}
 on_path_info 'wallust' || { cargo install wallust --locked && ln -s ~/.cargo/bin/wallust ~/.local/bin/wallust; }
 {{ end }}
