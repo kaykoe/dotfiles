@@ -51,6 +51,7 @@ config.kbd
 .config/swaync
 .config/waybar
 .config/kanshi
+.config/cliphist
 .chezmoiscripts/install-sddm-theme.sh
 .config/wayland-scripts
 .config/wallpaper
@@ -71,6 +72,7 @@ config.kbd
 .config/wallpaper
 .config/swaync
 .config/waybar
+.config/cliphist
 .chezmoiscripts/install-flatpak-apps.sh
 .chezmoiscripts/install-zen.sh
 .chezmoiscripts/install-fonts.sh

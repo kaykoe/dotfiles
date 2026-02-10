@@ -93,7 +93,6 @@ packages:
             - "hyperfine"
         gui:
             - "sway"
-            - "swaybg"
             - "waybar"
             - "sway-notification-center"
             - "swayidle"

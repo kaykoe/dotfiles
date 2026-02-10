@@ -1,8 +1,16 @@
 #!/bin/bash
 # /* ---- 💫 https://github.com/JaKooLit 💫 ---- */  ##
-# This is for custom version of waybar idle_inhibitor which activates / deactivates hypridle instead
+# This is for custom version of waybar idle_inhibitor which activates / deactivates it
+{{- $gui_packages := dig .osid "gui" ( list ) .packages }}
+{{- $is_hyprland := has "hyprland" $gui_packages }}
+{{- $is_sway := has "sway" $gui_packages }}
 
+
+{{- if $is_hyprland }}
 PROCESS="hypridle"
+{{- else if $is_sway }}
+PROCESS="swayidle"
+{{- end }}
 
 if [[ "$1" == "status" ]]; then
     sleep 1

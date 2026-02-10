@@ -9,3 +9,11 @@
     url: https://raw.githubusercontent.com/lmburns/dotfiles/refs/heads/master/.config/zsh/completions/_fzf
     refreshPeriod: 168h
 {{ end -}}
+
+{{- $gui_packages := dig .osid "gui" ( list ) .packages }}
+{{ if or (has "i3" $gui_packages) (has "sway" $gui_packages) -}}
+.local/bin/autotiling:
+    type: file
+    url: https://raw.githubusercontent.com/nwg-piotr/autotiling/refs/heads/master/autotiling/main.py
+    refreshPeriod: 168h
+{{ end -}}
