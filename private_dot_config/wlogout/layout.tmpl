@@ -3,7 +3,7 @@
 {{- $is_sway := has "sway" $gui_packages }}
 {
     "label" : "lock",
-    "action" : "$HOME/.config/wayland-scripts/LockScreen.sh",
+    "action" : "loginctl lock-session",
     "text" : "Lock",
     "keybind" : "l"
 }

@@ -123,7 +123,7 @@ tooltip {
 #custom-light_dark,
 #custom-lock,
 #custom-hint,
-#custom-hypridle,
+#custom-idle_inhibitor,
 #custom-menu,
 #custom-playerctl,
 #custom-power_vertical,
@@ -166,7 +166,7 @@ tooltip {
 	padding: 1px 3px;
 }
 /*-----Indicators----*/
-#custom-hypridle.notactive,
+#custom-idle_inhibitor.notactive,
 #idle_inhibitor.activated {
 	color: #39ff14;
 }
