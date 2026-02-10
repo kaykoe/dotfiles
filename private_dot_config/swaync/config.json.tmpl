@@ -1,3 +1,6 @@
+{{- $gui_packages := dig .osid "gui" ( list ) .packages }}
+{{- $is_hyprland := has "hyprland" $gui_packages }}
+{{- $is_sway := has "sway" $gui_packages }}
 {
   "$schema": "/etc/xdg/swaync/configSchema.json",
   "positionX": "center",
@@ -64,19 +67,23 @@
           "actions": [
               {
                   "label": "󰐥",
-                  "command": "bash -c $HOME/.config/hypr/scripts/Wlogout.sh"
+                  "command": "bash -c $HOME/.config/wayland-scripts/Wlogout.sh"
               },
               {
                   "label": "󰌾",
-                  "command": "bash -c $HOME/.config/hypr/scripts/LockScreen.sh"
+                  "command": "bash -c $HOME/.config/wayland-scripts/LockScreen.sh"
               },
               {
                   "label": "󰍃",
-                  "command": "hyprctl dispatch exit"
+		  {{- if $is_hyprland }}
+		  "command": "hyprctl dispatch exit"
+		  {{- else if $is_sway }}
+		  "command": "swaymsg exit"
+		  {{- end }}
               },
               {
                   "label": "󰀝",
-                  "command": "bash -c $HOME/.config/hypr/scripts/AirplaneMode.sh"
+                  "command": "bash -c $HOME/.config/wayland-scripts/AirplaneMode.sh"
               },
               {
                   "label": "󰝟",

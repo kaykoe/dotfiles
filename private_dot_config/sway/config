@@ -1,5 +1,3 @@
-{{- $gui_packages := dig .osid "gui" ( list ) .packages }}
-{{- $is_sway := has "sway" $gui_packages }}
 # Sway configuration
 # Adapted from i3 config to match Hyprland ergonomics
 

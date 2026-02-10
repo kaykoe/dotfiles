@@ -1,5 +1,3 @@
-{{- $gui_packages := dig .osid "gui" ( list ) .packages }}
-{{- $is_sway := has "sway" $gui_packages }}
 # Swayidle configuration
 # Idle management for Sway
 

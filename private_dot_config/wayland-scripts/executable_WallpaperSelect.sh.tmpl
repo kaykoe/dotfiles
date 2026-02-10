@@ -10,7 +10,7 @@
 terminal=kitty
 wallDIR="$HOME/Pictures/wallpapers"
 SCRIPTSDIR="$HOME/.config/wayland-scripts"
-wallpaper_current="$HOME/.config/hypr/wallpaper_effects/.wallpaper_current"
+wallpaper_current="$HOME/.config/wallpaper/current"
 
 # Directory for swaync
 iDIR="$HOME/.config/swaync/images"
@@ -113,7 +113,6 @@ menu() {
 
 # Offer SDDM Simple Wallpaper Option (only for non-video wallpapers)
 set_sddm_wallpaper() {
-	sleep 1
 	sddm_simple="/usr/share/sddm/themes/simple_sddm_2"
 
 	if [ -d "$sddm_simple" ]; then
@@ -121,7 +120,6 @@ set_sddm_wallpaper() {
 		exec $SCRIPTSDIR/sddm_wallpaper.sh --normal
 
 	fi
-	# fi
 }
 
 modify_startup_config() {
@@ -168,14 +166,10 @@ apply_image_wallpaper() {
 
 	# Run additional scripts
 	"$SCRIPTSDIR/WallustSwww.sh"
-	sleep 2
-{{- if $is_hyprland }}
-	"$HOME/.config/hypr/scripts/Refresh.sh"
-{{- else if $is_sway }}
+	"$SCRIPTSDIR/Refresh.sh"
+	{{- if $is_sway }}
 	swaymsg reload
-{{- end }}
-	sleep 1
-
+	{{- end }}
 	set_sddm_wallpaper
 }
 

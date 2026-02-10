@@ -8,8 +8,8 @@
 terminal=kitty
 wallDIR="$HOME/Pictures/wallpapers"
 SCRIPTSDIR="$HOME/.config/hypr/scripts"
-wallpaper_current="$HOME/.config/hypr/wallpaper_effects/.wallpaper_current"
-wallpaper_modified="$HOME/.config/hypr/wallpaper_effects/.wallpaper_modified"
+wallpaper_current="$HOME/.config/wallpaper/current"
+wallpaper_modified="$HOME/.config/wallpaper/modified"
 sddm_simple="/usr/share/sddm/themes/simple_sddm_2"
 
 # rofi-wallust-sddm colors path

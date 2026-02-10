@@ -2,10 +2,8 @@
 .config/yazi/plugins
 
 .config/kitty/colors-wallust.conf
-.config/kitty/kitty-themes/01-Wallust.conf
 .config/hypr/wallust/wallust-hyprland.conf
-.config/hypr/wallpaper_effects/.wallpaper_current
-.config/hypr/wallpaper_effects/.wallpaper_modified
+.config/wallpaper/modified
 
 .editorconfig
 LICENSE
@@ -43,8 +41,6 @@ config.kbd
 {{- if .hasGUI }}
 {{- if not $is_hyprland }}
 .config/hypr
-.config/kanshi
-.chezmoiscripts/install-sddm-theme.sh
 .chezmoiscripts/60-recompile-hyprbars.sh
 {{ end -}}
 {{- if not $is_sway }}
@@ -54,7 +50,10 @@ config.kbd
 {{- if not ($is_hyprland or $is_sway) }}
 .config/swaync
 .config/waybar
+.config/kanshi
+.chezmoiscripts/install-sddm-theme.sh
 .config/wayland-scripts
+.config/wallpaper
 {{ end -}}
 {{ end -}}
 
@@ -66,6 +65,10 @@ config.kbd
 .config/kitty
 .config/hypr
 .config/kanshi
+.config/sway
+.config/swayidle
+.config/wayland-scripts
+.config/wallpaper
 .config/swaync
 .config/waybar
 .chezmoiscripts/install-flatpak-apps.sh
