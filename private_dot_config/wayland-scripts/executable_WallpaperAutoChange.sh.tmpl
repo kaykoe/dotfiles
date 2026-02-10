@@ -7,9 +7,16 @@
 #
 # NOTE: this script uses bash (not POSIX shell) for the RANDOM variable
 
-wallust_refresh=$HOME/.config/hypr/scripts/RefreshNoWaybar.sh
+wallust_refresh=$HOME/.config/wayland-scripts/RefreshNoWaybar.sh
 
+{{- $gui_packages := dig .osid "gui" ( list ) .packages }}
+{{- $is_hyprland := has "hyprland" $gui_packages }}
+{{- $is_sway := has "sway" $gui_packages }}
+{{- if $is_hyprland }}
 focused_monitor=$(hyprctl monitors | awk '/^Monitor/{name=$2} /focused: yes/{print name}')
+{{- else if $is_sway }}
+focused_monitor=$(swaymsg -t get_outputs | jq -r '.[] | select(.focused) | .name')
+{{- end }}
 
 if [[ $# -lt 1 ]] || [[ ! -d $1   ]]; then
 	echo "Usage:

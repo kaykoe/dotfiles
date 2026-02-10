@@ -1,6 +1,9 @@
+{{- $gui_packages := dig .osid "gui" ( list ) .packages }}
+{{- $is_hyprland := has "hyprland" $gui_packages }}
+{{- $is_sway := has "sway" $gui_packages }}
 {
     "label" : "lock",
-    "action" : "$HOME/.config/hypr/scripts/LockScreen.sh",
+    "action" : "$HOME/.config/wayland-scripts/LockScreen.sh",
     "text" : "Lock",
     "keybind" : "l"
 }
@@ -18,7 +21,11 @@
 }
 {
     "label" : "logout",
+    {{- if $is_hyprland }}
     "action" : "hyprctl dispatch exit 0",
+    {{- else if $is_sway }}
+    "action" : "swaymsg exit",
+    {{- end }}
     "text" : "Logout",
     "keybind" : "e"
 }

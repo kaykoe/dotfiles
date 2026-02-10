@@ -3,7 +3,7 @@
 # Game Mode. Turning off all animations
 
 notif="$HOME/.config/swaync/images/ja.png"
-SCRIPTSDIR="$HOME/.config/hypr/scripts"
+SCRIPTSDIR="$HOME/.config/wayland-scripts"
 
 read -r _ EYECANDY_ENABLED < <(hyprctl getoption decoration:rounding)
 if [[ "$EYECANDY_ENABLED" -ne 0 ]]; then

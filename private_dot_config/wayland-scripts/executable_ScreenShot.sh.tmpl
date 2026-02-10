@@ -125,8 +125,8 @@ menu() {
 	menu_command="rofi"
 	# Options
 	# main_opts=("󰹑 Capture" "󰁫 Timer capture")
-	screenshot_opts=("󰍹 Screen" " Active Window" " Window" "󱣴 Capture Area")
-	action_opts=(" Copy" " Save" " Copy &amp; Save" " Edit")
+	screenshot_opts=("󰍹 Screen" " Active Window" " Window" "󱣴 Capture Area")
+	action_opts=(" Copy" " Save" " Copy &amp; Save" " Edit")
 
 	# Detect available menu program
 	define_menu() {
@@ -176,8 +176,8 @@ menu() {
 	type_choice=$(show_menu "Type Of Screenshot" "${screenshot_opts[@]}") || exit 1
 	case "$type_choice" in
 	"󰍹 Screen") shotnow ;;
-	" Active Window") shotactive ;;
-	" Window") shotwin ;;
+	" Active Window") shotactive ;;
+	" Window") shotwin ;;
 	"󱣴 Capture Area") shotarea ;;
 	esac
 }

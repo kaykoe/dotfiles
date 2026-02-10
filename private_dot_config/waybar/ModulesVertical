@@ -115,7 +115,7 @@
 "custom/power_vertical": {
 	"format": "⏻",
 	"on-click": "$HOME/.config/wayland-scripts/Wlogout.sh",
-	"on-click-right": "$HOME/.config/wayland-scripts/ChangeBlur.sh",
+	"on-click-right": "$HOME/.config/hypr/scripts/ChangeBlur.sh",
 	"tooltip": true,
 	"tooltip-format": "Left Click: Logout Menu\nRight Click: Change Blur",
 },
