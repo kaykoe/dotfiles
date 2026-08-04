@@ -14,11 +14,10 @@
 		"bash": {
 			"*": "ask",
 			"git status *": "allow",
+			"git show *": "allow",
+			"git describe *": "allow",
 			"git log *": "allow",
 			"git diff *": "allow",
-			"git branch *": "allow",
-			"git add *": "allow",
-			"git commit *": "allow",
 			"ls *": "allow",
 			"pwd": "allow",
 			"which *": "allow",
@@ -56,6 +55,8 @@
 				"bash": {
 					"*": "deny",
 					"git status *": "allow",
+					"git show *": "allow",
+					"git describe *": "allow",
 					"git log *": "allow",
 					"git diff *": "allow",
 					"git branch *": "allow",
