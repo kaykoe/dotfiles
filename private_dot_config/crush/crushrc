@@ -1,3 +1,5 @@
-# OpenCode's command-specific approval rules have no Crush equivalent. Shell
-# commands remain prompt-only, while non-destructive file operations are allowed.
-permissions allow view edit
+option auto-lsp true
+option provider-auto-update true
+permissions allow view ls grep edit
+hook add PreToolUse --matcher '^bash$' --command "$HOME/.config/crush/approve-readonly-git.sh" --name approve-readonly-git
+hook add PreToolUse --matcher '^bash$' --command "$HOME/.config/crush/approve-readonly-shell.sh" --name approve-readonly-shell
