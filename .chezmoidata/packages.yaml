@@ -6,6 +6,7 @@ packages:
             - "eza"
             - "tlrc"
             - "neovim"
+            - "npm"
             - "yazi"
             - "fastfetch"
             - "ouch"
@@ -84,6 +85,7 @@ packages:
             - "fd-find"
             - "eza"
             - "hyperfine"
+            - "npm"
         gui:
             - "i3"
     linux_ubuntu: *debian
