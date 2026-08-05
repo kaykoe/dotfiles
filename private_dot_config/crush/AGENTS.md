@@ -1,0 +1,3 @@
+# Shell command approval
+
+For shell work, minimize permission prompts without weakening safety. Prefer native tools (`glob`, `grep`, `ls`, `view`, `edit`, `multiedit`) over Bash. When Bash is necessary, issue one simple, read-only command from the approved set, without pipes, redirects, substitutions, command chaining, conditionals, loops, or multiline scripts. Do not combine commands merely to save tool calls. Use tool results directly instead of shell control flow. Request approval only when a compound command or an unapproved command is genuinely necessary.
