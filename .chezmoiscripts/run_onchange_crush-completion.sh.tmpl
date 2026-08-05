@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+
+{{- $version := printf "%s" ( ( split " " ( output "crush" "-v" ) )._2 | trim ) }}
+{{- $comp_exists := not (glob ".bash_completions/crush.bash" | empty) }}
+{{- $man_exists := not (glob ".man/man1/ouch.1" | empty) }}
+
+# {{ print "ouch version: " $version }}
+# {{ print "completion file exists: " $comp_exists }}
+# {{ print "man file exists: " $man_exists }}
+
+set -e
+
+tmpdir="$(mktemp -d)"
+trap 'rm -rf "$tmpdir"' EXIT
+
+wget -qO- {{ gitHubReleaseAssetURL "charmbracelet/crush" $version "crush_*_Linux_x86_64.tar.gz" }} | tar -C "$tmpdir" --strip-components 1 -xz
+
+mkdir -p ~/.man/man1
+command mv -t ~/.man/man1 "${tmpdir}"/manpages/*
+
+mkdir -p ~/.bash_completions
+command mv -t ~/.bash_completions "${tmpdir}/completions/crush.bash"
+
+{{ if .zsh -}}
+mkdir -p ~/.zsh_completions
+command mv "${tmpdir}/completions/crush.zsh" ~/.zsh_completions/_crush
+{{- end }}

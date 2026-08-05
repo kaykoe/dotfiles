@@ -1,0 +1,3 @@
+# OpenCode's command-specific approval rules have no Crush equivalent. Shell
+# commands remain prompt-only, while non-destructive file operations are allowed.
+permissions allow view edit

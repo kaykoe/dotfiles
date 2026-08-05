@@ -89,8 +89,8 @@ config.kbd
 .tmux.conf
 {{ end -}}
 
-{{- if not .opencode }}
-.config/opencode
+{{- if not .crush }}
+.config/crush
 {{ end -}}
 
 {{ if not .yazi }}
