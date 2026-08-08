@@ -10,6 +10,7 @@
 .editorconfig
 LICENSE
 README.md
+AGENTS.md
 
 # These get copied to /etc so they are ignored so they don't end up in my home directory
 kanata.service
