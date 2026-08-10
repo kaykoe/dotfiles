@@ -9,3 +9,8 @@
     url: https://raw.githubusercontent.com/lmburns/dotfiles/refs/heads/master/.config/zsh/completions/_fzf
     refreshPeriod: 168h
 {{ end -}}
+
+.agents/skills/karpathy-guidelines/SKILL.md:
+    type: file
+    url: https://github.com/multica-ai/andrej-karpathy-skills/raw/refs/heads/main/skills/karpathy-guidelines/SKILL.md
+    refreshPeriod: 168h
