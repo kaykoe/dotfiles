@@ -1,5 +1,9 @@
 # Repository Guide
 
+## Change target
+
+When the user requests a configuration or dotfile change while working in this repository, make the change in the ChezMoi source repository first. Update the corresponding source file under `/home/kkoenig/.local/share/chezmoi`; do not edit the deployed global configuration directly under `$HOME` unless the user explicitly asks for a one-off runtime change. Use ChezMoi naming and templating conventions so the change can be deployed with `chezmoi apply`.
+
 ## Purpose and layout
 
 This is a [ChezMoi](https://www.chezmoi.io/) source repository for a personal dotfiles setup, not an application with a conventional build or test suite. ChezMoi maps source names to home-directory targets: `dot_*` becomes a dotfile, `private_dot_*` becomes a private dotfile/directory, and `executable_*` marks deployed scripts executable.
