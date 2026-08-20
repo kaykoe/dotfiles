@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+if command -v snap >/dev/null 2>&1; then
+	mapfile -t snap_apps < <(snap list --unicode=never | awk 'NR > 1 {print $1}')
+	for snap_app in "${snap_apps[@]}"; do
+		sudo snap remove --purge "$snap_app"
+	done
+fi
+
+sudo apt-get purge --autoremove -y snapd
+
+printf '%s\n' \
+	'Package: snapd' \
+	'Pin: release a=*' \
+	'Pin-Priority: -10' | sudo tee /etc/apt/preferences.d/nosnap.pref >/dev/null
+
+sudo apt-get update

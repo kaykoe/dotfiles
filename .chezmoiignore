@@ -25,6 +25,10 @@ config.kbd
 .chezmoiscripts/000-add-packman.sh
 {{ end -}}
 
+{{- if or (ne .osid "linux_ubuntu") (not .sudo) }}
+.chezmoiscripts/run_once_before_00-remove-snap.sh
+{{ end -}}
+
 {{- if not .neovim }}
 .config/nvim
 {{ end -}}
