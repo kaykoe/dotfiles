@@ -7,14 +7,14 @@ IFS=$'\n\t'
 # Define directories
 waybar_layouts="$HOME/.config/waybar/configs"
 waybar_config="$HOME/.config/waybar/config"
-SCRIPTSDIR="$HOME/.config/wayland-scripts"
+waylandScripts="$HOME/.config/wayland-scripts"
 rofi_config="$HOME/.config/rofi/config-waybar-layout.rasi"
 msg=' 🎌 NOTE: Some waybar LAYOUT NOT fully compatible with some STYLES'
 
 # Apply selected configuration
 apply_config() {
 	ln -sf "$waybar_layouts/$1" "$waybar_config"
-	"${SCRIPTSDIR}/Refresh.sh" &
+	"${waylandScripts}/Refresh.sh" &
 }
 
 main() {

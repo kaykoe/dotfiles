@@ -9,7 +9,7 @@
 # WALLPAPERS PATH
 terminal=kitty
 wallDIR="$HOME/Pictures/wallpapers"
-SCRIPTSDIR="$HOME/.config/wayland-scripts"
+waylandScripts="$HOME/.config/wayland-scripts"
 wallpaper_current="$HOME/.config/wallpaper/current"
 
 # Directory for swaync
@@ -117,7 +117,7 @@ set_sddm_wallpaper() {
 
 	if [ -d "$sddm_simple" ]; then
 
-		exec $SCRIPTSDIR/sddm_wallpaper.sh --normal
+		exec $waylandScripts/sddm_wallpaper.sh --normal
 
 	fi
 }
@@ -165,8 +165,8 @@ apply_image_wallpaper() {
 	swww img "$image_path" $SWWW_PARAMS
 
 	# Run additional scripts
-	"$SCRIPTSDIR/WallustSwww.sh"
-	"$SCRIPTSDIR/Refresh.sh"
+	"$waylandScripts/WallustSwww.sh"
+	"$waylandScripts/Refresh.sh"
 	{{- if $is_sway }}
 	swaymsg reload
 	{{- end }}

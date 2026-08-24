@@ -5,7 +5,7 @@
 # Used by automatic wallpaper change
 # Modified inorder to refresh rofi background, Wallust, SwayNC only
 
-SCRIPTSDIR=$HOME/.config/wayland-scripts
+waylandScripts=$HOME/.config/wayland-scripts
 
 # Kill already running processes
 _ps=(rofi)
@@ -22,7 +22,7 @@ done
 #pkill qs && qs &
 
 # Wallust refresh
-${SCRIPTSDIR}/WallustSwww.sh &
+${waylandScripts}/WallustSwww.sh &
 
 # reload swaync
 swaync-client --reload-config

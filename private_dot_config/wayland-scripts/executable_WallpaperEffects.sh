@@ -6,7 +6,7 @@
 terminal=kitty
 wallpaper_current="$HOME/.config/wallpaper/current"
 wallpaper_output="$HOME/.config/wallpaper/modified"
-SCRIPTSDIR="$HOME/.config/wayland-scripts"
+waylandScripts="$HOME/.config/wayland-scripts"
 rofi_theme="$HOME/.config/rofi/config-wallpaper-effect.rasi"
 
 # Directory for swaync
@@ -54,7 +54,7 @@ no-effects() {
 	sed -Ei 's/^#((kitty|neopywal)\.(target|template) = .*$)/\1/' ~/.config/wallust/wallust.toml
 	# Refresh rofi, waybar, wallust palettes
 	sleep 2
-	"$SCRIPTSDIR/Refresh.sh"
+	"$waylandScripts/Refresh.sh"
 
 	notify-send -u low -i "$iDIR/ja.png" "No wallpaper" "effects applied"
 	# copying wallpaper for rofi menu
@@ -88,7 +88,7 @@ main() {
 			swww img "$wallpaper_output" $SWWW_PARAMS &
 			wallust run "$wallpaper_output" -s
 			# Refresh rofi, waybar, wallust palettes
-			"${SCRIPTSDIR}/Refresh.sh"
+			"${waylandScripts}/Refresh.sh"
 			notify-send -u low -i "$iDIR/ja.png" "$choice" "effects applied"
 		else
 			echo "Effect '$choice' not recognized."
@@ -109,7 +109,7 @@ if [[ -n "$choice" ]]; then
 	sddm_simple="/usr/share/sddm/themes/simple_sddm_2"
 	if [ -d "$sddm_simple" ]; then
 
-		exec $SCRIPTSDIR/sddm_wallpaper.sh --effects
+		exec $waylandScripts/sddm_wallpaper.sh --effects
 
 	fi
 fi

@@ -3,7 +3,7 @@
 # Game Mode. Turning off all animations
 
 notif="$HOME/.config/swaync/images/ja.png"
-SCRIPTSDIR="$HOME/.config/wayland-scripts"
+waylandScripts="$HOME/.config/wayland-scripts"
 
 read -r _ EYECANDY_ENABLED < <(hyprctl getoption decoration:rounding)
 if [[ "$EYECANDY_ENABLED" -ne 0 ]]; then
@@ -24,9 +24,9 @@ if [[ "$EYECANDY_ENABLED" -ne 0 ]]; then
 else
 	swww-daemon --format xrgb && swww img "$HOME/.config/rofi/.current_wallpaper" &
 	sleep 0.1
-	${SCRIPTSDIR}/WallustSwww.sh
+	${waylandScripts}/WallustSwww.sh
 	sleep 0.5
-	${SCRIPTSDIR}/Refresh.sh
+	${waylandScripts}/Refresh.sh
 	hyprctl reload
 	notify-send -e -u normal -i "$notif" " Gamemode:" " disabled"
 	exit

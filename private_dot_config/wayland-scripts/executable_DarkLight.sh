@@ -10,7 +10,7 @@ light_wallpapers="$wallpaper_base_path/Light"
 hypr_config_path="$HOME/.config/hypr"
 swaync_style="$HOME/.config/swaync/style.css"
 ags_style="$HOME/.config/ags/user/style.css"
-SCRIPTSDIR="$HOME/.config/wayland-scripts"
+waylandScripts="$HOME/.config/wayland-scripts"
 notif="$HOME/.config/swaync/images/bell.png"
 wallust_rofi="$HOME/.config/wallust/templates/colors-rofi.rasi"
 
@@ -229,13 +229,13 @@ set_custom_gtk_theme "$next_mode"
 # Update theme mode for the next cycle
 update_theme_mode
 
-${SCRIPTSDIR}/WallustSwww.sh
+${waylandScripts}/WallustSwww.sh
 # kill process
 for pid1 in waybar rofi swaync ags swaybg; do
 	killall "$pid1"
 done
 
-${SCRIPTSDIR}/Refresh.sh
+${waylandScripts}/Refresh.sh
 
 # Display notifications for theme and icon changes
 notify-send -u low -i "$notif" " Themes switched to:" " $next_mode Mode"
