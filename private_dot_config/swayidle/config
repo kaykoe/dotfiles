@@ -1,7 +1,11 @@
 # Swayidle configuration
 # Idle management for Sway
 
-timeout 300 'swaylock -f' \
-timeout 600 'swaymsg "output * dpms off"' \
+timeout 15 'pgrep -x swaylock >/dev/null && swaymsg "output * dpms off"' \
+    resume 'pgrep -x swaylock >/dev/null && swaymsg "output * dpms on"' \
+timeout 600 'swaylock -f --config "$HOME/.config/swaylock/config"' \
+timeout 615 'swaymsg "output * dpms off"' \
     resume 'swaymsg "output * dpms on"' \
-before-sleep 'swaylock -f'
+timeout 900 'systemctl suspend' \
+before-sleep 'loginctl lock-session' \
+after-resume 'swaymsg "output * dpms on"'
