@@ -7,5 +7,5 @@ timeout 600 'swaylock -f --config "$HOME/.config/swaylock/config"' \
 timeout 615 'swaymsg "output * dpms off"' \
     resume 'swaymsg "output * dpms on"' \
 timeout 900 'systemctl suspend' \
-before-sleep 'loginctl lock-session' \
+before-sleep 'loginctl swaylock -f' \
 after-resume 'swaymsg "output * dpms on"'

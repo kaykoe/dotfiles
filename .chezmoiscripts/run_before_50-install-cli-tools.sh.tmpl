@@ -60,9 +60,7 @@ on_path_info 'cargo' || { curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup
 
 
 {{- $gui_packages := dig .osid "gui" ( list ) .packages }}
-{{- $is_hyprland := has "hyprland" $gui_packages }}
-{{- $is_sway := has "sway" $gui_packages }}
-{{ if (and .isGUI (or $is_sway $is_hyprland) (not has "swww" $gui_packages) }}
+{{ if (and .hasGUI (or (has "sway" $gui_packages) (has "hyprland" $gui_packages)) (not (has "swww" $gui_packages))) }}
 on_path_info 'swww' || { cargo install --git https://codeberg.org/LGFae/awww awww awww-daemon && ln -s ~/.cargo/bin/awww ~/.local/bin/swww && ln -s ~/.cargo/bin/awww-daemon ~/.local/bin/swww-daemon; }
 {{ end }}
 
@@ -163,7 +161,7 @@ popd
 if ! on_path_info 'pnpm'; then
     set -e
     export PNPM_HOME="$HOME/.local/share/pnpm"
-    export PATH="$PNPM_HOME:$PATH"
+    export PATH="$PNPM_HOME/bin:$PATH"
     curl -fsSL https://get.pnpm.io/install.sh | sh -
     pnpm runtime set node lts -g
     set +e

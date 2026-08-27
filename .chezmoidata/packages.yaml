@@ -96,6 +96,9 @@ packages:
         gui:
             - "sway"
             - "waybar"
+            - "wayland-protocols"
+            - "libwayland-dev"
+            - "liblz4-dev"
             - "sway-notification-center"
             - "swayidle"
             - "swaylock"
@@ -137,5 +140,5 @@ packages:
         - "gimp"
         - "brightnessctl"
     laptop_common:
-        - "tlpui"
+        - "tlp"
         - "powertop"

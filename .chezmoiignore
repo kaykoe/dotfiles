@@ -41,18 +41,16 @@ config.kbd
 
 
 {{- $gui_packages := dig .osid "gui" ( list ) .packages }}
-{{- $is_hyprland := has "hyprland" $gui_packages }}
-{{- $is_sway := has "sway" $gui_packages }}
 {{- if .hasGUI }}
-{{- if not $is_hyprland }}
+{{- if not (has "hyprland" $gui_packages) }}
 .config/hypr
 .chezmoiscripts/60-recompile-hyprbars.sh
 {{ end -}}
-{{- if not $is_sway }}
+{{- if not (has "sway" $gui_packages) }}
 .config/sway
 .config/swayidle
 {{ end -}}
-{{- if not ($is_hyprland or $is_sway) }}
+{{- if not (or (has "hyprland" $gui_packages) (has "sway" $gui_packages)) }}
 .config/swaync
 .config/waybar
 .config/kanshi
