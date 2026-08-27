@@ -3,6 +3,7 @@
 
 # Set mod key to ALT (matching Hyprland)
 set $mod Mod1
+set $super Mod4
 
 # Variables for cleaner config
 set $exec exec
