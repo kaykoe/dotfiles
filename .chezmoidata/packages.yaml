@@ -93,6 +93,7 @@ packages:
             - "fd-find"
             - "eza"
             - "hyperfine"
+            - "shellcheck"
         gui:
             - "sway"
             - "waybar"
