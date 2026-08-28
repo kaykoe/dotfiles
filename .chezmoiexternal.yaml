@@ -14,6 +14,7 @@
 {{ if or (has "i3" $gui_packages) (has "sway" $gui_packages) -}}
 .local/bin/autotiling:
     type: file
+    executable: true
     url: https://raw.githubusercontent.com/nwg-piotr/autotiling/refs/heads/master/autotiling/main.py
     refreshPeriod: 168h
 {{ end -}}
