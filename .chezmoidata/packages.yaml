@@ -94,6 +94,7 @@ packages:
             - "eza"
             - "hyperfine"
             - "shellcheck"
+            - "gawk"
         gui:
             - "sway"
             - "waybar"
