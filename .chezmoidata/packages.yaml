@@ -105,6 +105,7 @@ packages:
             - "grim"
             - "slurp"
             - "wl-clipboard"
+            - "cliphist"
             - "kanshi"
             - "rofi"
             - "wlogout"
