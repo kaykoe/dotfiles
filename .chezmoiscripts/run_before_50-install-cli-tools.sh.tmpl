@@ -166,14 +166,15 @@ if ! on_path_info 'pnpm'; then
     pnpm runtime set node lts -g
     set +e
 fi
+on_path_info 'tree-sitter' || cargo install --locked tree-sitter-cli
+{{- end }}
+
 {{- if .crush }}
 on_path_info 'crush' || { wget -qO- {{ gitHubLatestReleaseAssetURL "charmbracelet/crush" "crush_*_Linux_x86_64.tar.gz" }} | tar -xzO --wildcards '*/crush' | {{ if .sudo -}}
 sudo tee /usr/local/bin/crush &>/dev/null && sudo chmod 755 /usr/local/bin/crush; }
 {{- else -}}
 tee ~/.local/bin/crush &>/dev/null && chmod 755 ~/.local/bin/crush; }
 {{ end }}
-{{- end }}
-on_path_info 'tree-sitter' || cargo install --locked tree-sitter-cli
 {{- end }}
 
 {{- if .tmux }}
