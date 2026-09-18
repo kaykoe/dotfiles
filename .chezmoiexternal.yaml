@@ -18,3 +18,10 @@
     url: https://raw.githubusercontent.com/nwg-piotr/autotiling/refs/heads/master/autotiling/main.py
     refreshPeriod: 168h
 {{ end -}}
+
+{{ if and (eq .osid "linux_ubuntu") .hasGUI .sudo (or (has "sway" $gui_packages) (has "hyprland" $gui_packages)) -}}
+.local/share/nwg-displays:
+    type: git-repo
+    url: https://github.com/nwg-piotr/nwg-displays.git
+    refreshPeriod: 168h
+{{ end -}}

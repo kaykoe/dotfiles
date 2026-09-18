@@ -113,6 +113,9 @@ packages:
             - "wlogout"
             - "xdg-desktop-portal-wlr"
             - "python3-i3ipc"
+            - "python3-build"
+            - "python3-installer"
+            - "gir1.2-gtklayershell-0.1"
     cli_common:
         - "ncdu"
         - "git"

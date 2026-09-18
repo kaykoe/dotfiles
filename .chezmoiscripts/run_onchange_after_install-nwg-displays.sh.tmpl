@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+
+{{ $repo_dir := joinPath .chezmoi.homeDir ".local/share/nwg-displays" -}}
+{{ $commit := "" -}}
+{{ if stat (joinPath $repo_dir ".git") -}}
+{{   $commit = output "git" "-C" $repo_dir "show" "-s" "--format=%H" | trim -}}
+{{ end -}}
+# nwg-displays commit: {{ $commit }}
+
+set -e
+
+INSTALL_DIR="{{ $repo_dir }}"
+
+if [ ! -d "$INSTALL_DIR" ]; then
+	echo "nwg-displays source directory not found at $INSTALL_DIR"
+	exit 1
+fi
+
+echo "Building and installing nwg-displays (commit {{ $commit }})..."
+pushd "$INSTALL_DIR"
+trap popd EXIT
+
+sudo ./install.sh
+
+echo "nwg-displays successfully installed!"

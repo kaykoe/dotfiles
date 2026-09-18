@@ -25,6 +25,7 @@ config.kbd
 
 {{- if or (ne .osid "linux_ubuntu") (not .sudo) }}
 .chezmoiscripts/run_once_before_00-remove-snap.sh
+.chezmoiscripts/install-nwg-displays.sh
 {{ end -}}
 
 {{- if not .neovim }}
@@ -56,6 +57,7 @@ config.kbd
 .config/kanshi
 .config/cliphist
 .chezmoiscripts/install-sddm-theme.sh
+.chezmoiscripts/install-nwg-displays.sh
 .config/wayland-scripts
 .config/wallpaper
 {{ end -}}
@@ -80,6 +82,7 @@ config.kbd
 .chezmoiscripts/install-zen.sh
 .chezmoiscripts/install-fonts.sh
 .chezmoiscripts/install-sddm-theme.sh
+.chezmoiscripts/install-nwg-displays.sh
 .chezmoiscripts/fetch-wallpapers.sh
 .chezmoiscripts/10-install-kanata.sh
 .chezmoiscripts/20-setup-kanata.sh
