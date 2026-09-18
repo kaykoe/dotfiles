@@ -115,6 +115,7 @@ packages:
             - "python3-i3ipc"
             - "python3-build"
             - "python3-installer"
+            - "python-is-python3"
             - "gir1.2-gtklayershell-0.1"
     cli_common:
         - "ncdu"
