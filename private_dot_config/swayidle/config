@@ -3,11 +3,9 @@
 
 lock 'swaylock -f --config "$HOME/.config/swaylock/config"'
 
-timeout 15 'pgrep -x swaylock >/dev/null && swaymsg "output * dpms off"' \
-    resume 'pgrep -x swaylock >/dev/null && swaymsg "output * dpms on"' \
-timeout 600 'loginctl lock-session' \
-timeout 615 'swaymsg "output * dpms off"' \
-    resume 'swaymsg "output * dpms on"' \
-timeout 900 'systemctl suspend' \
-    before-sleep 'loginctl lock-session' \
+timeout 15 'pgrep -x swaylock >/dev/null && swaymsg "output * dpms off"' resume 'pgrep -x swaylock >/dev/null && swaymsg "output * dpms on"'
+timeout 600 'loginctl lock-session'
+timeout 615 'swaymsg "output * dpms off"' resume 'swaymsg "output * dpms on"'
+timeout 900 'systemctl suspend'
+before-sleep 'loginctl lock-session'
 after-resume 'swaymsg "output * dpms on"'
