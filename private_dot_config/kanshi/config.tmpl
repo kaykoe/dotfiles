@@ -1,0 +1,12 @@
+{{- $gui_packages := dig .osid "gui" ( list ) .packages }}
+{{- $wallpaper_command := ternary "swww" "awww" (has "swww" $gui_packages) }}
+
+profile laptop {
+	output eDP-1 enable scale 1
+	exec {{ $wallpaper_command }} img ~/.config/wallpaper/current
+}
+profile docked {
+	output eDP-1 disable
+	output "Shenzhen KTC Technology Group H24T09P 000000000000" enable mode 1920x1080@165.00Hz
+	exec {{ $wallpaper_command }} img ~/.config/wallpaper/current
+}

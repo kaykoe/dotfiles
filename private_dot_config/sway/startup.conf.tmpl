@@ -9,8 +9,13 @@ exec systemctl --user import-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP
 # Monitor management with kanshi
 exec kanshi
 
-# Wallpaper with swww
+# Wallpaper command is templated for its supported backend.
+{{- $gui_packages := dig .osid "gui" ( list ) .packages }}
+{{- if has "swww" $gui_packages }}
 exec swww-daemon --format xrgb
+{{- else }}
+exec awww-daemon --format xrgb
+{{- end }}
 #
 # Polkit authentication agent
 exec $scriptsDir/Polkit.sh

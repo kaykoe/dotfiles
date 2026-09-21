@@ -2,6 +2,12 @@
 # /* ---- 💫 https://github.com/JaKooLit 💫 ---- */  ##
 # Script for Random Wallpaper ( CTRL ALT W)
 
+{{- $gui_packages := dig .osid "gui" ( list ) .packages }}
+{{- $wallpaper_command := ternary "swww" "awww" (has "swww" $gui_packages) }}
+{{- $wallpaper_daemon := ternary "swww-daemon" "awww-daemon" (has "swww" $gui_packages) }}
+wallpaper_command="{{ $wallpaper_command }}"
+wallpaper_daemon="{{ $wallpaper_daemon }}"
+
 wallDIR="$HOME/Pictures/wallpapers"
 waylandScripts="$HOME/.config/wayland-scripts"
 
@@ -15,9 +21,13 @@ DURATION=1
 BEZIER=".43,1.19,1,.4"
 SWWW_PARAMS="--transition-fps $FPS --transition-type $TYPE --transition-duration $DURATION --transition-bezier $BEZIER"
 
-swww query || swww-daemon --format xrgb && swww img ${RANDOMPICS} $SWWW_PARAMS
+if ! "$wallpaper_command" query >/dev/null 2>&1; then
+	"$wallpaper_daemon" --format xrgb &
+	sleep 1
+fi
+"$wallpaper_command" img "${RANDOMPICS}" $SWWW_PARAMS
 
 wait $!
-"$waylandScripts/WallustSwww.sh" &&
+"$waylandScripts/WallustSwww.sh" "$RANDOMPICS" &&
 	wait $!
 "$waylandScripts/Refresh.sh"

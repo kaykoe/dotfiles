@@ -1,6 +1,10 @@
 # /* ---- 💫 https://github.com/JaKooLit 💫 ---- */  #
 # Commands and Apps to be executed at launch
 
+{{- $gui_packages := dig .osid "gui" ( list ) .packages }}
+{{- $wallpaper_command := ternary "swww" "awww" (has "swww" $gui_packages) }}
+{{- $wallpaper_daemon := ternary "swww-daemon" "awww-daemon" (has "swww" $gui_packages) }}
+
 $waylandScripts = $HOME/.config/wayland-scripts
 $UserScripts = $HOME/.config/hypr/UserScripts
 
@@ -12,7 +16,7 @@ $livewallpaper=""
 exec-once = kanshi
 
 # wallpaper stuff 
-exec-once = swww-daemon --format xrgb
+exec-once = {{ $wallpaper_daemon }} --format xrgb
 #exec-once = mpvpaper '*' -o "load-scripts=no no-audio --loop" $livewallpaper
 
 # wallpaper random
@@ -53,7 +57,7 @@ exec = $waylandScripts/import_env.sh tmux
 exec = $waylandScripts/import_env.sh system
 
 # Here are list of features available but disabled by default
-# exec-once = swww-daemon --format xrgb && swww img $HOME/Pictures/wallpapers/mecha-nostalgia.png  # persistent wallpaper
+# exec-once = {{ $wallpaper_daemon }} --format xrgb && {{ $wallpaper_command }} img $HOME/Pictures/wallpapers/mecha-nostalgia.png  # persistent wallpaper
 
 #gnome polkit for nixos
 #exec-once = $waylandScripts/Polkit-NixOS.sh

@@ -2,6 +2,10 @@
 # /* ---- 💫 https://github.com/JaKooLit 💫 ---- */  #
 # Wallpaper Effects using ImageMagick (SUPER SHIFT W)
 
+{{- $gui_packages := dig .osid "gui" ( list ) .packages }}
+{{- $wallpaper_command := ternary "swww" "awww" (has "swww" $gui_packages) }}
+wallpaper_command="{{ $wallpaper_command }}"
+
 # Variables
 terminal=kitty
 wallpaper_current="$HOME/.config/wallpaper/current"
@@ -44,7 +48,7 @@ declare -A effects=(
 
 # Function to apply no effects
 no-effects() {
-	swww img "$wallpaper_current" $SWWW_PARAMS &&
+	"$wallpaper_command" img "$wallpaper_current" $SWWW_PARAMS &&
 		wait $!
 	sed -Ei 's/^#((\w+)\.(target|template) = .*$)/\1/' ~/.config/wallust/wallust.toml
 	sed -Ei 's/^((kitty|neopywal)\.(target|template) = .*$)/#\1/' ~/.config/wallust/wallust.toml
@@ -85,7 +89,7 @@ main() {
 				killall -SIGUSR1 "$pid"
 			done
 
-			swww img "$wallpaper_output" $SWWW_PARAMS &
+			"$wallpaper_command" img "$wallpaper_output" $SWWW_PARAMS &
 			wallust run "$wallpaper_output" -s
 			# Refresh rofi, waybar, wallust palettes
 			"${waylandScripts}/Refresh.sh"

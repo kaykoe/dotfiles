@@ -12,6 +12,7 @@ wallust_refresh=$HOME/.config/wayland-scripts/RefreshNoWaybar.sh
 {{- $gui_packages := dig .osid "gui" ( list ) .packages }}
 {{- $is_hyprland := has "hyprland" $gui_packages }}
 {{- $is_sway := has "sway" $gui_packages }}
+{{- $wallpaper_command := ternary "swww" "awww" (has "swww" $gui_packages) }}
 {{- if $is_hyprland }}
 focused_monitor=$(hyprctl monitors | awk '/^Monitor/{name=$2} /focused: yes/{print name}')
 {{- else if $is_sway }}
@@ -38,7 +39,7 @@ while true; do
 		done \
 		| sort -n | cut -d':' -f2- \
 		| while read -r img; do
-			swww img "$img" 
+			{{ $wallpaper_command }} img "$img"
 			$wallust_refresh
 			sleep $INTERVAL
 			

@@ -61,17 +61,14 @@ tooltip {
 }
 
 #taskbar button.active,
-#workspaces button.active {
+#workspaces button.active,
+#workspaces button.focused {
 	color: @foreground;
 	background-color: @color2;
 	padding-left: 8px;
 	padding-right: 8px;
 	animation: gradient_f 20s ease-in infinite;
 	transition: all 0.3s cubic-bezier(0.55, -0.68, 0.48, 1.682);
-}
-
-#workspaces button.focused {
-	color: @color4;
 }
 
 #workspaces button.urgent {

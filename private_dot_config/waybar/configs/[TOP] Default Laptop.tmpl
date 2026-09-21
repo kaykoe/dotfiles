@@ -1,4 +1,6 @@
 /* ---- 💫 https://github.com/JaKooLit 💫 ---- */
+{{- $gui_packages := dig .osid "gui" ( list ) .packages }}
+{{- $workspace_module := ternary "hyprland/workspaces#rw" "sway/workspaces#rw" (has "hyprland" $gui_packages) }}
 
 // ### DEFAULT Laptop  - Top ### //
 {
@@ -35,7 +37,7 @@
 	"custom/separator#line",
 	"clock#2",
 	"custom/separator#line",
-	"hyprland/workspaces#rw",
+	"{{ $workspace_module }}",
 	],
 
 "modules-right": [

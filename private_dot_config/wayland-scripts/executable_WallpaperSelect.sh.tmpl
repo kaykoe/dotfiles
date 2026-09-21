@@ -5,6 +5,15 @@
 {{- $gui_packages := dig .osid "gui" ( list ) .packages }}
 {{- $is_hyprland := has "hyprland" $gui_packages }}
 {{- $is_sway := has "sway" $gui_packages }}
+{{- $wallpaper_command := "awww" }}
+{{- $wallpaper_daemon := "awww-daemon" }}
+{{- if has "swww" $gui_packages }}
+{{- $wallpaper_command = "swww" }}
+{{- $wallpaper_daemon = "swww-daemon" }}
+{{- end }}
+
+wallpaper_command="{{ $wallpaper_command }}"
+wallpaper_daemon="{{ $wallpaper_daemon }}"
 
 # WALLPAPERS PATH
 terminal=kitty
@@ -58,7 +67,7 @@ rofi_override="element-icon{size:${adjusted_icon_size}%;}"
 
 # Kill existing wallpaper daemons for video
 kill_wallpaper_for_video() {
-	swww kill 2>/dev/null
+	"$wallpaper_command" kill 2>/dev/null
 	pkill mpvpaper 2>/dev/null
 	pkill swaybg 2>/dev/null
 	pkill hyprpaper 2>/dev/null
@@ -133,7 +142,7 @@ modify_startup_config() {
 	# Check if it's a live wallpaper (video)
 	if [[ "$selected_file" =~ \.(mp4|mkv|mov|webm)$ ]]; then
 		# For video wallpapers:
-		sed -i '/^\s*exec-once\s*=\s*swww-daemon\s*--format\s*xrgb\s*$/s/^/\#/' "$startup_config"
+		sed -i '/^\s*exec\(-once\)\?\s*=\s*'"$wallpaper_daemon"'\s*--format\s*xrgb\s*$/s/^/\#/' "$startup_config"
 		sed -i '/^\s*#\s*exec-once\s*=\s*mpvpaper\s*.*$/s/^#\s*//;' "$startup_config"
 
 		# Update the livewallpaper variable with the selected video path (using $HOME)
@@ -143,7 +152,7 @@ modify_startup_config() {
 		echo "Configured for live wallpaper (video)."
 	else
 		# For image wallpapers:
-		sed -i '/^\s*#\s*exec-once\s*=\s*swww-daemon\s*--format\s*xrgb\s*$/s/^\s*#\s*//;' "$startup_config"
+		sed -i '/^\s*#\s*exec\(-once\)\?\s*=\s*'"$wallpaper_daemon"'\s*--format\s*xrgb\s*$/s/^\s*#\s*//;' "$startup_config"
 
 		sed -i '/^\s*exec-once\s*=\s*mpvpaper\s*.*$/s/^/\#/' "$startup_config"
 
@@ -157,15 +166,15 @@ apply_image_wallpaper() {
 
 	kill_wallpaper_for_image
 
-	if ! pgrep -x "swww-daemon" >/dev/null; then
-		echo "Starting swww-daemon..."
-		swww-daemon --format xrgb &
+	if ! pgrep -x "$wallpaper_daemon" >/dev/null; then
+		echo "Starting $wallpaper_daemon..."
+		"$wallpaper_daemon" --format xrgb &
 	fi
 
-	swww img "$image_path" $SWWW_PARAMS
+	"$wallpaper_command" img "$image_path" $SWWW_PARAMS
 
 	# Run additional scripts
-	"$waylandScripts/WallustSwww.sh"
+	"$waylandScripts/WallustSwww.sh" "$image_path"
 	"$waylandScripts/Refresh.sh"
 	{{- if $is_sway }}
 	swaymsg reload
