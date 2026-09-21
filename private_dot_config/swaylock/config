@@ -3,14 +3,10 @@ ignore-empty-password
 show-failed-attempts
 show-keyboard-layout
 indicator-caps-lock
-clock
 font=JetBrainsMono Nerd Font ExtraBold
-image=$HOME/.config/wallpaper/current
+image=~/.config/wallpaper/current
 scaling=fill
 font-size=24
-timestr=%H:%M:%S
-datestr=%A, %-d %B
-text=  %u
 text-color=ffffff
 inside-color=1e1e2eee
 inside-clear-color=1e1e2eee
@@ -26,8 +22,6 @@ line-color=00000000
 separator-color=00000000
 layout-bg-color=00000000
 layout-text-color=ffffff
-clock-color=cdd6f4ff
-date-color=cdd6f4ff
 text-color=cdd6f4ff
 indicator-radius=100
 indicator-thickness=10

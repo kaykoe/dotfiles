@@ -23,7 +23,11 @@ elif [[ "$1" == "toggle" ]]; then
     if pgrep -x "$PROCESS" >/dev/null; then
         pkill "$PROCESS"
     else
-        "$PROCESS"
+{{- if $is_sway }}
+        "$PROCESS" -w &
+{{- else }}
+        "$PROCESS" &
+{{- end }}
     fi
 else
     echo "Usage: $0 {status|toggle}"
