@@ -4,6 +4,29 @@
 
 iDIR="$HOME/.config/swaync/icons"
 waylandScripts="$HOME/.config/wayland-scripts"
+volume_step_db=2
+
+# Get the loudest output channel in dB. Relative dB changes scale every
+# channel by the same ratio, preserving the balance configured in pavucontrol.
+get_max_volume_db() {
+	LC_ALL=C pactl get-sink-volume @DEFAULT_SINK@ | awk '
+		{
+			for (i = 1; i <= NF; i++) {
+				if ($i ~ /^dB,?$/ && $(i - 1) != "-inf") {
+					value = $(i - 1) + 0
+					if (!found || value > maximum) {
+						maximum = value
+					}
+					found = 1
+				}
+			}
+		}
+		END {
+			if (found) {
+				printf "%.2f\n", maximum
+			}
+		}'
+}
 
 # Get Volume
 get_volume() {
@@ -44,7 +67,26 @@ inc_volume() {
 	if [ "$(pamixer --get-mute)" == "true" ]; then
 		toggle_mute
 	else
-		pamixer -i 5 && notify_user
+		max_db=$(get_max_volume_db)
+		if [[ -z "$max_db" ]]; then
+			# There is no ratio to preserve when every channel is at zero.
+			pactl set-sink-volume @DEFAULT_SINK@ 1%
+		else
+			increase_db=$(awk -v maximum="$max_db" -v step="$volume_step_db" 'BEGIN {
+				room = -maximum
+				if (room <= 0) {
+					print 0
+				} else if (room < step) {
+					printf "%.2f\n", room
+				} else {
+					print step
+				}
+			}')
+			if awk -v increase="$increase_db" 'BEGIN { exit !(increase > 0) }'; then
+				pactl set-sink-volume @DEFAULT_SINK@ "+${increase_db}dB"
+			fi
+		fi
+		notify_user
 	fi
 }
 
@@ -53,7 +95,7 @@ dec_volume() {
 	if [ "$(pamixer --get-mute)" == "true" ]; then
 		toggle_mute
 	else
-		pamixer -d 5 && notify_user
+		pactl set-sink-volume @DEFAULT_SINK@ "-${volume_step_db}dB" && notify_user
 	fi
 }
 
