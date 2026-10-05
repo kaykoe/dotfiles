@@ -108,6 +108,7 @@ packages:
             - "slurp"
             - "wl-clipboard"
             - "cliphist"
+            - "blueman"
             - "kanshi"
             - "rofi"
             - "wlogout"
