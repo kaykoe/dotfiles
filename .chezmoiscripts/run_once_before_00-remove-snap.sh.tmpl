@@ -2,7 +2,7 @@
 
 set -euo pipefail
 
-if command -v snap >/dev/null 2>&1; then
+if command -v snap >/dev/null 2>&1 && [[ "$(snap list --unicode=never 2>&1)" != "No snaps are installed yet. Try 'snap install hello-world'." ]]; then
 	gnome="$(snap list --unicode=never | grep -Eo '^gnome-[0-9]+-[0-9]+\s')"
 	snap_apps=("firefox" "snap-store" $gnome)
 	for snap_app in "${snap_apps[@]}"; do
