@@ -95,6 +95,7 @@ packages:
             - "hyperfine"
             - "shellcheck"
             - "gawk"
+            - "bind9-dnsutils"
         gui:
             - "sway"
             - "waybar"
